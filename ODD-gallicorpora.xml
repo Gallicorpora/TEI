@@ -1,0 +1,1904 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
+   <teiHeader>
+      <fileDesc>
+         <titleStmt>
+            <title type="main">SegmOnto</title>
+            <title type="sub">A Controlled Vocabulary to Describe the Layout of Pages</title>
+            <author xml:id="SG">
+               <persName>Simon Gabay</persName>
+            </author>
+            <author xml:id="JBC">
+               <persName>Jean-Baptiste Camps</persName>
+            </author>
+            <author xml:id="AP">
+               <persName>Ariane Pinche</persName>
+            </author>
+         </titleStmt>
+         <editionStmt>
+            <edition n="0.9">Version 0.9</edition>
+         </editionStmt>
+         <publicationStmt>
+            <authority>SegmOnto working group</authority>
+            <date when="2021"/>
+            <ptr target="https://github.com/SegmOnto"/>
+         </publicationStmt>
+         <sourceDesc>
+            <p>born-digital</p>
+         </sourceDesc>
+      </fileDesc>
+      <revisionDesc>
+         <listChange>
+            <listChange n="0.9">
+               <change when="2021-11-01"/>
+            </listChange>
+         </listChange>
+      </revisionDesc>
+   </teiHeader>
+   <text>
+      <body>
+         <div rend="toc" xml:id="intro">
+            <head>Introduction</head>
+            <div xml:id="why">
+               <head>Why SegmOnto?</head>
+               <p>SegmOnto offers a controlled vocabulary to describe the content of books or
+                  manuscripts pages, in order to homogenise the data required by layout analysers.
+                  This project follows a double objective: <list>
+                     <item>Mutualise data to train stronger models on various layouts.</item>
+                     <item>Design a standardised pipeline for text extraction, from page scans to
+                        structured documents</item>
+                  </list> SegmOnto is thought as a generalist description scheme, covering written
+                  documents produced since the apparition of the <hi rend="italic">codex</hi>, but
+                  it has been designed using mainly western and middle eastern documents. </p>
+            </div>
+            <div xml:id="team">
+               <head>Team</head>
+               <p>SegmOnto was designed by a group of international researchers. The final version
+                  of the guidelines has been carried by S. Gabay, J.-B. Camps and A. Pinche.</p>
+               <p>
+                  <figure>
+                     <graphic url="media/people/sg.jpg"/>
+                     <figDesc>portait Simon Gabay</figDesc>
+                  </figure>
+                  <hi rend="bold">Simon Gabay</hi> is Maître-assistant at the university of Geneva.
+                  He holds a PhD in latin philology, defended at the university of Amsterdam on the
+                  history of theatre in the early medieval documentation. His research now focuses
+                  on romance philology, and especially 17th c. French, a period for which he creates
+                  the necessary tools for computational exploration. His areas of interests are
+                  corpus building, diachronic linguistics, and the birth of the manuscript market in
+                  19th c. France. </p>
+               <p>
+                  <figure>
+                     <graphic style="thumb" url="media/people/jbc.jpg"/>
+                     <figDesc>portait Jean-Baptiste Camps</figDesc>
+                  </figure>
+                  <hi rend="bold">Jean-Baptiste Camps</hi>, a medievalist by training, is Maître de
+                  conférences at the Ecole nationale des chartes | PSL in Paris. He received a PhD
+                  for an edition of the <title level="m">Chanson d'Otinel</title> in 2016 at the
+                  university Paris IV-Sorbonne. As a specialist of computational philology, his
+                  research include the transmission of manuscripts over centuries, stylometry and
+                  digital editing. </p>
+               <p>
+                  <figure>
+                     <graphic url="media/people/ap.jpg"/>
+                     <figDesc>portait Ariane Pinche</figDesc>
+                  </figure>
+                  <hi rend="bold">Ariane Pinche</hi> has a PhD in medieval language and literature.
+                  She is currently a postdoctoral fellow at the École nationale des chartes | PSL
+                  and is particularly interested in digital editing. She won the Fortier Prize for
+                  the best young researcher paper at the Digital Humanities 2019 conference in
+                  Utrecht with her two colleagues J. B. Camps and T. Clérice for the paper <title
+                     level="a"> Stylometry for Noisy Medieval Data: Evaluating Paul Meyer's
+                     Hagiographic Hypothesis</title>. Today, her research interests focus on the
+                  construction of medieval corpora for HTR (Handwritten Text Recognition) training. </p>
+               <p>Additional contributors are: <list>
+                     <item>Daniel Stoekl</item>
+                     <item>Claire Jahan</item>
+                     <item>Peter Stokes</item>
+                  </list> We thank them for their constant help, their useful feedback and above all
+                  their time. </p>
+            </div>
+            <div rend="toc" xml:id="howto">
+               <head>How to cite</head>
+               <p>Simon Gabay, Jean-Baptiste Camps, Ariane Pinche, <hi rend="italic">SegmOnto, A
+                     Controlled Vocabulary to Describe the Layout of Pages</hi>, version 0.9,
+                  Paris/Genève, 2021, <ref target="https://github.com/SegmOnto/examples"
+                     >https://github.com/SegmOnto</ref>.</p>
+            </div>
+         </div>
+         <div rend="toc" xml:id="project">
+            <head>Project</head>
+            <div xml:id="idea">
+               <head>The idea</head>
+               <p>The intuition behind SegmOnto is the following: most of the documents containing
+                  texts have a stable layout over time:</p>
+               <figure>
+                  <graphic url="media/intro/btv1b84259980_f29_orig.jpg"/>
+                  <figDesc>BNF, Fr. 412, f.10r.</figDesc>
+               </figure>
+               <figure>
+                  <graphic url="media/intro/btv1b86070385_f140_orig.jpg"/>
+                  <figDesc>La Bruyère, Les Caractères, 1688, p. 128.</figDesc>
+               </figure>
+               <p>At a low level, it is possible not only to find similarities, but to use the same
+                  name in order to describe homogeneously large quantities of data. In blue we see
+                  the body in red the page number, in orange the running title, in green
+                  intermediary titles, in pink drop capitals, in grey additional notes.</p>
+               <figure>
+                  <graphic url="media/intro/btv1b84259980_f29_ann.jpg"/>
+                  <figDesc>BNF, Fr. 412, f.10r.</figDesc>
+               </figure>
+               <figure>
+                  <graphic url="media/intro/btv1b86070385_f140_ann.jpg"/>
+                  <figDesc>La Bruyère, Les Caractères, 1688, p. 128.</figDesc>
+               </figure>
+               <p>SegmOnto follows (with exceptions) two critera in its description of the page: <list>
+                     <item>It follows a generalist approach rather than a specific one. It aims at
+                        representing any document, and does not focus on any kind of source.</item>
+                     <item>It follows a descriptive approach, but remains open to a more semantic
+                        annotation via a system of subtypes.</item>
+                  </list>
+               </p>
+               <p>It uses a two-tier description, following the two classification tasks required
+                  for any layout analysis: <list>
+                     <item><hi rend="italic">Zones</hi>, for the different types of regions on the
+                        page (running title, main text...)</item>
+                     <item><hi rend="italic">Lines</hi> for the different types of lines contained
+                        in the zones (interlinear lines, staves, rubrics...)</item>
+                  </list>
+               </p>
+               <p>In order to cope with the complexity of documents, two safety devices are offered: <list>
+                     <item>The main types of zones and lines are not open to any modification, but a
+                           <hi rend="italic">Custom</hi> zone, which functions as a private zone,
+                        offers the possibility to encode additional features that would have been
+                        forgotten.</item>
+                     <item>A system of subtypes (using the following syntax: <hi>Type:Subtype</hi>)
+                        has been added and offers only suggested values: it is possible to opt for
+                        personal subtypes, functioning at the level of a specific document
+                        only.</item>
+                  </list>
+               </p>
+            </div>
+            <div xml:id="vocabulary">
+               <head>Vocabulary</head>
+               <p>SegmOnto is not the first attempt to offer a description of a page. Because of the
+                  nature of the task, two different academic traditions have offered vocabularies
+                  that serve as a base: <list>
+                     <item>Computer vision, especially via the PAGE XML scheme, proposes a limited
+                        system adapted to the needs of computer scientists.</item>
+                     <item>Codicology, whose purpose precisely is the description of the old
+                        documents, offers a much more precise vocabulary to answer the needs of
+                        philologists.</item>
+                  </list> On the one hand, codicological vocabularies do not take into account the
+                  requirements of computer-based solutions (such as a system of private zones or the
+                  articulation of types and subtypes) and usually does not address contemporary
+                  cases. On the other hand, the solution offered by computer scientists is too poor
+                  and is incapable to offer a satisfactory description of a page taken from an
+                  historical document. For all these reasons, SegmOnto offers a middle way, in
+                  between these two. </p>
+               <div xml:id="PAGEvoc">
+                  <head>PAGE</head>
+                  <p>PAGE XML (cf. <ref target="#Languages"><hi rend="italic">infra</hi></ref>)
+                     offers a simple, short and generalist scheme to describe the page, with only
+                     fourteen categories: <list>
+                        <item><val>TextRegionType</val>. Pure text is represented as a text region.
+                           This includes drop capitals, but practically ornate text may be
+                           considered as a graphic.</item>
+                        <item><val>ImageRegionType</val>. An image is considered to be more
+                           intricate and complex than a graphic. These can be photos or
+                           drawings.</item>
+                        <item><val>LineDrawingRegionType</val>. A line drawing is a single colour
+                           illustration without solid areas.</item>
+                        <item><val>GraphicRegionType</val>. Regions containing simple graphics, such
+                           as a company logo, should be marked as graphic regions.</item>
+                        <item><val>TableRegionType</val>. Tabular data in any form is represented
+                           with a table region. Rows and columns may or may not have separator
+                           lines; these lines are not separator regions.</item>
+                        <item><val>ChartRegionType</val>. Regions containing charts or graphs of any
+                           type, should be marked as chart regions.</item>
+                        <item><val>SeparatorRegionType</val>. Separators are lines that lie between
+                           columns and paragraphs and can be used to logically separate different
+                           articles from each other.</item>
+                        <item><val>MathsRegionType</val>. Regions containing equations and
+                           mathematical symbols should be marked as maths regions.</item>
+                        <item><val>ChemRegionType</val>. Regions containing chemical
+                           formulas.</item>
+                        <item><val>MusicRegionType</val>. Regions containing musical
+                           notations.</item>
+                        <item><val>AdvertRegionType</val>. Regions containing advertisements.</item>
+                        <item><val>NoiseRegionType</val>. Noise regions are regions where no real
+                           data lies, only false data created by artifacts on the document or
+                           scanner noise.</item>
+                        <item><val>UnknownRegionType</val>. To be used if the region type cannot be
+                           ascertained.</item>
+                        <item><val>CustomRegionType</val>. Regions containing content that is not
+                           covered by the default types (text, graphic, image, line drawing, chart,
+                           table, separator, maths, map, music, chem, advert, noise,
+                           unknown).</item>
+                     </list>
+                  </p>
+               </div>
+               <div xml:id="CodicologiaVoc">
+                  <head><hi rend="italic">Codicologia</hi></head>
+                  <p> Other vocabularies, designed by philologist specialised in codicology, offer
+                     an interesting alternative to those designed by computer scientists. Under the
+                     supervision of the IRHT in Paris, several glossaries have been gathered in an
+                     online application called <ref target="#Codicologia"><hi rend="italic"
+                           >Codicologia</hi></ref>. It offers an extensive vocabulary in French,
+                     most of the time with English, German, Italian, Spanish and Arabic
+                     translations, with precise definitions adapted to the need of academics
+                     specialised in the humanities. Thanks to Georg Vogeler, a digital version is
+                     also available as a <ref target="#CodicologiaSKOS">SKOS model</ref>, perfectly
+                     suited for digital purposes. </p>
+               </div>
+               <div xml:id="MiddleWay">
+                  <head>Towards a middle way</head>
+                  <p> Because PAGE offers too general a description, it has been been decided not to
+                     expand it, but rather to reduce to the maximum the <ref target="#Codicologia"
+                           ><hi rend="italic">Codicologia</hi></ref> glossary. The reduction process
+                     has followed a simple criterion: unlike other vocabularies (like the TEI), <hi
+                        rend="italic">SegmOnto</hi> focuses on the form rather than the
+                     content/meaning. For instance, it uses <hi rend="italic">GraphicZone</hi>,
+                     without making the difference between an illustration (which carries a semantic
+                     load) and an ornamentation (which is purely decorative). </p>
+                  <p>Because of this reduction process, elements and definitions may differ: <list>
+                        <item><hi rend="italic">GraphicZone</hi> does not exist in <ref
+                              target="#Codicologia"><hi rend="italic">Codicologia</hi></ref>: it
+                           aggregates <hi rend="italic">Illustration</hi> and <hi rend="italic"
+                              >Ornamentation</hi> of <ref target="#Codicologia"><hi rend="italic"
+                                 >Codicologia</hi></ref>. On top of these two, it aggregates a third
+                           type: figures (for schemas found in scientific works, for
+                           instance).</item>
+                        <item><hi rend="italic">QuireMarksZone</hi> includes the <hi rend="italic"
+                              >Signature</hi> (quire numbers) and the <hi rend="italic"
+                              >Catchword</hi>, which are two different elements in <ref
+                              target="#Codicologia"><hi rend="italic">Codicologia</hi></ref>.</item>
+                     </list>
+                  </p>
+               </div>
+            </div>
+         </div>
+         <div xml:id="Pipeline">
+            <head>Production pipeline</head>
+            <p>SegmOnto is language independent: it aims at describing the page, no matter the
+               digital format. This choice is necessary, because of the various needs of scholars
+               and institutions: specialists of OCR/HTR technologies use ALTO or PAGE XML documents,
+               while specialists of texts expect TEI files, and collections curator RDF data stored
+               in a triplestore or IIIF manifests stored on a server.</p>
+            <figure>
+               <graphic url="media/intro/pipeline.png"/>
+               <figDesc>Production pipeline</figDesc>
+            </figure>
+            <p>In order to cope with the multiplicity of the needs, it has been decided to choose
+               TEI has a pivot format. <list>
+                  <item>The data produced by the layout analyser and the HTR engine is in an ALTO
+                     format, one per page.</item>
+                  <item>All these ALTO files are concatenated into a single TEI-encoded document,
+                     with additional metadata (title, author, date of publication,
+                     shelfmark…).</item>
+                  <item>This TEI file can be used to produce RDF data and IIIF manifests, but also
+                     ALTO files, which will be used to (re)train models.</item>
+               </list>
+            </p>
+            <p>Most of our work has been done with the HTR engine <ref target="#Kraken2019"
+                  >Kraken</ref>, which includes an efficient layout analyser (<ref
+                  target="#Kiessling2020">Kiessling 2020</ref>). Data has been prepared with the
+               application <ref target="#eScriptorium2019">eScriptorium</ref>, via the CREMMA
+               infrastructure in Paris and its FoNDUE counterpart in Geneva. The data being
+               available in ALTO (cf. <ref target="#XMLALTO"><hi rend="italic">infra</hi></ref>), it
+               remains useable with any platform or system accepting these two standard formats. </p>
+            <div xml:id="XMLALTO">
+               <head>ALTO</head>
+               <p>The <ref target="#ALTO">ALTO (Analyzed Layout and Text Object)</ref> and <ref
+                     target="#PAGE">PAGE (Page Analysis and Ground truth Elements)</ref> are two
+                  open XML schemas, developed for the description of textual and layout information
+                  of page scans. The objective is to describe both in order to reconstruct the
+                  original appearance of the source document, based on the digitised
+                  information.</p>
+               <p>ALTO encoding is extremely simple. On top of metadata, it is structured as a tree
+                  with the following elements: <list>
+                     <item><gi>Page</gi> for the page</item>
+                     <item><gi>PrintSpace</gi> for the part of the aforementioned <gi>Page</gi> with
+                        printed information</item>
+                     <item><gi>TextBlock</gi> for different zones within the
+                        <gi>PrintSpace</gi></item>
+                     <item><gi>TextLine</gi> for each line in a given <gi>TextBlock</gi></item>
+                     <item><gi>String</gi> for the text contained in the <gi>TextLine</gi>.</item>
+                  </list>
+               </p>
+               <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                  <alto>
+                     <Description>
+                        <MeasurementUnit/>
+                        <sourceImageInformation/>
+                        <Processing/>
+                     </Description>
+                     <Styles>
+                        <TextStyle FONTSIZE="10.0"/>
+                        <ParagraphStyle ALIGN="Left"/>
+                     </Styles>
+                     <Layout>
+                        <Page ID="P1" WIDTH="123" HEIGHT="456">
+                           <PrintSpace WIDTH="123" HEIGHT="456" HPOS="789" VPOS="123">
+                              <TextBlock ID="ID_tb1" TAGREFS="BT1" WIDTH="123" HEIGHT="456"
+                                 HPOS="789" VPOS="123">
+                                 <Shape>
+                                    <Polygon POINTS="123 456 789 123 456 789"/>
+                                 </Shape>
+                                 <TextLine ID="ID_tb1" TAGREFS="BT1" BASELINE="123 456 789"
+                                    WIDTH="123" HEIGHT="456" HPOS="789" VPOS="123">
+                                    <Shape>
+                                       <Polygon POINTS="123 456 789 123 456 789"/>
+                                    </Shape>
+                                    <String CONTENT="Un" WIDTH="123" HEIGHT="456" HPOS="789"
+                                       VPOS="123"/>
+                                 </TextLine>
+                              </TextBlock>
+                           </PrintSpace>
+                        </Page>
+                     </Layout>
+                  </alto>
+               </egXML>
+               <p>PAGE XML is an alternative to ALTO, currently not supported by our pipeline. It
+                  follows a similar structure than ALTO <list>
+                     <item><gi>TextRegion</gi> for the different zones</item>
+                     <item><gi>Baseline</gi> for the posting line</item>
+                     <item><gi>Word</gi> for word-level tokens</item>
+                     <item><gi>Coords</gi> for the coordinates of the given zone or line.</item>
+                     <item><gi>TextEquiv</gi> for the transcription</item>
+                  </list>
+               </p>
+               <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                  <PcGts>
+                     <Metadata>
+                        <Creator>John Doe</Creator>
+                        <Created>2021-11-24T18:41:57.801+02:00</Created>
+                     </Metadata>
+                     <page>
+                        <TextRegion type="paragraph" id="r_1">
+                           <Coords points="1474,486 3684,486 3684,900…">
+                              <TextLine id="l_1">
+                                 <Coords points="1475,487 3683,487 3683,635…">
+                                    <Baseline points="1475,635 1587,635 2061…">
+                                       <Word id="w1">
+                                          <Coords points="1475,497 1587,497 1587…"/>
+                                          <TextEquiv>
+                                             <Unicode>Un</Unicode>
+                                          </TextEquiv>
+                                       </Word>
+                                       <Word id="w2">
+                                          <Coords points="1935,497 2061,497 2061,619…"/>
+                                          <TextEquiv>
+                                             <Unicode>exemple</Unicode>
+                                          </TextEquiv>
+                                       </Word>
+                                       <TextEquiv>
+                                          <Unicode>Un exemple</Unicode>
+                                       </TextEquiv>
+                                    </Baseline>
+                                 </Coords>
+                              </TextLine>
+                           </Coords>
+                        </TextRegion>
+                     </page>
+                  </PcGts>
+               </egXML>
+            </div>
+            <div xml:id="XMLTEI">
+               <head>XML-TEI</head>
+               <p>The Text Encoding Initiative (TEI) is a consortium which collectively develops and
+                  maintains a standard for the representation of texts in digital form. Its chief
+                  deliverable is a set of <ref target="#TEIguidelines">Guidelines</ref> which
+                  specify encoding methods for machine-readable texts, chiefly in the humanities,
+                  social sciences and linguistics.</p>
+               <p>The encoding scheme defined by these Guidelines is formulated as an application of
+                  the Extensible Markup Language (XML). A minimal document contains metadata in the
+                     <gi>teiHeader</gi> and data in the <gi>text</gi>.</p>
+               <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                  <TEI>
+                     <teiHeader>
+                        <fileDesc>
+                           <titleStmt>
+                              <title>Title</title>
+                           </titleStmt>
+                           <publicationStmt>
+                              <p>Publication Information</p>
+                           </publicationStmt>
+                           <sourceDesc>
+                              <p>Information about the source</p>
+                           </sourceDesc>
+                        </fileDesc>
+                     </teiHeader>
+                     <text>
+                        <body>
+                           <p>Some text here, mentioning someone, like <persName>John
+                              Doe</persName>, living in a city, like
+                              <placeName>Geneva</placeName>.</p>
+                           <p>Another paragraph begins here. <l>it may contain a verse line</l>
+                           </p>
+                        </body>
+                     </text>
+                  </TEI>
+               </egXML>
+               <p>A detailed explanation of a basic SegmOnto-compatible TEI document is given <ref
+                     target="#guidelines">in our guidelines <hi rend="italic">infra</hi></ref>.</p>
+            </div>
+            <div xml:id="RDF">
+               <head>RDF</head>
+               <p>The Resource Description Framework (RDF) is a framework for representing
+                  information in the Web. It uses an abstract syntax (a data model) which serves to
+                  link all RDF-based languages and specifications. The abstract syntax has two key
+                  data structures: RDF graphs are sets of subject-predicate-object triples, where
+                  the elements may be IRIs, blank nodes, or datatyped literals. They are used to
+                  express descriptions of resources. RDF datasets are used to organize collections
+                  of RDF graphs, and comprise a default graph and zero or more named graphs. It is a
+                     <ref target="#RDFW3C">W3C recommendation</ref>.</p>
+               <eg xml:space="preserve"><![CDATA[
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+
+<Moliere>	   rdf:type	    foaf:Person .
+            ]]></eg>
+               <p>RDF can be expressed in XML: <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                     <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                        xmlns:foaf="http://xmlns.com/foaf/0.1/"> <foaf:Person
+                           rdf:about="http://example.org/Moliere"> </foaf:Person> </rdf:RDF>
+                  </egXML>
+               </p>
+            </div>
+            <div xml:id="IIIF">
+               <head>IIIF manifest</head>
+               <p>The <ref target="#IIIFapi">International Image Interoperability Framework
+                     (IIIF)</ref> defines several application programming interfaces that provide a
+                  standardised method of describing and delivering images over the web, as well as
+                  "presentation based metadata" (that is, structural metadata) about structured
+                  sequences of images. It uses IIIF manifests, encoded in JSON.</p>
+               <p>The Manifest resource typically represents a single object and any intellectual
+                  work or works embodied within that object. In particular it includes descriptive,
+                  rights and linking information for the object. The Manifest embeds the Canvases
+                  that should be rendered as views of the object and contains sufficient information
+                  for the client to initialize itself and begin to display something quickly to the
+                  user.</p>
+               <p>A basic IIIF would be as follows:</p>
+               <egXML xmlns="http://www.tei-c.org/ns/Examples"> { "@context":
+                  "http://iiif.io/api/presentation/2/context.json", "@id":
+                  "https://www.segmonto.ch/metadata/iiif/ADD_ID_DOC/manifest.json", "@type":
+                  "sc:Manifest", "label": "ADD_FULL_REFERCENCE", "metadata": [ { "label":
+                  "Location", "value": "ADD_LOCATION" }, { "label": "Collection Name", "value":
+                  "ADD_COLLECTION" }, { "label": "Shelfmark", "value": "ADD_SHELFMARK" }, { "label":
+                  "Document Type", "value": "ADD_TYPE" }, { "label": "Title (English)", "value":
+                  "ADD_TITLE" }, { "label": "Text Language", "value": "ADD_LANGUAGE" } ],
+                  "description": [ { "@value": "ADD_A_SUMMARY", "@language": "en" } ], "license":
+                  "http://creativecommons.org/licenses/by-nc/4.0/", "attribution": "DH Portal,
+                  université de Genève", "sequences": [ { "@id":
+                  "https://www.segmonto.ch/metadata/iiif/ADD_ID_DOC/sequence/Sequence-3423.json",
+                  "@type": "sc:Sequence", "label": [ { "@value": "Normal Sequence", "@language":
+                  "en" } ], "canvases": [ { "@id":
+                  "https://www.segmonto.ch/metadata/iiif/ADD_ID_DOC/canvas/ADD_ID_PAGE.json",
+                  "@type": "sc:Canvas", "label": "1r", "height": 8000, "width": 6000, "images": [ {
+                  "@id":
+                  "https://www.segmonto.ch/metadata/iiif/ADD_ID_DOC/annotation/ADD_ID_PAGE.json",
+                  "@type": "oa:Annotation", "motivation": "sc:painting", "on":
+                  "https://www.segmonto.ch/metadata/iiif/ADD_ID_DOC/canvas/ADD_ID_PAGE.json",
+                  "resource": { "@id":
+                  "https://www.segmonto.ch/loris/ADD_ID_LIBRARY/ADD_ID_DOC/ADD_ID_PAGE.jp2/full/full/0/default/jpg",
+                  "@type": "dctypes:Image", "format": "image/jpeg", "height": 8000, "width": 6000 }
+                  } ] } ] } ] } </egXML>
+            </div>
+         </div>
+         <div rend="toc" xml:id="guidelines">
+            <head>Guidelines SegmOnto Vocabulary</head>
+            <p>We have distributed the elements of our vocabulary according to the tree-like
+               tessellation of a page: <list>
+                  <item>The page contains zones</item>
+                  <item>A zone contains lines</item>
+               </list>
+            </p>
+            <p>The annotation uses: <list>
+                  <item><hi rend="italic">Types</hi>, which are mandatory and whose values are
+                     closed</item>
+                  <item><hi rend="italic">Subtypes</hi>, which are optional and whose values are
+                     suggested but open</item>
+                  <item><hi rend="italic">Numbering</hi>, which are optional and whose values are
+                     suggested but open</item>
+               </list>
+            </p>
+            <p>These three options are available for three reasons: <list>
+                  <item>Homogenise the data, to facilitate the exchange and the pooling of annotated
+                     data</item>
+                  <item>Adapt to a maximum of possible scenarii, and offer, when needed, some
+                     semantic information via the subtypes (types being potentially too
+                     poor).</item>
+                  <item>Ease the training of models by differentiating zones or lines
+                        (<val>Main#1</val> for the column on the left and <val>Main#2</val> for the
+                     column on the right might be of a certain help).</item>
+               </list>
+            </p>
+            <p>The syntax is the following:
+                  <val>Region(:subtype)?(#\d)?</val>/<val>Type:Subtype#2</val>. <eg xml:space="preserve"><![CDATA[
+Type:Subtype#Numbering
+GraphicZone:Decoration#1
+MusicZone:MusicLine
+Custom:Entry#2
+            ]]></eg>
+            </p>
+            <div rend="toc" xml:id="Zones">
+               <head>Zones</head>
+               <div xml:id="DamageZone">
+                  <head><val>DamageZone</val></head>
+                  <p><val>DamageZone</val> Caracterises any area containing damage to the source,
+                     such as holes in the material (parchment, paper...), blots, etc.</p>
+                  <figure>
+                     <graphic url="media/zones/damage/BB57.png"/>
+                     <figDesc>Lyon, AM, BB 57.</figDesc>
+                  </figure>
+                  <figure>
+                     <graphic url="media/zones/damage/e-codices_Mslitt-0010-1.jpg"/>
+                     <figDesc>Sion/Sitten, Archives de l'Etat du Valais/Staatsarchiv Wallis, Ms.
+                        litt. 10/1, f°1r.</figDesc>
+                  </figure>
+               </div>
+            </div>
+            <div rend="toc" xml:id="Lines">
+               <head>Lines</head>
+               <p/>
+            </div>
+         </div>
+         <div rend="toc" xml:id="TEIModelling">
+            <head>TEI Modelling</head>
+            <p>The SegmOnto-Gallic(orpor)a guidelines are not a subset of the TEI: all elements remain available.
+               However, it recommends or requires the use of specific elements, which will be
+               described below, and the most important of which is the compulsory use of
+                  <gi>sourceDoc</gi> on top of the traditional <gi>teiHeader</gi> and <gi>text</gi>:
+                  <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                  <TEI>
+                     <teiHeader> Supplies descriptive and declarative metadata associated with a
+                        digital resource or set of resources. </teiHeader>
+                     <sourceDoc> Contains a transcription or other representation of a single source
+                        document. </sourceDoc>
+                     <text> Contains a single text of any kind, whether unitary or composite </text>
+                  </TEI>
+               </egXML>
+            </p>
+            <p>All source documents encoded with these guidelines are part of the Bibliothèque nationale de 
+               France's (BnF) Gallica collections. Metadata in the <gi>teiHeader</gi> are generated automatically from
+            the IIIF Image API of the digital image on Gallica and the SRU API of the BnF. The structure of the
+            <gi>teiHeader</gi> is therefore designed to be compatible with the IIIF API's data structure, which is JSON,
+            and the SRU API's data structure, Marc XML.</p>
+
+            <div xml:id="header">
+               <head>Header</head>
+               <p>The composition of the <gi>teiHeader</gi> goes beyond the minimal
+                     <gi>fileDesc</gi> with its four components: <gi>titleStmt</gi>,
+                  <gi>extent</gi>, <gi>publicationStmt</gi>, and <gi>sourceDesc</gi>; and requires
+                  the use of <gi>profileDesc</gi> and <gi>encodingDesc</gi>: 
+                  <!-- EXAMPLE -->
+                  <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                     <teiHeader>
+                        <fileDesc>
+                           <!-- Contains a full bibliographic description of the TEI document. -->
+                           <titleStmt/>  <!-- Bibliographic description: title, author, individuals responsible for text-acquisition pipeline production -->
+                           <extent/>  <!-- Number of ALTO-XML source files processed -->
+                           <publicationStmt/>  <!-- Information about the organization responsible for the text-acquisition pipeline production -->
+                           <sourceDesc/>  <!-- Bibliographic description of physical and digital examplars of the source document -->
+                        </fileDesc>
+                        <profileDesc>
+                           <!-- Provides the languages and sublanguages used in the source document. -->
+                        </profileDesc>
+                        <encodingDesc>
+                           <!-- Provides information about segmentation and HTR engines used to produce the transcription. -->
+                        </encodingDesc>
+                     </teiHeader>
+                  </egXML>
+               </p>
+               <div xml:id="titleStmt">
+                  <head>Title statement</head>
+                  <p>There is no additional requirements to the TEI, but the following
+                     recommendations: <list>
+                        <!-- à modifier -->
+                        <item>SegmOnto <hi rend="italic">recommends</hi> the use of <att>type</att>
+                           on <gi>title</gi> (with values either <val>full</val> or <val>abbr</val>)
+                           to record both the full bibliographic title of the lexicographic resource
+                           and the preferred abbreviated title for easy reference, should one
+                           exist.</item>
+                        <item>When using <gi>persName</gi>, SegmOnto <hi rend="italic"
+                              >recommends</hi> to further structure the name with elements
+                              <gi>forename</gi> and <gi>surname</gi>.</item>
+                     </list>
+                  </p>
+                  <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                     <titleStmt>
+                        <title>Oeuvres posthumes de M. de Montesquieu</title>
+                        <author xml:id="Mo1">
+                           <persName>
+                              <surname>Montesquieu</surname>
+                              <ptr type="isni" target="0000000120957940"/>
+                           </persName>
+                        </author>
+                        <respStmt>
+                           <resp>Transformation from ALTO4 to TEI by</resp>
+                           <persName>
+                              <forename>Kelly</forename>
+                              <surname>Christensen</surname>
+                              <ptr type="orcid" target="000000027236874X"/>
+                           </persName>
+                           <persName>
+                              <forename>Simon</forename>
+                              <surname>Gabay</surname>
+                              <ptr type="orcid" target="0000000190944475"/>
+                           </persName>
+                           <persName>
+                              <forename>Ariane</forename>
+                              <surname>Pinche</surname>
+                              <ptr type="orcid" target="0000000278435050"/>
+                           </persName>
+                        </respStmt>
+                     </titleStmt>
+                  </egXML>
+               </div>
+               <div xml:id="publicationStmt">
+                  <head>Publication Statement</head>
+                  <p>There is no additional requirements to the TEI, but the following
+                     recommendations: 
+                     <!-- vérifier qu'il est pareil -->
+                     <list>
+                        <item>In <gi>publicationStmt</gi>, SegmOnto <hi rend="italic">requires</hi>
+                           the use of <gi>availability</gi> to record the <gi>licence</gi> of the
+                           given lexicographic resource. In other words, a SegmOnto <hi
+                              rend="italic">must</hi> include explicit information on the conditions
+                           under which the given resource can be used. </item>
+                        <item>In addition to <gi>publisher</gi> and <gi>distributor</gi>, the
+                              <gi>publicationStmt</gi> in SegmOnto <hi rend="italic">may</hi>
+                           include information on any other <gi>authority</gi> responsible for
+                           creating or making the resource available. </item>
+                        <item>If using <gi>authority</gi>, SegmOnto <hi rend="italic">requires</hi>
+                           the use of <att>role</att> with values <val>funder</val>,
+                              <val>sponsor</val> or <val>rightsHolder</val>.</item>
+                     </list>
+                  </p>
+                  <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                     <publicationStmt>
+                        <publisher>Gallic(orpor)a</publisher>
+                        <authority>BnF DATALab</authority>
+                        <availability status="restricted" n="cc-by">
+                           <licence target="https://creativecommons.org/licenses/by/4.0/"/>
+                        </availability>
+                        <date when="2022-07-06"/>
+                     </publicationStmt>
+                  </egXML>
+               </div>
+               <div xml:id="sourceDesc">
+                  <head>Source Description</head>
+                  <!-- à modifier, expliquer les éléments <bibl>, <msDesc> -->
+                  <p>Because a transcription is taken from a specific source, SegmOnto requires,
+                     possibly together with a <gi>bibl</gi> element, the use of <gi>msDesc</gi>,
+                     which provides precise metadata to identify the source of the
+                     transcription.</p>
+                  
+                  <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                     <sourceDesc>
+                        <bibl>
+                           <ptr target="http://catalogue.bnf.fr/ark:/12148/cb30970215z"/>
+                           <author ref="#Mo1">
+                              <persName>
+                                 <surname>Montesquieu</surname>
+                                 <ptr type="isni" target="0000000120957940"/>
+                              </persName>
+                           </author>
+                           <title>Oeuvres posthumes de M. de Montesquieu</title>
+                           <pubPlace key="GB">Londres</pubPlace>
+                           <publisher>de Bure fils aîné</publisher>
+                           <date when="1783" cert="high" resp="BNF">1783</date>
+                        </bibl>
+                        <msDesc>
+                           <msIdentifier>
+                              <country key="FR"/>
+                              <settlement>Information not available.</settlement>
+                              <repository>Bibliothèque nationale de France</repository>
+                              <idno>Z-29892</idno>
+                              <altIdentifier>
+                                 <idno type="ark">bpt6k6495917k</idno>
+                              </altIdentifier>
+                           </msIdentifier>
+                           <physDesc>
+                              <objectDesc>
+                                 <p>Texte imprimé</p>
+                              </objectDesc>
+                           </physDesc>
+                        </msDesc>
+                     </sourceDesc>
+                  </egXML>
+                  
+                  <!-- ajouter un exemple qui montre où se trouve ces infos dans l'unimarc -->
+                  
+                  
+               </div>
+               
+               <!-- ADD <encodingDesc> -->
+               <div xml:id="encodingDesc">
+                  <head>Encoding description</head>
+                  <p>Because a mechanical transcription is produced by a tool, and because tools can
+                     produce slightly different data (height of the baseline, etc.), it is crucial
+                     to indicate which one was used with <gi>appInfo</gi>. <egXML
+                        xmlns="http://www.tei-c.org/ns/Examples">
+                        <appInfo>
+                           <application ident="eScriptorium" version="1">
+                              <label>eScriptorium</label>
+                              <ptr target="https://gitlab.inria.fr/scripta/escriptorium"/>
+                           </application>
+                           <application ident="Kraken" version="3.0.5">
+                              <label>Kraken</label>
+                              <ptr target="https://github.com/mittagessen/kraken"/>
+                           </application>
+                        </appInfo>
+                     </egXML>
+                  </p>
+                  <p>Because SegmOnto uses precisely defined zones, it is important to provide a
+                     link for each of them via the <gi>taxonomy</gi> element in <gi>classDecl</gi>.
+                        <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                        <classDecl>
+                           <taxonomy xml:id="SegmOnto">
+                              <bibl>
+                                 <title>SegmOnto</title>
+                                 <ptr target="https://github.com/segmonto"/>
+                              </bibl>
+                              <category xml:id="SegmOntoZones">
+                                 <catDesc xml:id="DamageZone">
+                                    <title>DamageZone</title>
+                                    <ptr
+                                       target="https://segmonto.github.io/gd/gdZ/DamageZone/"
+                                    />
+                                 </catDesc>
+                              </category>
+                              <category xml:id="SegmOntoLines">
+                                 <catDesc xml:id="DefaultLine">
+                                    <title>DefaultLine</title>
+                                    <ptr
+                                       target="https://segmonto.github.io/gd/gdL/DefaultLine/"
+                                    />
+                                 </catDesc>
+                              </category>
+                           </taxonomy>
+                        </classDecl>
+                     </egXML>
+                  </p>
+               </div>
+               <div xml:id="profileDesc">
+                  <head>Profile Description</head>
+                  <p>In plain TEI, <gi>profileDesc</gi> is an optional element, whereas in SegmOnto,
+                     it is required. This is because the nature of transcriptions is such that it is
+                     essential to identify and record the language(s) used as part of the resource
+                     metadata. </p>
+                  <p>That's why <gi>profileDesc</gi> requires <gi>langUsage</gi> and at least one <gi>language</gi> element.</p>
+                  <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                     <profileDesc>
+                        <langUsage>
+                           <language ident="fre">français</language>
+                        </langUsage>
+                     </profileDesc>
+                  </egXML>
+               </div>
+            </div>
+            <div rend="toc" xml:id="sourceDoc">
+               <head>Source Document</head>
+               <p>In <gi>sourceDoc</gi>, the structure follows a strict order:
+                  <list>
+                     <item><gi>surface</gi>, following the definition of the guidelines, is used to
+                        describe one image from the source document.</item>
+                     <item><gi>zone</gi> describes a region of the source image. This region must be at 1 of 4 possible levels of granularity:
+                        <list>
+                           <item>block (required if segmentation model detected a block)</item>
+                           <item>line (required if HTR model predicted text)</item>
+                           <item>word or segment (optional, depends on ALTO file's format)</item>
+                           <item>glyph (optional, depends on ALTO file's format)</item>
+                        </list>
+                     </item>
+                  </list>
+               </p>
+               
+               <p>At each level of granularity on a page (<gi>surface</gi>), the attributes and descendants of that level's <gi>zone</gi> vary.
+                  However, because a <gi>zone</gi> represents a mask, certain attributes are always present.
+                  <list>
+                     <item><att>xml:id</att> is the zone's unique ID; it is constructed from the folio number and <att>ID</att> of parent zones in the source ALTO file.</item>
+                     <item>There is always some kind of <att>type</att> attribute, though its value varies depending on the zone's level of granularity.
+                        <list>
+                           <item>For blocks and lines of text whose tags conform to the SegmOnto guidelines, the following 3 attributes describe the <att>type</att>:
+                           <list>
+                              <item><att>type</att> represents the principal part of a SegmOnto classification; it is derived from the first part of the tag given to the zone, meaning the string of characters prior to a colon. (eg. "mainZone" in "MainZone:column#1")</item>
+                              <item><att>subtype</att> represents the secondary part of a SegmOnto classification; it is derived from the part of the tag immediately following a colon and preceding any subsequent punctuation. (eg. "column" in "MainZone:column#1")</item>
+                              <item><att>n</att> represents the third part of a SegmOnto classification; it is derived from the part of the tag following a hashtag, representing a number. (eg. "1" in "MainZone:column#1")</item>
+                           </list>
+                           </item>
+                           <item>For segments and glyphs, the <att>type</att> is derived from the name of the element in the source ALTO file.
+                             <list>
+                                <item><att>type</att>="space" when the zone describes a space between two words; it is derived from the name of the element <gi>SP</gi> in the source ALTO file.</item>
+                                <item><att>type</att>="string" when the zone describes a segment or word; it is derived from the name of the element <gi>STRING</gi> in the source ALTO file.</item>
+                                <item><att>type</att>="glyph" when the zone describes a glyph or character in a segment; it is derived from the name of the element <gi>GLYPH</gi> in the source ALTO file.</item>
+                             </list>
+                           </item>
+                        </list>
+                     </item>
+                     <item><att>ulx</att> represents the attribute <att>HPOS</att> of the zone.</item>
+                     <item><att>uly</att> represents the attribute <att>VPOS</att> of the zone.</item>
+                     <item><att>lrx</att> represents the attribute <att>WIDTH</att> of the zone.</item>
+                     <item><att>lry</att> represents the attribute <att>HEIGHT</att> of the zone.</item>
+                     <item>Except when the zone represents the mask of a space between words (<gi>SP</gi> in the source ALTO file), the attribute <att>points</att> is used represents all the x,y coordinates that demarcate the zone; its value is represented in the source ALTO file by the attribute <att>POINTS</att> of the element <gi>Polygon</gi>, which is a descendant of the ALTO elements <gi>TextBlock</gi>, <gi>TextLine</gi>, <gi>String</gi>, and <gi>Glyph</gi>.</item>
+                  </list>
+               </p>
+               
+                  
+                  <!-- DIV : Zone / TextBlock -->
+                  <div rend="toc" xml:id="Block">
+                     <!-- expliquer en les <p> l'élément ALTO <TextBlock> et l'élément TEI <zone> -->
+                     
+                     <p>The TEI element <gi>zone</gi> represents all the data encoded in the mask of an ALTO file's <gi>TextBlock</gi>. 
+                        The zone with the <gi>zone</gi> has following attributes:
+                        <list>
+                           <item><att>xml:id</att> is the zone's unique ID; it is constructed from the folio number and the ID of the <gi>TextBlock</gi> in the source ALTO file.</item>
+                           <item><att>type</att> represents the principal part of a SegmOnto classification; it is derived from the first part of the tag given to the zone, meaning the string of characters prior to a colon. (eg. "mainZone" in "MainZone:column#1")</item>
+                           <item><att>subtype</att> represents the secondary part of a SegmOnto classification; it is derived from the part of the tag immediately following a colon and preceding any subsquent punctuation. (eg. "column" in "MainZone:column#1")</item>
+                           <item><att>n</att> represents the third part of a SegmOnto classification; it is derived from the part of the tag following a hashtag, representing a number. (eg. "1" in "MainZone:column#1")</item>
+                           <item><att>ulx</att> represents the attribute <att>HPOS</att> of a <gi>TextBlock</gi>.</item>
+                           <item><att>uly</att> represents the attribute <att>VPOS</att> of a <gi>TextBlock</gi>.</item>
+                           <item><att>lrx</att> represents the attribute <att>WIDTH</att> of a <gi>TextBlock</gi>.</item>
+                           <item><att>lry</att> represents the attribute <att>HEIGHT</att> of a <gi>TextBlock</gi>.</item>
+                           <item><att>points</att> represents all the x,y coordinates that demarcate the mask; they are represented in the source ALTO file by the attribute <att>POINTS</att> of the element <gi>Polygon</gi>, which is a descendant of the <gi>TextBlock</gi>.</item>
+                           <item><att>source</att> provides a IIIF URI for the zone on Gallica's servers.</item>
+                        </list>
+                     </p>
+                     
+                     <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                        <zone xml:id="f13-textblock_2-line_1-ln1" type="headingLine"
+                           subtype="none" n="none" ulx="136" uly="379" lrx="891" lry="112"
+                           points="141,459 138,384 1024,379 1027,472 1022,491 136,474"
+                           source="https://gallica.bnf.fr/iiif/ark:/12148/bpt6k6495917k/f13/136,379,891,112/full/0/native.jpg">
+                           <path xml:id="f13-textblock_2-line_1-ln1-baseline"
+                              points="141,459 1027,472"/>
+                           <line xml:id="f13-textblock_2-line_1-ln1-text" n="1">AVIS DE
+                              L'ÉDITEUR.</line>
+                        </zone>
+                     </egXML>
+                  </div>
+              
+               <!-- DIV : Zone / TextLine -->
+              <div rend="toc" xml:id="Line">
+                 <!-- expliquer en les <p> l'élément ALTO <TextLine> et l'élément TEI <zone> -->
+                 <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                    <sourceDoc>
+                       <surface xml:id="f13" n="0" ulx="0" uly="0" lrx="1587" lry="2920">
+                          <graphic url="https://gallica.bnf.fr/iiif/ark:/12148/bpt6k6495917k/f13/full/full/0/native.jpg"/>
+                          <zone xml:id="f13-eSc_textblock_2d07eac3-bn1" type="mainZone" subtype="none" n="none" ulx="26"
+                             uly="275" lrx="1133" lry="2104" points="48,276 44,637 26,2379 1127,2379 1159,275"
+                             source="https://gallica.bnf.fr/iiif/ark:/12148/bpt6k6495917k/f13/26,275,1133,2104/full/0/native.jpg">
+                             <zone xml:id="f13-eSc_textblock_2d07eac3-eSc_line_00f9737d-ln1" type="headingLine"
+                                subtype="none" n="none" ulx="136" uly="379" lrx="891" lry="112"
+                                points="141,459 138,384 1024,379 1027,472 1022,491 136,474"
+                                source="https://gallica.bnf.fr/iiif/ark:/12148/bpt6k6495917k/f13/136,379,891,112/full/0/native.jpg">
+                                <path xml:id="f13-eSc_textblock_2d07eac3-eSc_line_00f9737d-ln1-baseline"
+                                   points="141,459 1027,472"/>
+                                <line xml:id="f13-eSc_textblock_2d07eac3-eSc_line_00f9737d-ln1-text" n="1">AVIS DE
+                                   L'ÉDITEUR.</line>
+                             </zone>
+                             <zone xml:id="f13-eSc_textblock_2d07eac3-eSc_line_6317ab16-ln2" type="defaultLine"
+                                subtype="none" n="none" ulx="73" uly="542" lrx="1032" lry="141"
+                                points="75,644 73,657 270,671 272,671 275,671 296,659 299,659 316,659 440,671 442,671 557,661 572,661 581,661 662,676 664,676 666,676 708,664 710,664 934,681 937,683 1078,683 1078,681 1080,681 1083,681 1102,666 1105,657 1100,559 1002,584 927,562 924,562 922,562 920,562 837,588 815,569 815,566 812,566 810,566 808,566 730,579 698,559 696,559 693,559 691,559 688,559 613,586 486,571 484,571 399,584 350,579 328,557 328,554 326,554 323,554 321,554 318,554 316,554 316,557 294,576 223,545 219,542 216,542 75,542 75,644"
+                                source="https://gallica.bnf.fr/iiif/ark:/12148/bpt6k6495917k/f13/73,542,1032,141/full/0/native.jpg">
+                                <path xml:id="f13-eSc_textblock_2d07eac3-eSc_line_6317ab16-ln2-baseline"
+                                   points="76,647 195,648 221,647 1107,659"/>
+                                <line xml:id="f13-eSc_textblock_2d07eac3-eSc_line_6317ab16-ln2-text" n="2">MONSIEUR de
+                                   Monteſquieu</line>
+                             </zone>
+                             [...]
+                          </zone>
+                          [...]
+                       </surface>
+                       <surface xml:id="f14" n="1" ulx="0" uly="0" lrx="1617" lry="2912">
+                          <graphic url="https://gallica.bnf.fr/iiif/ark:/12148/bpt6k6495917k/f14/full/full/0/native.jpg"/>
+                          <zone xml:id="f14-eSc_textblock_344bf873-bn1" type="numberingZone" subtype="none" n="none"
+                             ulx="402" uly="298" lrx="97" lry="70" points="402,298 402,368 499,368 499,298"
+                             source="https://gallica.bnf.fr/iiif/ark:/12148/bpt6k6495917k/f14/402,298,97,70/full/0/native.jpg">
+                             <zone xml:id="f14-eSc_textblock_344bf873-eSc_line_bb4791b2-ln1" type="defaultLine"
+                                subtype="none" n="none" ulx="434" uly="296" lrx="56" lry="70"
+                                points="437,351 437,296 490,299 480,351 478,366 434,361"
+                                source="https://gallica.bnf.fr/iiif/ark:/12148/bpt6k6495917k/f14/434,296,56,70/full/0/native.jpg">
+                                <path xml:id="f14-eSc_textblock_344bf873-eSc_line_bb4791b2-ln1-baseline"
+                                   points="439,352 482,352"/>
+                                <line xml:id="f14-eSc_textblock_344bf873-eSc_line_bb4791b2-ln1-text" n="1">iv</line>
+                             </zone>
+                          </zone>
+                          [...]
+                       </surface>
+                    </sourceDoc>
+                 </egXML>
+              </div>
+
+               <!-- DIV : Zone / Segment -->
+               <div rend="toc" xml:id="Segment">
+               </div>
+               
+               <!-- DIV : Zone / Glyph -->
+               <div rend="toc" xml:id="Glyph">
+               </div>
+               
+            </div>
+          
+          
+            <div rend="toc" xml:id="text">
+               <head>Text</head>
+               <p>The content of <gi>text</gi> is kept open. Thanks to SegmOnto, it is however
+                  possible to pre-annotate the content with the following mapping:</p>
+               <table rend="boxed" rows="6" cols="2">
+                  <row role="data">
+                     <cell role="SegmOnto">SegmOnto</cell>
+                     <cell role="TEI">TEI</cell>
+                  </row>
+                  <row role="data">
+                     <cell role="SegmOnto"><val>Numbering</val></cell>
+                     <cell role="TEI"><gi>fw</gi></cell>
+                  </row>
+                  <row role="data">
+                     <cell role="SegmOnto"><val>QuireMarks</val></cell>
+                     <cell role="TEI"><gi>fw</gi></cell>
+                  </row>
+                  <row role="data">
+                     <cell role="SegmOnto"><val>Main</val></cell>
+                     <cell role="TEI"><gi>p</gi></cell>
+                  </row>
+                  <row role="data">
+                     <cell role="SegmOnto"><val>GraphicZone</val></cell>
+                     <cell role="TEI"><gi>figure</gi></cell>
+                  </row>
+                  <row role="data">
+                     <cell role="SegmOnto"><val>MusicZone</val></cell>
+                     <cell role="TEI"><gi>musicNotation</gi></cell>
+                  </row>
+               </table>
+            </div>
+         </div>
+         <div rend="toc" xml:id="bibliography">
+            <head>Bibliography</head>
+            <listBibl>
+               <bibl xml:id="Kraken2019">
+                  <author>Benjamin Kiessling</author>
+                  <title level="a">Kraken - an Universal Text Recognizer for the Humanities</title>
+                  <title level="m">Digital Humanities 2019 Conference Abstracts</title>
+                  <date when="2019-07">July 2019</date>
+                  <pubPlace>Utrecht, The Netherlands</pubPlace>
+                  <ref target="https://dev.clariah.nl/files/dh2019/boa/0673.html"
+                     >https://dev.clariah.nl/files/dh2019/boa/0673.html</ref>
+               </bibl>
+               <bibl xml:id="segmonto2021">
+                  <author>Simon Gabay, Jean-Baptiste Camps, Ariane Pinche, Claire Jahan</author>
+                  <title level="a">SegmOnto: common vocabulary and practices for analysing the
+                     layout of manuscripts (and more)</title>
+                  <title level="m">1st International Workshop on Computational Paleography
+                     (IWCP@ICDAR 2021)</title>
+                  <date when="2021-09">Sep. 2021</date>
+                  <pubPlace>Lausanne, Switzerland</pubPlace>
+                  <ref target="https://hal.archives-ouvertes.fr/hal-03336528"
+                     >https://hal.archives-ouvertes.fr/hal-03336528</ref>
+               </bibl>
+               <bibl xml:id="Kiessling2020">
+                  <author>Benjamin Kiessling</author>
+                  <title level="a">A Modular Region and Text Line Layout Analysis System</title>
+                  <title level="m">17th International Conference on Frontiers in Handwriting
+                     Recognition (ICFHR)</title>
+                  <date when="2020-09">Sep. 2020</date>
+                  <pubPlace>Dortmund, Germany</pubPlace>
+                  <ref target="https://ieeexplore.ieee.org/document/9257770"
+                     >https://ieeexplore.ieee.org/document/9257770</ref>
+               </bibl>
+               <bibl xml:id="eScriptorium2019">
+                  <author>Benjamin Kiessling, Robin Tissot, Daniel Stökl Ben Ezra, Peter
+                     Stokes</author>
+                  <title level="a">A Modular Region and Text Line Layout Analysis System</title>
+                  <title level="m">Proceedings of the 15th International Conference on Document
+                     Analysis and Recognition</title>
+                  <date when="2019-09">Sep. 2019</date>
+                  <pubPlace>Sydney, Australia</pubPlace>
+                  <ref target="https://ieeexplore.ieee.org/document/8893029"
+                     >https://ieeexplore.ieee.org/document/8893029</ref>
+               </bibl>
+               <bibl xml:id="PAGE">
+                  <author>Stefan Pletschacher, Apostolos Antonacopoulos</author>
+                  <title level="a">The PAGE (Page Analysis and Ground-Truth Elements) Format
+                     Framework</title>
+                  <title level="m">Proceedings of the 20th International Conference on Pattern
+                     Recognition (ICPR2010)</title>
+                  <date when="2010-08">Aug. 2010</date>
+                  <pubPlace>Istanbul, Turkey</pubPlace>
+                  <ref target="https://ieeexplore.ieee.org/document/5597587"
+                     >https://ieeexplore.ieee.org/document/5597587</ref>
+               </bibl>
+               <bibl xml:id="ALTO">
+                  <title level="m">ALTO Technical Metadata for Layout and Text Objects</title>
+                  <ref target="https://www.loc.gov/standards/alto"
+                     >ttps://www.loc.gov/standards/alto</ref>
+               </bibl>
+               <bibl xml:id="Codicologia">
+                  <author>Marc Geoffroy, Anne-Marie Eddé, Denis Muzerelle, Philippe Bobichon,
+                     Marie-Geneviève Guesdon</author>
+                  <title level="m">Codicologia: glossaires codicologiques</title>
+                  <pubPlace>Paris</pubPlace>
+                  <publisher>Institut de recherche et d'histoire des textes</publisher>
+                  <date when="2011">2011</date>
+                  <ref target="http://codicologia.irht.cnrs.fr"
+                     >http://codicologia.irht.cnrs.fr</ref>
+               </bibl>
+               <bibl xml:id="CodicologiaSKOS">
+                  <author>Georg Vogeler</author>
+                  <title level="m">SKOS Vocabulaire International de la codicologie</title>
+                  <pubPlace>Paris</pubPlace>
+                  <publisher>Institut de recherche et d'histoire des textes</publisher>
+                  <pubPlace>Graz</pubPlace>
+                  <publisher>Geisteswissenschaftliches Asset Management System,
+                     Karl-Franzens-Universität Graz</publisher>
+                  <date when="2021">2021</date>
+                  <ref
+                     target="http://gams.uni-graz.at/archive/objects/o:voccod/methods/sdef:SKOS/get"
+                     >http://gams.uni-graz.at/archive/objects/o:voccod/methods/sdef:SKOS/get</ref>
+               </bibl>
+               <bibl xml:id="TEIguidelines">
+                  <editor>TEI Consortium</editor>
+                  <title level="m">TEI Guidelines for Electronic Text Encoding and
+                     Interchange</title>
+                  <ref target="https://tei-c.org/release/doc/tei-p5-doc/en/html/index.html"
+                     >https://tei-c.org/release/doc/tei-p5-doc/en/html/index.html</ref>
+               </bibl>
+               <bibl xml:id="RDFW3C">
+                  <editor>Richard Cyganiak, David Wood, Markus Lanthaler</editor>
+                  <title level="m">RDF 1.1 Concepts and Abstract Syntax</title>
+                  <ref target="https://www.w3.org/TR/rdf11-concepts"
+                     >https://www.w3.org/TR/rdf11-concepts</ref>
+               </bibl>
+               <bibl xml:id="IIIFapi">
+                  <title level="m">International Image Interoperability Framework - API
+                     Specifications</title>
+                  <ref target="https://iiif.io/api/">https://iiif.io/api/</ref>
+               </bibl>
+               <bibl xml:id="TEIlex0">
+                  <editor>Toma Tasovac, Laurent Romary, Piotr Banski, Jack Bowers, Jesse de Does,
+                     Katrien Depuydt, Tomaž Erjavec, Alexander Geyken, Axel Herold, Vera
+                     Hildenbrandt, Mohamed Khemakhem, Boris Lehečka, Snežana Petrović, Ana Salgado
+                     and Andreas Witt.</editor>
+                  <title>TEI Lex-0: A baseline encoding for lexicographic data. Version
+                     0.9.0</title>
+                  <date when="2018">2018</date>
+                  <publisher>DARIAH Working Group on Lexical Resources</publisher>
+                  <ref
+                     target="https://dariah-eric.github.io/lexicalresources/pages/TEILex0/TEILex0.html"
+                     >https://dariah-eric.github.io/lexicalresources/pages/TEILex0/TEILex0.html</ref>
+               </bibl>
+            </listBibl>
+         </div>
+         <div rend="toc" xml:id="specification">
+            <head>Specification</head>
+            <schemaSpec ident="oddbyexample" start="TEI ">
+               <moduleRef key="tei"/>
+               <!--Checking module textcrit-->
+               <classRef key="att.textCritical"/>
+               <classRef key="model.rdgLike"/>
+               <classRef key="model.rdgPart"/>
+               <classSpec ident="att.textCritical" type="atts" mode="change">
+                  <attList>
+                     <attDef ident="type" mode="delete"/>
+                     <attDef ident="cause" mode="delete"/>
+                     <attDef ident="varSeq" mode="delete"/>
+                     <attDef ident="require" mode="delete"/>
+                  </attList>
+               </classSpec>
+               <!--Checking module msdescription-->
+               <classRef key="model.physDescPart"/>
+               <moduleRef key="msdescription"
+                  include="msDesc msIdentifier repository altIdentifier physDesc objectDesc"/>
+               <elementSpec ident="msDesc" mode="change">
+                  <attList>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                     <attDef ident="type" mode="delete"/>
+                     <attDef ident="subtype" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="msIdentifier" mode="change">
+                  <attList>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="repository" mode="change">
+                  <attList>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                     <attDef ident="key" mode="delete"/>
+                     <attDef ident="ref" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="altIdentifier" mode="change">
+                  <attList>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                     <attDef ident="type" mode="delete"/>
+                     <attDef ident="subtype" mode="delete"/>
+                     <attDef ident="when" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="physDesc" mode="change">
+                  <attList>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="objectDesc" mode="change">
+                  <attList>
+                     <attDef ident="form" mode="delete"/>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <!--Checking module namesdates-->
+               <classRef key="model.persNamePart"/>
+               <moduleRef key="namesdates"
+                  include="persName surname forename nameLink country settlement"/>
+               <elementSpec ident="persName" mode="change">
+                  <attList>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                     <attDef ident="when" mode="delete"/>
+                     <attDef ident="key" mode="delete"/>
+                     <attDef ident="ref" mode="delete"/>
+                     <attDef ident="type" mode="delete"/>
+                     <attDef ident="subtype" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="surname" mode="change">
+                  <attList>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                     <attDef ident="key" mode="delete"/>
+                     <attDef ident="ref" mode="delete"/>
+                     <attDef ident="type" mode="delete"/>
+                     <attDef ident="subtype" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="forename" mode="change">
+                  <attList>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                     <attDef ident="key" mode="delete"/>
+                     <attDef ident="ref" mode="delete"/>
+                     <attDef ident="type" mode="delete"/>
+                     <attDef ident="subtype" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="nameLink" mode="change">
+                  <attList>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                     <attDef ident="type" mode="delete"/>
+                     <attDef ident="subtype" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="country" mode="change">
+                  <attList>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                     <attDef ident="ref" mode="delete"/>
+                     <attDef ident="type" mode="delete"/>
+                     <attDef ident="subtype" mode="delete"/>
+                     <attDef ident="when" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="settlement" mode="change">
+                  <attList>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                     <attDef ident="key" mode="delete"/>
+                     <attDef ident="ref" mode="delete"/>
+                     <attDef ident="type" mode="delete"/>
+                     <attDef ident="subtype" mode="delete"/>
+                     <attDef ident="when" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <!--Checking module dictionaries-->
+               <classRef key="att.lexicographic"/>
+               <classRef key="model.entryLike"/>
+               <classRef key="model.formPart"/>
+               <classRef key="model.gramPart"/>
+               <classRef key="model.lexicalRefinement"/>
+               <classRef key="model.morphLike"/>
+               <classRef key="model.ptrLike.form"/>
+               <classSpec ident="att.lexicographic" type="atts" mode="change">
+                  <attList>
+                     <attDef ident="expand" mode="delete"/>
+                     <attDef ident="split" mode="delete"/>
+                     <attDef ident="value" mode="delete"/>
+                     <attDef ident="location" mode="delete"/>
+                     <attDef ident="mergedIn" mode="delete"/>
+                     <attDef ident="opt" mode="delete"/>
+                  </attList>
+               </classSpec>
+               <!--Checking module tagdocs-->
+               <classRef key="att.combinable"/>
+               <classRef key="att.identified"/>
+               <classRef key="model.contentPart"/>
+               <classSpec ident="att.combinable" type="atts" mode="change">
+                  <attList>
+                     <attDef ident="mode" mode="delete"/>
+                  </attList>
+               </classSpec>
+               <classSpec ident="att.identified" type="atts" mode="change">
+                  <attList>
+                     <attDef ident="ident" mode="delete"/>
+                     <attDef ident="predeclare" mode="delete"/>
+                     <attDef ident="module" mode="delete"/>
+                  </attList>
+               </classSpec>
+               <classSpec ident="att.ascribed.directed" type="atts" mode="change">
+                  <attList>
+                     <attDef ident="toWhom" mode="delete"/>
+                  </attList>
+               </classSpec>
+               <classSpec ident="att.dimensions" type="atts" mode="change">
+                  <attList>
+                     <attDef ident="unit" mode="delete"/>
+                     <attDef ident="quantity" mode="delete"/>
+                     <attDef ident="extent" mode="delete"/>
+                     <attDef ident="precision" mode="delete"/>
+                     <attDef ident="scope" mode="delete"/>
+                  </attList>
+               </classSpec>
+               <classSpec ident="att.damaged" type="atts" mode="change">
+                  <attList>
+                     <attDef ident="agent" mode="delete"/>
+                     <attDef ident="degree" mode="delete"/>
+                     <attDef ident="group" mode="delete"/>
+                  </attList>
+               </classSpec>
+               <classSpec ident="att.datable.w3c" type="atts" mode="change">
+                  <attList>
+                     <attDef ident="notBefore" mode="delete"/>
+                     <attDef ident="notAfter" mode="delete"/>
+                     <attDef ident="from" mode="delete"/>
+                     <attDef ident="to" mode="delete"/>
+                  </attList>
+               </classSpec>
+               <classSpec ident="att.datable" type="atts" mode="change">
+                  <attList>
+                     <attDef ident="calendar" mode="delete"/>
+                     <attDef ident="period" mode="delete"/>
+                  </attList>
+               </classSpec>
+               <classSpec ident="att.divLike" type="atts" mode="change">
+                  <attList>
+                     <attDef ident="org" mode="delete"/>
+                     <attDef ident="sample" mode="delete"/>
+                  </attList>
+               </classSpec>
+               <classSpec ident="att.media" type="atts" mode="change">
+                  <attList>
+                     <attDef ident="width" mode="delete"/>
+                     <attDef ident="height" mode="delete"/>
+                     <attDef ident="scale" mode="delete"/>
+                  </attList>
+               </classSpec>
+               <classSpec ident="att.measurement" type="atts" mode="change">
+                  <attList>
+                     <attDef ident="unitRef" mode="delete"/>
+                     <attDef ident="quantity" mode="delete"/>
+                     <attDef ident="commodity" mode="delete"/>
+                  </attList>
+               </classSpec>
+               <classSpec ident="att.naming" type="atts" mode="change">
+                  <attList>
+                     <attDef ident="role" mode="delete"/>
+                     <attDef ident="nymRef" mode="delete"/>
+                  </attList>
+               </classSpec>
+               <classSpec ident="att.pointing" type="atts" mode="change">
+                  <attList>
+                     <attDef ident="targetLang" mode="delete"/>
+                     <attDef ident="evaluate" mode="delete"/>
+                  </attList>
+               </classSpec>
+               <classSpec ident="att.pointing.group" type="atts" mode="change">
+                  <attList>
+                     <attDef ident="domains" mode="delete"/>
+                     <attDef ident="targFunc" mode="delete"/>
+                  </attList>
+               </classSpec>
+               <classSpec ident="att.scoping" type="atts" mode="change">
+                  <attList>
+                     <attDef ident="match" mode="delete"/>
+                  </attList>
+               </classSpec>
+               <classSpec ident="att.segLike" type="atts" mode="change">
+                  <attList>
+                     <attDef ident="function" mode="delete"/>
+                  </attList>
+               </classSpec>
+               <classSpec ident="att.timed" type="atts" mode="change">
+                  <attList>
+                     <attDef ident="start" mode="delete"/>
+                     <attDef ident="end" mode="delete"/>
+                  </attList>
+               </classSpec>
+               <classSpec ident="att.transcriptional" type="atts" mode="change">
+                  <attList>
+                     <attDef ident="status" mode="delete"/>
+                     <attDef ident="cause" mode="delete"/>
+                     <attDef ident="seq" mode="delete"/>
+                  </attList>
+               </classSpec>
+               <classSpec ident="att.personal" type="atts" mode="change">
+                  <attList>
+                     <attDef ident="full" mode="delete"/>
+                     <attDef ident="sort" mode="delete"/>
+                  </attList>
+               </classSpec>
+               <!--Checking module core-->
+               <moduleRef key="core"
+                  include="p hi measure date ptr note graphic pb lb author respStmt resp title publisher pubPlace bibl"/>
+               <elementSpec ident="p" mode="change">
+                  <attList>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="hi" mode="change">
+                  <attList>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="measure" mode="change">
+                  <attList>
+                     <attDef ident="type" mode="delete"/>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                     <attDef ident="type" mode="delete"/>
+                     <attDef ident="subtype" mode="delete"/>
+                     <attDef ident="unit" mode="change">
+                        <valList mode="add" type="closed">
+                           <valItem ident="images"/>
+                        </valList>
+                     </attDef>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="date" mode="change">
+                  <attList>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                     <attDef ident="key" mode="delete"/>
+                     <attDef ident="ref" mode="delete"/>
+                     <attDef ident="type" mode="delete"/>
+                     <attDef ident="subtype" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="ptr" mode="change">
+                  <attList>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                     <attDef ident="type" mode="change">
+                        <valList mode="add" type="closed">
+                           <valItem ident="isni"/>
+                           <valItem ident="orcid"/>
+                        </valList>
+                     </attDef>
+                     <attDef ident="subtype" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="note" mode="change">
+                  <attList>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                     <attDef ident="target" mode="delete"/>
+                     <attDef ident="type" mode="change">
+                        <valList mode="add" type="closed">
+                           <valItem ident="marginTextZone"/>
+                        </valList>
+                     </attDef>
+                     <attDef ident="subtype" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="graphic" mode="change">
+                  <attList>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                     <attDef ident="type" mode="delete"/>
+                     <attDef ident="subtype" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="pb" mode="change">
+                  <attList>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                     <attDef ident="type" mode="delete"/>
+                     <attDef ident="subtype" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="lb" mode="change">
+                  <attList>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                     <attDef ident="type" mode="delete"/>
+                     <attDef ident="subtype" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="author" mode="change">
+                  <attList>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                     <attDef ident="key" mode="delete"/>
+                     <attDef ident="when" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="respStmt" mode="change">
+                  <attList>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                     <attDef ident="key" mode="delete"/>
+                     <attDef ident="ref" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="resp" mode="change">
+                  <attList>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                     <attDef ident="key" mode="delete"/>
+                     <attDef ident="ref" mode="delete"/>
+                     <attDef ident="when" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="title" mode="change">
+                  <attList>
+                     <attDef ident="level" mode="delete"/>
+                     <attDef ident="type" mode="delete"/>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                     <attDef ident="type" mode="delete"/>
+                     <attDef ident="subtype" mode="delete"/>
+                     <attDef ident="key" mode="delete"/>
+                     <attDef ident="ref" mode="delete"/>
+                     <attDef ident="when" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="publisher" mode="change">
+                  <attList>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                     <attDef ident="key" mode="delete"/>
+                     <attDef ident="ref" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="pubPlace" mode="change">
+                  <attList>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                     <attDef ident="ref" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="bibl" mode="change">
+                  <attList>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                     <attDef ident="type" mode="delete"/>
+                     <attDef ident="subtype" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <!--Checking module figures-->
+               <!--Checking module header-->
+               <moduleRef key="header"
+                  include="teiHeader fileDesc titleStmt extent publicationStmt authority idno availability licence sourceDesc profileDesc langUsage language"/>
+               <elementSpec ident="teiHeader" mode="change">
+                  <attList>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="fileDesc" mode="change">
+                  <attList>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="titleStmt" mode="change">
+                  <attList>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="extent" mode="change">
+                  <attList>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="publicationStmt" mode="change">
+                  <attList>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="authority" mode="change">
+                  <attList>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                     <attDef ident="key" mode="delete"/>
+                     <attDef ident="ref" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="idno" mode="change">
+                  <attList>
+                     <attDef ident="type" mode="change">
+                        <valList mode="add" type="closed">
+                           <valItem ident="ark"/>
+                        </valList>
+                     </attDef>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                     <attDef ident="when" mode="delete"/>
+                     <attDef ident="type" mode="change">
+                        <valList mode="add" type="closed">
+                           <valItem ident="ark"/>
+                        </valList>
+                     </attDef>
+                     <attDef ident="subtype" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="availability" mode="change">
+                  <attList>
+                     <attDef ident="status" mode="change">
+                        <valList mode="add" type="closed">
+                           <valItem ident="restricted"/>
+                        </valList>
+                     </attDef>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="licence" mode="change">
+                  <attList>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                     <attDef ident="when" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="sourceDesc" mode="change">
+                  <attList>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="profileDesc" mode="change">
+                  <attList>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="langUsage" mode="change">
+                  <attList>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="language" mode="change">
+                  <attList>
+                     <attDef ident="usage" mode="delete"/>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <!--Checking module gaiji-->
+               <!--Checking module verse-->
+               <!--Checking module transcr-->
+               <classRef key="att.coordinated"/>
+               <moduleRef key="transcr" include="sourceDoc surface zone path fw line"/>
+               <elementSpec ident="sourceDoc" mode="change">
+                  <attList>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="surface" mode="change">
+                  <attList>
+                     <attDef ident="attachment" mode="delete"/>
+                     <attDef ident="flipping" mode="delete"/>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                     <attDef ident="points" mode="delete"/>
+                     <attDef ident="type" mode="delete"/>
+                     <attDef ident="subtype" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <!--  -->
+               <elementSpec ident="zone" mode="change">
+                  <attList>
+                     <attDef ident="rotate" mode="delete"/>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="type" mode="change" usage="req">
+                        <valList mode="add" type="semi">
+                           <valItem ident="defaultLine"/>
+                           <valItem ident="dropCapitalLine"/>
+                           <valItem ident="dropCapitalZone"/>
+                           <valItem ident="glyph"/>
+                           <valItem ident="graphicZone"/>
+                           <valItem ident="headingLine"/>
+                           <valItem ident="mainZone"/>
+                           <valItem ident="marginTextZone"/>
+                           <valItem ident="numbering"/>
+                           <valItem ident="numberingZone"/>
+                           <valItem ident="quireMarksZone"/>
+                           <valItem ident="runningTitle"/>
+                           <valItem ident="runningTitleZone"/>
+                           <valItem ident="signatures"/>
+                           <valItem ident="space"/>
+                           <valItem ident="stampZone"/>
+                           <valItem ident="string"/>
+                           <valItem ident="textBlock"/>
+                           <valItem ident="textLine"/>
+                           <valItem ident="titlePageZone"/>
+                        </valList>
+                     </attDef>
+                     <attDef ident="source" mode="change" usage="req"/>
+                     <attDef ident="ulx" mode="change" usage="req"/>
+                     <attDef ident="uly" mode="change" usage="req"/>
+                     <attDef ident="lrx" mode="change" usage="req"/>
+                     <attDef ident="lry" mode="change" usage="req"/>
+                     <attDef ident="type" mode="change" usage="req"/>
+                     <attDef ident="subtype" mode="change" usage="req"/>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="path" mode="change">
+                  <attList>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                     <attDef ident="ulx" mode="delete"/>
+                     <attDef ident="uly" mode="delete"/>
+                     <attDef ident="lrx" mode="delete"/>
+                     <attDef ident="lry" mode="delete"/>
+                     <attDef ident="type" mode="delete"/>
+                     <attDef ident="subtype" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="fw" mode="change">
+                  <attList>
+                     <attDef ident="type" mode="change">
+                        <valList mode="add" type="closed">
+                           <valItem ident="numberingZone"/>
+                           <valItem ident="quireMarksZone"/>
+                           <valItem ident="runningTitleZone"/>
+                        </valList>
+                     </attDef>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                     <attDef ident="type" mode="change">
+                        <valList mode="add" type="closed">
+                           <valItem ident="numberingZone"/>
+                           <valItem ident="quireMarksZone"/>
+                           <valItem ident="runningTitleZone"/>
+                        </valList>
+                     </attDef>
+                     <attDef ident="subtype" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="line" mode="change">
+                  <attList>
+                     <attDef ident="type" mode="delete"/>
+                     <attDef ident="subtype" mode="delete"/>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                     <attDef ident="ulx" mode="delete"/>
+                     <attDef ident="uly" mode="delete"/>
+                     <attDef ident="lrx" mode="delete"/>
+                     <attDef ident="lry" mode="delete"/>
+                     <attDef ident="points" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <classSpec ident="att.coordinated" type="atts" mode="change">
+                  <attList>
+                     <attDef ident="start" mode="delete"/>
+                  </attList>
+               </classSpec>
+               <!--Checking module linking-->
+               <classRef key="att.global.linking"/>
+               <moduleRef key="linking" include="ab"/>
+               <elementSpec ident="ab" mode="change">
+                  <attList>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                     <attDef ident="type" mode="change">
+                        <valList mode="add" type="closed">
+                           <valItem ident="mainZone"/>
+                        </valList>
+                     </attDef>
+                     <attDef ident="subtype" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <classSpec ident="att.global.linking" type="atts" mode="change">
+                  <attList>
+                     <attDef ident="synch" mode="delete"/>
+                     <attDef ident="sameAs" mode="delete"/>
+                     <attDef ident="copyOf" mode="delete"/>
+                     <attDef ident="next" mode="delete"/>
+                     <attDef ident="prev" mode="delete"/>
+                     <attDef ident="exclude" mode="delete"/>
+                     <attDef ident="select" mode="delete"/>
+                  </attList>
+               </classSpec>
+               <!--Checking module analysis-->
+               <classRef key="att.linguistic"/>
+               <elementSpec ident="c" mode="change">
+                  <attList>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                     <attDef ident="type" mode="delete"/>
+                     <attDef ident="subtype" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <classSpec ident="att.linguistic" type="atts" mode="change">
+                  <attList>
+                     <attDef ident="lemma" mode="delete"/>
+                     <attDef ident="lemmaRef" mode="delete"/>
+                     <attDef ident="pos" mode="delete"/>
+                     <attDef ident="msd" mode="delete"/>
+                     <attDef ident="join" mode="delete"/>
+                  </attList>
+               </classSpec>
+               <!--Checking module textstructure-->
+               <moduleRef key="textstructure" include="TEI text body div"/>
+               <elementSpec ident="TEI" mode="change">
+                  <attList>
+                     <attDef ident="version" mode="delete"/>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                     <attDef ident="type" mode="delete"/>
+                     <attDef ident="subtype" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="text" mode="change">
+                  <attList>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                     <attDef ident="type" mode="delete"/>
+                     <attDef ident="subtype" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="body" mode="change">
+                  <attList>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <elementSpec ident="div" mode="change">
+                  <attList>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                     <attDef ident="type" mode="delete"/>
+                     <attDef ident="subtype" mode="delete"/>
+                  </attList>
+               </elementSpec>
+               <!--Checking module certainty-->
+               <moduleRef key="certainty" include="certainty"/>
+               <elementSpec ident="certainty" mode="change">
+                  <attList>
+                     <attDef ident="type" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="locus" mode="change">
+                        <valList mode="add" type="closed">
+                           <valItem ident="value"/>
+                        </valList>
+                     </attDef>
+                     <attDef ident="assertedValue" mode="delete"/>
+                     <attDef ident="given" mode="delete"/>
+                     <attDef ident="corresp" mode="delete"/>
+                     <attDef ident="cert" mode="delete"/>
+                     <attDef ident="resp" mode="delete"/>
+                     <attDef ident="source" mode="delete"/>
+                     <attDef ident="type" mode="delete"/>
+                     <attDef ident="subtype" mode="delete"/>
+                  </attList>
+               </elementSpec>
+            </schemaSpec>
+         </div>
+      </body>
+   </text>
+</TEI>
