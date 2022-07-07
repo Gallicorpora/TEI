@@ -3,13 +3,13 @@ message: "If you use this corpus, please cite it as below."
 authors:
  - family-names: Christensen
     given-names: Kelly
-    orcid: https://orcid.org/0000-0002-7236-874X
+    orcid: "https://orcid.org/0000-0002-7236-874X"
   - family-names: Pinche
     given-names: Ariane
-    orcid: https://orcid.org/0000-0002-7843-5050
+    orcid: "https://orcid.org/0000-0002-7843-5050"
   - family-names: Gabay
     given-names: Simon
-    orcid: https://orcid.org/0000-0001-9094-4475
+    orcid: "https://orcid.org/0000-0001-9094-4475"
 title: "Donn\xE9es TEI du projet Gallicorpora"
-date-released: 2022
+date-released: 2022-07-07
 url: "https://github.com/Gallicorpora/HTR-incunable-15e-siecle"
