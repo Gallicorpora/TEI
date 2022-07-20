@@ -547,9 +547,9 @@ Custom:Entry#2
          <div rend="toc" xml:id="TEIModelling">
             <head>TEI Modelling</head>
             <p>The SegmOnto-Gallic(orpor)a guidelines are not a subset of the TEI: all elements remain available.
-               However, it recommends or requires the use of specific elements, which will be
-               described below, and the most important of which is the compulsory use of
-                  <gi>sourceDoc</gi> on top of the traditional <gi>teiHeader</gi> and <gi>text</gi>:
+               However, the guidelines recommend or require the use of specific elements, which will be
+               described below, the most important of which is the compulsory use of a
+                  <gi>sourceDoc</gi> in addition to the required elements <gi>teiHeader</gi> and <gi>text</gi>:
                   <egXML xmlns="http://www.tei-c.org/ns/Examples">
                   <TEI>
                      <teiHeader> Supplies descriptive and declarative metadata associated with a
@@ -560,18 +560,22 @@ Custom:Entry#2
                   </TEI>
                </egXML>
             </p>
-            <p>All source documents encoded with these guidelines are part of the Bibliothèque nationale de 
+            <p>All source documents encoded with the SegmOnto-Gallic(orpor)a guidelines are part of the Bibliothèque nationale de 
                France's (BnF) Gallica collections. Metadata in the <gi>teiHeader</gi> are generated automatically from
-            the IIIF Image API of the digital image on Gallica and the SRU API of the BnF. The structure of the
+               the IIIF Image API of the digital images on Gallica and the SRU API of the BnF's catalogue général. 
+               If the physical document, whose digitized pages were encoded, was successfully found 
+               in BnF catalogue, greater detail is given to certain elements of the <gi>teiHeader</gi>, 
+               such as the <gi>forename</gi> and <gi>surname</gi> of the <gi>author</gi> in the <gi>titleStmt</gi>. The structure of the
             <gi>teiHeader</gi> is therefore designed to be compatible with the IIIF API's data structure, which is JSON,
-            and the SRU API's data structure, Marc XML.</p>
+            and the SRU API's data structure, which is Marc XML (marxchange). When the catalogue général's datat is used, 
+            a third external source also provides data to the <gi>teiHeader</gi>, the catalogue du Système Universitaire de Documentation (Sudoc).</p>
 
             <div xml:id="header">
                <head>Header</head>
-               <p>The composition of the <gi>teiHeader</gi> goes beyond the minimal
-                     <gi>fileDesc</gi> with its four components: <gi>titleStmt</gi>,
-                  <gi>extent</gi>, <gi>publicationStmt</gi>, and <gi>sourceDesc</gi>; and requires
-                  the use of <gi>profileDesc</gi> and <gi>encodingDesc</gi>: 
+               <p>The composition of the <gi>teiHeader</gi> goes beyond the most minimal
+                     <gi>fileDesc</gi> and includes four components: <gi>titleStmt</gi>,
+                  <gi>extent</gi>, <gi>publicationStmt</gi>, and <gi>sourceDesc</gi>. Furthermore, 
+                  the <gi>teiHeader</gi> requires the use of <gi>profileDesc</gi> and <gi>encodingDesc</gi>: 
                   <!-- EXAMPLE -->
                   <egXML xmlns="http://www.tei-c.org/ns/Examples">
                      <teiHeader>
@@ -591,21 +595,69 @@ Custom:Entry#2
                      </teiHeader>
                   </egXML>
                </p>
+               
                <div xml:id="titleStmt">
                   <head>Title statement</head>
-                  <p>There is no additional requirements to the TEI, but the following
-                     recommendations: <list>
-                        <!-- à modifier -->
-                        <item>SegmOnto <hi rend="italic">recommends</hi> the use of <att>type</att>
-                           on <gi>title</gi> (with values either <val>full</val> or <val>abbr</val>)
-                           to record both the full bibliographic title of the lexicographic resource
-                           and the preferred abbreviated title for easy reference, should one
-                           exist.</item>
-                        <item>When using <gi>persName</gi>, SegmOnto <hi rend="italic"
-                              >recommends</hi> to further structure the name with elements
-                              <gi>forename</gi> and <gi>surname</gi>.</item>
+                  <div xml:id="titleStmt-description">
+                  <head>Description</head>
+                  <p>SegmOnto-Gallic(orpor)a pipeline automatically generates a <gi>titleStmt</gi>.
+                     This element contains the following elements:<list>
+                        <item><gi>title</gi>: generated automatically from either the clean title 
+                           recorded in the BnF's catalogue général (Unimarc zone A200) 
+                           or the title recorded in the IIIF manifest (IIIF manifest "Title" label).</item>
+                        <item><gi>author</gi>: generated automatically from either the BnF's catalogue général 
+                           (Unimarc datafield 700 and/or 701) or the list of authors recorded in the IIIF manifest 
+                           (IIIF manifest "Creator" label).
+                           <list>
+                              <item>i. If we use the BnF catalogue général, all data about an author can be found in either 
+                                 Unimarc zone 700, which is reserved for one and only one principal author of a work, 
+                                 and/or in zone 701, which records information about one or more secondary authors. 
+                                 The SegmOnto-Gallic(orpor)a guidelines do not distinguish between principal and secondary authors 
+                                 because Unimarc's restrictions require the encoder to arbitrarily promote only one author 
+                                 as the primary author, even in cases when multiple people are equally responsible 
+                                 for a work's creation. In Unimarc, the subfields of zones 700 and 701 are identical and 
+                                 provide the <gi>teiHeader</gi> with the following information about a work's author(s):
+                                    <list>
+                                       <item><gi>forename</gi>: an author's first name(s) or secondary names 
+                                          (Unimarc zone B700 and/or zone B701, anything that is not "van der," "de la," "de," "du," "von," or "van")</item>
+                                       <item><gi>namelink</gi>: a part of the name that connects the first name and last name 
+                                          (Unimarc zone B700 and/or zone B701, a part that is either "van der," "de la," "de," "du," "von," or "van")</item>
+                                       <item><gi>surname</gi>: an author's family name or primary name (Unimarc zone A700 and/or zone A701)</item>
+                                       <item><att>target</att> of <gi>ptr</gi>: the International Standard Name Identifier (ISNI) of the author 
+                                          (Unimarc zone O700 and/or zone O701)</item>
+                                    </list>
+                              </item>
+                              <item>ii. If the BnF's catalogue général cannot be used, meaning the physical exemplar of the digital document was not found, 
+                              data about the author(s) is derived from the IIIF manifest. Because the IIIF manifest does not distinguish parts of a name, 
+                              the TEI element <gi>name</gi> is used to encompass everything recorded in the "Creator" field, after first removing 
+                                 parenthetical information that might be included after the name, as in the case of "()"
+                                 <list>
+                                    <item><gi>name</gi>: the author's name (IIIF manifest "Creator" label)</item>
+                                 </list>
+                              </item>
+                           </list>
+                        </item>
+                        <item><gi>respStmt</gi>: names and ORCID of the individuals who applied the 
+                           SegmOnto-Gallic(orpor)a guidelines to the digital edition. 
+                           The content of these elements can be modified in the configuration file 
+                           which the SegmOnto-Gallic(corpor)a pipeline uses to generate the <gi>respStmt</gi>.
+                        <list>
+                           <item><gi>resp</gi>: brief prosaic description of how the digital edition was created, 
+                              eg. "Transformation from ALTO4 to TEI by"</item>
+                           <item><gi>persName</gi>
+                              <list>
+                                 <item><gi>forename</gi>: first name(s) of an individual responsible for the edition</item>
+                                 <item><gi>surname</gi>: family name of an individual responsible for the edition</item>
+                                 <item><att>target</att> of <gi>ptr</gi>: Open Researcher and Contributor ID (ORCID) of an individual responsible for the edition</item>
+                              </list>
+                           </item>
+                        </list>
+                        </item>
                      </list>
                   </p>
+                  </div>
+                  <div>
+                     <head>Example of Title Statement</head>
                   <egXML xmlns="http://www.tei-c.org/ns/Examples">
                      <titleStmt>
                         <title>Oeuvres posthumes de M. de Montesquieu</title>
@@ -635,27 +687,61 @@ Custom:Entry#2
                         </respStmt>
                      </titleStmt>
                   </egXML>
+                  </div>
+               <div>
+                  <head>Example of YAML Configuration File</head>
+                  <egXML xmlns="http://www.tei-c.org/ns/Examples">
+responsibility:
+   text: "Transformation from ALTO4 to TEI by"
+
+   resp: [
+     {"forename":"Kelly", 
+     "surname":"Christensen", 
+     "ptr":{"type":"orcid","target":"000000027236874X"}},
+     
+     {"forename":"Simon",
+     "surname":"Gabay", 
+     "ptr":{"type":"orcid","target":"0000000190944475"}},
+     
+     {"forename":"Ariane",
+     "surname":"Pinche",
+     "ptr":{"type":"orcid","target":"0000000278435050"}}
+   ]
+                  </egXML>
                </div>
+               </div>
+               
+               <div xml:id="extent">
+                  <head>Extent</head>
+                  <p>The element <gi>extent</gi> represents the number of images files which the SegmOnto-Gallic(corpor)a pipeline processed in order to create the digital edition.</p>
+                  <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                     <extent>
+                        <measure unit="images" n="50"/>
+                     </extent>
+                  </egXML>
+               </div>
+               
                <div xml:id="publicationStmt">
                   <head>Publication Statement</head>
-                  <p>There is no additional requirements to the TEI, but the following
-                     recommendations: 
-                     <!-- vérifier qu'il est pareil -->
-                     <list>
-                        <item>In <gi>publicationStmt</gi>, SegmOnto <hi rend="italic">requires</hi>
-                           the use of <gi>availability</gi> to record the <gi>licence</gi> of the
-                           given lexicographic resource. In other words, a SegmOnto <hi
-                              rend="italic">must</hi> include explicit information on the conditions
-                           under which the given resource can be used. </item>
-                        <item>In addition to <gi>publisher</gi> and <gi>distributor</gi>, the
-                              <gi>publicationStmt</gi> in SegmOnto <hi rend="italic">may</hi>
-                           include information on any other <gi>authority</gi> responsible for
-                           creating or making the resource available. </item>
-                        <item>If using <gi>authority</gi>, SegmOnto <hi rend="italic">requires</hi>
-                           the use of <att>role</att> with values <val>funder</val>,
-                              <val>sponsor</val> or <val>rightsHolder</val>.</item>
-                     </list>
-                  </p>
+                  <div xml:id="publicationStmt-description">
+                  <head>Description</head>
+                    <p>The <gi>publicationStmt</gi> is generated automtically from information registered in 
+                       the SegmOnto-Gallic(orpor)a pipeline configuration file.
+                       <list>
+                          <item><gi>publisher</gi>: </item>
+                          <item><gi>authority</gi>: organization responsible for creating or making the resource available.</item>
+                          <item><gi>availability</gi>: information on the conditions under which the given resource can be used, 
+                             including the status of its availability (<att>status</att>) and the licence's type (<att>n</att>).
+                             <list>
+                                <item><att>target</att> of <gi>licence</gi>: URL to the lexicographic resource's licence</item>
+                             </list>
+                          </item>
+                          <item><att>when</att> of <gi>date</gi>: the day the SegmOnto-Gallic(orpor)a pipline generated the digital edition</item>
+                       </list>
+                    </p>
+                  </div>
+               <div>
+                  <head>Example of Publication Statement</head>
                   <egXML xmlns="http://www.tei-c.org/ns/Examples">
                      <publicationStmt>
                         <publisher>Gallic(orpor)a</publisher>
@@ -667,14 +753,63 @@ Custom:Entry#2
                      </publicationStmt>
                   </egXML>
                </div>
+               <div>
+                  <head>Example of YAML Configuration File</head>
+                  <egXML xmlns="http://www.tei-c.org/ns/Examples">
+publisher: "Gallic(orpor)a"
+authority: "BnF DATALab"
+availability: {"status": "restricted", "n":"cc-by"}
+licence: {"target":"https://creativecommons.org/licenses/by/4.0/"}
+                  </egXML>
+               </div>
+                  </div>
+               
                <div xml:id="sourceDesc">
                   <head>Source Description</head>
-                  <!-- à modifier, expliquer les éléments <bibl>, <msDesc> -->
-                  <p>Because a transcription is taken from a specific source, SegmOnto requires,
-                     possibly together with a <gi>bibl</gi> element, the use of <gi>msDesc</gi>,
-                     which provides precise metadata to identify the source of the
-                     transcription.</p>
+                  <div xml:id="sourceDesc-description">
+                  <head>Description</head>
+                  <p>Because a transcription is derived from a specific source, SegmOnto-Gallic(orpor)a requires two elements:
+                     <list>
+                        <item><gi>bibl</gi>: bibliographic data about the source of the transcription, specifically the physical exemplar from which the digital images were taken
+                        <list>
+                           <item>* <att>target</att> of <gi>ptr</gi>: the URL to the document in the catalogue (in controlfield tag="003" [marcxchange])</item>
+                           <item><gi>author</gi>: the same information provided in the <gi>titleStmt</gi> (<ptr target="#titleStmt"/>), but with an attribute <att>ref</att> that refers to the author's <att>xml:id</att> in the <gi>titleStmt</gi></item>
+                           <item><gi>title</gi>: the same title provided in the <gi>titleStmt</gi> (<ptr target="#titleStmt"/>)</item>
+                           <item>* <gi>pubPlace</gi>: this elements contains the city or other encoded information (in datafield "210," subfield code "a" [marcxchange]) and it presents country code in <att>key</att> (in datafield "102," subfield code "a" [marcxchange])</item>
+                           <item>* <gi>publisher</gi>: this elements contains the name of the publisher, whether they are an individual or an organization (in datafield "210," subfield code "c" [marcxchange])</item>
+                           <item><gi>date</gi>: if the physical exemplar was found in the BnF catalogue général, this elements presents the year of the document's publication in the attribute <att>when</att> (in datafield "100," subfield code "a," characters 9-13, or datafield "210," subfield code "d" [marcxchange])
+                              as well as the BnF's degree of certainty in the attributes <att>cert</att> (in datafield "100," subfield code "a," 8th character) and <att>resp</att> (always BnF); the text contained in this element is either the year in the BnF catalogue or the date in the IIIF manifest (in "Date" field [JSON])</item>
+                        </list>
+                        </item>
+                        <item><gi>msDesc</gi>
+                           <list>
+                              <item><gi>msIdentifier</gi>: metadata to identify the the source of the transcription, including both the physical exemplar and the digital edition on Gallica
+                                 <list>
+                                    <item>* <att>key</att> of <gi>country</gi>: country code describing the location of the institution that conserves the physical document (in datafield "801," subfield code "a" [marcxchange])</item>
+                                    <item><gi>settlement</gi>: city in which the institution is located</item>
+                                    <item><gi>repository</gi>: name of the institution (in "Repository" field [JSON])</item>
+                                    <item><gi>idno</gi>: identifier of the physical exemplar in the institution's catalogue (in datafield "930," subfield code "a" [marcxchange] or "Shelfmark" field [JSON])</item>
+                                    <item><gi>altIdentifier</gi>: provides a second identifier for the digitised exemplar of the document
+                                    <list>
+                                       <item><tag>idno type="ark"</tag>: the Archival Resource Key (ARK) of the digitised exemplar used to make the transcription</item>
+                                    </list>
+                                    </item>
+                                 </list>
+                              </item>
+                              <item><gi>physDesc</gi>: metadata about the physical exemplar whose digital images were used for the transcription
+                                 <list>
+                                    <item><gi>objectDesc</gi>: note about the document's material description (in datafield "200," subfield code "b" [marcxchange])</item>
+                                 </list>
+                              </item>
+                        </list>
+                        </item>
+                     </list>
+                     * only if the physical exemplar was found in the BnF catalogue général
+                  </p>
+                  </div>
                   
+                  <div xml:id="sourceDesc-tei">
+                  <head>Example of Source Description</head>
                   <egXML xmlns="http://www.tei-c.org/ns/Examples">
                      <sourceDesc>
                         <bibl>
@@ -708,8 +843,62 @@ Custom:Entry#2
                         </msDesc>
                      </sourceDesc>
                   </egXML>
+                  </div>
                   
-                  <!-- ajouter un exemple qui montre où se trouve ces infos dans l'unimarc -->
+                  <div xml:id="sourceDesc-unimarc">
+                  <head>Example of Unimarc Relevant to Source Description</head>
+                     <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                        <mxc:record xmlns:mxc="info:lc/xmlns/marcxchange-v2">
+                           [...]
+                           <!-- in <bibl>, <ptr target="http://catalogue.bnf.fr/ark:/12148/cb30970215z"/> -->
+                           <mxc:controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb30970215z</mxc:controlfield>
+                           [...]
+                           <!-- in <bibl>, <date when="1783" cert="high" resp="BNF">1783</date> -->
+                           <mxc:datafield tag="100" ind1=" " ind2=" ">
+                              <mxc:subfield code="a">19970701d1783    m  y0frey50      ba</mxc:subfield>
+                              <!-- code "d" within "19970701d1783" means the monograph was complete when issued or issued within one calendar year, 
+                                 and therefore the certainty about the date is considered to be "high"-->
+                           </mxc:datafield>
+                           [...]
+                           <!-- in <bibl>, <pubPlace key="GB"> -->
+                           <mxc:datafield tag="102" ind1=" " ind2=" ">
+                              <mxc:subfield code="a">GB</mxc:subfield>
+                           </mxc:datafield>
+                           [...]
+                           <!-- in objectDesc>, <p>Texte imprimé</p> -->
+                           <mxc:datafield tag="200" ind1="1" ind2=" ">
+                              <mxc:subfield code="b">Texte imprimé</mxc:subfield>
+                           </mxc:datafield>
+                           [...]
+                           <!-- in <bibl>, <pubPlace>Londres</pubPlace> -->
+                           <mxc:datafield tag="210" ind1=" " ind2=" ">
+                              <mxc:subfield code="a">Londres</mxc:subfield>
+                              <!-- in <bibl>, <publisher>de Bure fils aîné</publisher> -->
+                              <mxc:subfield code="c">de Bure fils aîné</mxc:subfield>
+                           </mxc:datafield>
+                           [...]
+                           <!-- in <msDesc>, <country key="FR"/> -->
+                           <mxc:datafield tag="801" ind1=" " ind2="0">
+                              <mxc:subfield code="a">FR</mxc:subfield>
+                           </mxc:datafield>
+                           [...]
+                           <!-- in <msDesc>, <idno>Z-29892</idno> -->
+                           <mxc:datafield tag="930" ind1=" " ind2=" ">
+                              <mxc:subfield code="a">8-BL-34469</mxc:subfield>
+                           </mxc:datafield>
+                           [...]
+                        </mxc:record>
+                     </egXML>
+                  </div>
+                  
+                  <div xml:id="sourceDesc-iiif">
+                     <head>Example of IIIF Data Relevant to Source Description</head>
+                     <egXML xmlns="http://www.tei-c.org/ns/Examples">
+{'Repository': 'Bibliothèque nationale de France', 
+'Shelfmark': 'Bibliothèque nationale de France, département Littérature et art, Z-29892',
+'Date': '1783'}
+                     </egXML>
+                  </div>
                   
                   
                </div>
