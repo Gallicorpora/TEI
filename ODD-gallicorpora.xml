@@ -642,19 +642,25 @@ Custom:Entry#2
                   <!-- EXAMPLE -->
                   <egXML xmlns="http://www.tei-c.org/ns/Examples">
                      <teiHeader>
+                        
+                        <!-- fileDesc: Contains a full bibliographic description of the TEI document. -->
                         <fileDesc>
-                           <!-- Contains a full bibliographic description of the TEI document. -->
-                           <titleStmt/>  <!-- Bibliographic description: title, author, individuals responsible for text-acquisition pipeline production -->
-                           <extent/>  <!-- Number of ALTO-XML source files processed -->
-                           <publicationStmt/>  <!-- Information about the organization responsible for the text-acquisition pipeline production -->
-                           <sourceDesc/>  <!-- Bibliographic description of physical and digital examplars of the source document -->
+                           <!-- titleStmt: Bibliographic description including title, author, individuals responsible for text-acquisition pipeline production. -->
+                           <titleStmt/>
+                           <!-- extent: Number of ALTO-XML source files processed. -->
+                           <extent/>
+                           <!-- publicationStmt: Information about the organization responsible for the text-acquisition pipeline production. -->
+                           <publicationStmt/>
+                           <!-- sourceDesc: Bibliographic description of physical and digital examplars of the source document. -->
+                           <sourceDesc/>
                         </fileDesc>
-                        <profileDesc>
-                           <!-- Provides the languages and sublanguages used in the source document. -->
-                        </profileDesc>
-                        <encodingDesc>
-                           <!-- Provides information about segmentation and HTR engines used to produce the transcription. -->
-                        </encodingDesc>
+                        
+                        <!-- profileDesc: Provides the languages and sublanguages used in the source document. -->
+                        <profileDesc></profileDesc>
+                        
+                        <!-- encodingDesc: Provides information about segmentation and HTR engines used to produce the transcription. -->
+                        <encodingDesc></encodingDesc>
+                        
                      </teiHeader>
                   </egXML>
                </p>
