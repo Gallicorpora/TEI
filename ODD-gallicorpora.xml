@@ -564,81 +564,81 @@ Custom:Entry#2
                   </TEI>
                </egXML>
             </p>
-            <p>All digital exemplars of source documents encoded with the SegmOnto-Gallic(orpor)a guidelines are part of the Bibliothèque nationale de 
-               France's (BnF) Gallica collection. All exemplars in Gallica consists of a collection of digitised images taken from a physical source 
-               document. Conceptually, there are three documents articulated in the <gi>teiHeader</gi>. First, there is a digital resource, encoded in XML-TEI, 
-               which includes a transcription of a source document. Second, there is the digital exemplars of that source document which were processed with 
-               machine learning models to create a transcription. And finally, there is the physical source document itself. The <gi>teiHeader</gi> incorporates 
-               metadata about all three of these documents and draws on no fewer than four data sources:
-               <list>
-                  <item>Digital Lexographic Resource
-                     <list>
-                        <item>A transcription of and lexographic resource about a source document. 
-                           It is created by the  the Gallic(orpor)a pipeline and conforms to the SegmOnto-Gallic(orpor)a guidelines.
-                        </item>
-                        <item>Metadata Source:
-                           <list>
-                              <item>Yet Another Markup Language (YAML) configuration file
-                                 <list>
-                                    <item>Customisable configuration file in which the pipeline's users specify details about the lexographic resource.</item>
-                                    <item>Data structured in YAML.</item>
-                                 </list>
-                              </item>
-                           </list>
-                        </item>
-                     </list>
-                  </item>
-                  <item>Digital Exemplars of the Source Document
-                     <list>
-                        <item>Ditised images from which the lexographic resource's transcription was made. These images are distributed via Gallica.
-                        </item>
-                        <item>Metadata Source:
-                           <list>
-                              <item>International Image Interoperability Framework (IIIF) Image API
-                                 <list>
-                                    <item>API capable of retrieving a document's IIIF manifest.</item>
-                                    <item>Data structured in JSON.</item>
-                                 </list>
-                              </item>
-                           </list>
-                        </item>
-                     </list>
-                  </item>
-                  <item>Physical Source Document
-                     <list>
-                        <item>The physical source of the digitised images. This source is usually conserved within one of the BnF's departments or libraries.
-                        </item>
-                        <item>Metadata Source:
-                           <list>
-                              <item>BnF's "Search/Retrieve via URL" (SRU) API
-                                 <list>
-                                    <item>API that queries the BnF's general catalogue</item>
-                                    <item>Data structured in Marc XML, also known as Unimarc</item>
-                                 </list>
-                              </item>
-                              <item>Système Universitaire de Documentation's (Sudoc) website
-                                 <list>
-                                    <item>Online, open-source database of archival institutions</item>
-                                    <item>Data structured in HTML</item>
-                                 </list>
-                              </item>
-                           </list>
-                        </item>
-                     </list>
-                  </item>
-               </list>
-               If the catalogue entry for the physical source document was successfully found in the BnF's general catalogue, thanks 
-               to a query sent to the BnF's SRU API, the <gi>teiHeader</gi> draws from that data source as well as the Sudoc site. If the physical source 
-               document was not located in the catalogue, however, the <gi>teiHeader</gi> relies exclusively on the IIIF manifest. Thus, while the 
-               the SegmOnto-Gallic(orpor)a guidelines are designed for transcriptions of source documents conserved by the BnF, they can be 
-               adopted for any archival institution and the Gallic(orpor)a pipeline can generate a <gi>teiHeader</gi> for any digital exemplars that have a IIIF manifest.</p>
 
             <div xml:id="header">
                <head>Header</head>
-               <p>The composition of the <gi>teiHeader</gi> goes beyond a minimal
-                     <gi>fileDesc</gi> and includes four components: <gi>titleStmt</gi>,
-                  <gi>extent</gi>, <gi>publicationStmt</gi>, and <gi>sourceDesc</gi>. Furthermore, 
-                  the <gi>teiHeader</gi> requires the use of <gi>profileDesc</gi> and <gi>encodingDesc</gi>: 
+               <p>All digital exemplars of source documents encoded with the SegmOnto-Gallic(orpor)a guidelines are part of the Bibliothèque nationale de 
+                  France's (BnF) Gallica collection. All exemplars in Gallica consist of a collection of digitised images taken from a physical source 
+                  document. Conceptually, there are three documents articulated in the <gi>teiHeader</gi>. First, there is a digital resource, encoded in XML-TEI, 
+                  which includes a transcription of a source document. Second, there is the digital exemplars of that source document which were processed with 
+                  machine learning models to create a transcription. And finally, there is the physical source document itself. The <gi>teiHeader</gi> incorporates 
+                  metadata about all three of these documents and draws on no fewer than four data sources:
+                  <list>
+                     <item>Digital Lexographic Resource
+                        <list>
+                           <item>A transcription of and lexographic resource about a source document. 
+                              It is created by the  the Gallic(orpor)a pipeline and conforms to the SegmOnto-Gallic(orpor)a guidelines.
+                           </item>
+                           <item>Metadata Source:
+                              <list>
+                                 <item>Yet Another Markup Language (YAML) configuration file
+                                    <list>
+                                       <item>Customisable configuration file in which the pipeline's users specify details about the lexographic resource.</item>
+                                       <item>Data structured in YAML.</item>
+                                    </list>
+                                 </item>
+                              </list>
+                           </item>
+                        </list>
+                     </item>
+                     <item>Digital Exemplars of the Source Document
+                        <list>
+                           <item>Ditised images from which the lexographic resource's transcription was made. These images are distributed via Gallica.
+                           </item>
+                           <item>Metadata Source:
+                              <list>
+                                 <item>International Image Interoperability Framework (IIIF) Image API
+                                    <list>
+                                       <item>API capable of retrieving a document's IIIF manifest.</item>
+                                       <item>Data structured in JSON.</item>
+                                    </list>
+                                 </item>
+                              </list>
+                           </item>
+                        </list>
+                     </item>
+                     <item>Physical Source Document
+                        <list>
+                           <item>The physical source of the digitised images. This source is usually conserved within one of the BnF's departments or libraries.
+                           </item>
+                           <item>Metadata Source:
+                              <list>
+                                 <item>BnF's "Search/Retrieve via URL" (SRU) API
+                                    <list>
+                                       <item>API that queries the BnF's general catalogue</item>
+                                       <item>Data structured in Marc XML, also known as Unimarc</item>
+                                    </list>
+                                 </item>
+                                 <item>Système Universitaire de Documentation's (Sudoc) website
+                                    <list>
+                                       <item>Online, open-source database of archival institutions</item>
+                                       <item>Data structured in HTML</item>
+                                    </list>
+                                 </item>
+                              </list>
+                           </item>
+                        </list>
+                     </item>
+                  </list>
+                  If the catalogue entry for the physical source document was successfully found in the BnF's general catalogue, thanks 
+                  to a query sent to the BnF's SRU API, the <gi>teiHeader</gi> draws from that data source as well as the Sudoc site. If the physical source 
+                  document was not located in the catalogue, however, the <gi>teiHeader</gi> relies exclusively on the IIIF manifest. Thus, while the 
+                  the SegmOnto-Gallic(orpor)a guidelines are designed for transcriptions of source documents conserved by the BnF, they can be 
+                  adopted for any archival institution and the Gallic(orpor)a pipeline can generate a <gi>teiHeader</gi> for any digital exemplars that have a IIIF manifest.</p>
+               
+               <p>The composition of the <gi>teiHeader</gi> goes beyond a minimal <gi>fileDesc</gi> and includes four components: 
+                  <gi>titleStmt</gi>, <gi>extent</gi>, <gi>publicationStmt</gi>, and <gi>sourceDesc</gi>. 
+                  Furthermore, the <gi>teiHeader</gi> requires the use of <gi>profileDesc</gi> and <gi>encodingDesc</gi>: 
                   <!-- EXAMPLE -->
                   <egXML xmlns="http://www.tei-c.org/ns/Examples">
                      <teiHeader>
@@ -890,26 +890,27 @@ licence: {"target":"https://creativecommons.org/licenses/by/4.0/"}
                   <egXML xmlns="http://www.tei-c.org/ns/Examples">
                      <sourceDesc>
                         <bibl>
-                           <ptr target="http://catalogue.bnf.fr/ark:/12148/cb30970215z"/>
-                           <author ref="#Mo1">
+                           <ptr target="http://catalogue.bnf.fr/ark:/12148/cb30271542q"/>
+                           <author ref="#Co1">
                               <persName>
-                                 <surname>Montesquieu</surname>
-                                 <ptr type="isni" target="0000000120957940"/>
+                                 <forename>Pierre</forename>
+                                 <surname>Corneille</surname>
+                                 <ptr type="isni" target="0000000121296128"/>
                               </persName>
                            </author>
-                           <title>Oeuvres posthumes de M. de Montesquieu</title>
-                           <pubPlace key="GB">Londres</pubPlace>
-                           <publisher>de Bure fils aîné</publisher>
-                           <date when="1783" cert="high" resp="BNF">1783</date>
+                           <title>Cinna, ou La clémence d'Auguste</title>
+                           <pubPlace key="FR">Imprimé à Rouen aux despens de l'autheur</pubPlace>
+                           <publisher>T. Quinet</publisher>
+                           <date when="1643" cert="high" resp="BNF">1643</date>
                         </bibl>
                         <msDesc>
                            <msIdentifier>
                               <country key="FR"/>
-                              <settlement>Information not available.</settlement>
+                              <settlement>Paris</settlement>
                               <repository>Bibliothèque nationale de France</repository>
-                              <idno>Z-29892</idno>
+                              <idno>RES-YF-620</idno>
                               <altIdentifier>
-                                 <idno type="ark">bpt6k6495917k</idno>
+                                 <idno type="ark">btv1b8610802d</idno>
                               </altIdentifier>
                            </msIdentifier>
                            <physDesc>
@@ -927,19 +928,19 @@ licence: {"target":"https://creativecommons.org/licenses/by/4.0/"}
                      <egXML xmlns="http://www.tei-c.org/ns/Examples">
                         <mxc:record xmlns:mxc="info:lc/xmlns/marcxchange-v2">
                            [...]
-                           <!-- in <bibl>, <ptr target="http://catalogue.bnf.fr/ark:/12148/cb30970215z"/> -->
-                           <mxc:controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb30970215z</mxc:controlfield>
+                           <!-- in <bibl>, <ptr target="http://catalogue.bnf.fr/ark:/12148/cb30271542q"/> -->
+                           <mxc:controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb30271542q</mxc:controlfield>
                            [...]
-                           <!-- in <bibl>, <date when="1783" cert="high" resp="BNF">1783</date> -->
+                           <!-- in <bibl>, <date when="1643" cert="high" resp="BNF">1643</date> -->
                            <mxc:datafield tag="100" ind1=" " ind2=" ">
-                              <mxc:subfield code="a">19970701d1783    m  y0frey50      ba</mxc:subfield>
-                              <!-- code "d" within "19970701d1783" means the monograph was complete when issued or issued within one calendar year, 
+                              <mxc:subfield code="a">19970701d1643    m  y0frey50      ba</mxc:subfield>
+                              <!-- code "d" within "19970701d1643" means the monograph was complete when issued or issued within one calendar year, 
                                  and therefore the certainty about the date is considered to be "high"-->
                            </mxc:datafield>
                            [...]
-                           <!-- in <bibl>, <pubPlace key="GB"> -->
+                           <!-- in <bibl>, <pubPlace key="FR"> -->
                            <mxc:datafield tag="102" ind1=" " ind2=" ">
-                              <mxc:subfield code="a">GB</mxc:subfield>
+                              <mxc:subfield code="a">FR</mxc:subfield>
                            </mxc:datafield>
                            [...]
                            <!-- in objectDesc>, <p>Texte imprimé</p> -->
@@ -947,11 +948,11 @@ licence: {"target":"https://creativecommons.org/licenses/by/4.0/"}
                               <mxc:subfield code="b">Texte imprimé</mxc:subfield>
                            </mxc:datafield>
                            [...]
-                           <!-- in <bibl>, <pubPlace>Londres</pubPlace> -->
+                           <!-- in <bibl>, <pubPlace>Imprimé à Rouen aux despens de l'autheur</pubPlace> -->
                            <mxc:datafield tag="210" ind1=" " ind2=" ">
-                              <mxc:subfield code="a">Londres</mxc:subfield>
-                              <!-- in <bibl>, <publisher>de Bure fils aîné</publisher> -->
-                              <mxc:subfield code="c">de Bure fils aîné</mxc:subfield>
+                              <mxc:subfield code="a">Imprimé à Rouen aux despens de l'autheur</mxc:subfield>
+                              <!-- in <bibl>, <publisher>T. Quinet</publisher> -->
+                              <mxc:subfield code="c">T. Quinet</mxc:subfield>
                            </mxc:datafield>
                            [...]
                            <!-- in <msDesc>, <country key="FR"/> -->
@@ -959,9 +960,9 @@ licence: {"target":"https://creativecommons.org/licenses/by/4.0/"}
                               <mxc:subfield code="a">FR</mxc:subfield>
                            </mxc:datafield>
                            [...]
-                           <!-- in <msDesc>, <idno>Z-29892</idno> -->
+                           <!-- in <msDesc>, <idno>RES-YF-620</idno> -->
                            <mxc:datafield tag="930" ind1=" " ind2=" ">
-                              <mxc:subfield code="a">8-BL-34469</mxc:subfield>
+                              <mxc:subfield code="a">RES-YF-620</mxc:subfield>
                            </mxc:datafield>
                            [...]
                         </mxc:record>
@@ -972,8 +973,8 @@ licence: {"target":"https://creativecommons.org/licenses/by/4.0/"}
                      <head>Example of IIIF Data Relevant to Source Description</head>
                      <egXML xmlns="http://www.tei-c.org/ns/Examples">
 {'Repository': 'Bibliothèque nationale de France', 
-'Shelfmark': 'Bibliothèque nationale de France, département Littérature et art, Z-29892',
-'Date': '1783'}
+'Shelfmark': 'Bibliothèque nationale de France, département Réserve des livres rares, RES-YF-621',
+'Date': '1643'}
                      </egXML>
                   </div>
                   
