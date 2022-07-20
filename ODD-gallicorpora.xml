@@ -567,12 +567,11 @@ Custom:Entry#2
 
             <div xml:id="header">
                <head>Header</head>
-               <p>All digital exemplars of source documents encoded with the SegmOnto-Gallic(orpor)a guidelines are part of the Bibliothèque nationale de 
-                  France's (BnF) Gallica collection. All exemplars in Gallica consist of a collection of digitised images taken from a physical source 
-                  document. Conceptually, there are three documents articulated in the <gi>teiHeader</gi>. First, there is a digital resource, encoded in XML-TEI, 
-                  which includes a transcription of a source document. Second, there is the digital exemplars of that source document which were processed with 
-                  machine learning models to create a transcription. And finally, there is the physical source document itself. The <gi>teiHeader</gi> incorporates 
-                  metadata about all three of these documents and draws on no fewer than four data sources:
+               <p>Conceptually, there are three documents articulated in the <gi>teiHeader</gi>. First, there is a digital resource, which this ODD describes and 
+                  which includes a transcription of a source document. Second, there is the digital exemplar of that source document which was processed with 
+                  machine learning models to create a transcription. And finally, there is the physical source document itself. The SegmOnto-Gallic(orpor)a guidelines 
+                  are designed to encode digital exemplars of source documents in the Bibliothèque nationale de France's (BnF) Gallica collection. 
+                  The <gi>teiHeader</gi>, therefore, draws on four data sources to supply information about these three documents:
                   <list>
                      <item>Digital Lexographic Resource
                         <list>
