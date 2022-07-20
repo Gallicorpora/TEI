@@ -552,27 +552,90 @@ Custom:Entry#2
                   <gi>sourceDoc</gi> in addition to the required elements <gi>teiHeader</gi> and <gi>text</gi>:
                   <egXML xmlns="http://www.tei-c.org/ns/Examples">
                   <TEI>
-                     <teiHeader> Supplies descriptive and declarative metadata associated with a
-                        digital resource or set of resources. </teiHeader>
-                     <sourceDoc> Contains a transcription or other representation of a single source
-                        document. </sourceDoc>
-                     <text> Contains a single text of any kind, whether unitary or composite </text>
+                     <teiHeader>
+                        <!-- Supplies descriptive and declarative metadata associated with a digital resource or set of resources. -->
+                        </teiHeader>
+                     <sourceDoc> 
+                        <!--Contains a transcription or other representation of a single source document. -->
+                     </sourceDoc>
+                     <text>
+                        <!-- Contains a single text of any kind, whether unitary or composite. -->
+                     </text>
                   </TEI>
                </egXML>
             </p>
-            <p>All source documents encoded with the SegmOnto-Gallic(orpor)a guidelines are part of the Bibliothèque nationale de 
-               France's (BnF) Gallica collections. Metadata in the <gi>teiHeader</gi> are generated automatically from
-               the IIIF Image API of the digital images on Gallica and the SRU API of the BnF's catalogue général. 
-               If the physical document, whose digitized pages were encoded, was successfully found 
-               in BnF catalogue, greater detail is given to certain elements of the <gi>teiHeader</gi>, 
-               such as the <gi>forename</gi> and <gi>surname</gi> of the <gi>author</gi> in the <gi>titleStmt</gi>. The structure of the
-            <gi>teiHeader</gi> is therefore designed to be compatible with the IIIF API's data structure, which is JSON,
-            and the SRU API's data structure, which is Marc XML (marxchange). When the catalogue général's datat is used, 
-            a third external source also provides data to the <gi>teiHeader</gi>, the catalogue du Système Universitaire de Documentation (Sudoc).</p>
+            <p>All digital exemplars of source documents encoded with the SegmOnto-Gallic(orpor)a guidelines are part of the Bibliothèque nationale de 
+               France's (BnF) Gallica collection. All exemplars in Gallica consists of a collection of digitised images taken from a physical source 
+               document. Conceptually, there are three documents articulated in the <gi>teiHeader</gi>. First, there is a digital resource, encoded in XML-TEI, 
+               which includes a transcription of a source document. Second, there is the digital exemplars of that source document which were processed with 
+               machine learning models to create a transcription. And finally, there is the physical source document itself. The <gi>teiHeader</gi> incorporates 
+               metadata about all three of these documents and draws on no fewer than four data sources:
+               <list>
+                  <item>Digital Lexographic Resource
+                     <list>
+                        <item>A transcription of and lexographic resource about a source document. 
+                           It is created by the  the Gallic(orpor)a pipeline and conforms to the SegmOnto-Gallic(orpor)a guidelines.
+                        </item>
+                        <item>Metadata Source:
+                           <list>
+                              <item>Yet Another Markup Language (YAML) configuration file
+                                 <list>
+                                    <item>Customisable configuration file in which the pipeline's users specify details about the lexographic resource.</item>
+                                    <item>Data structured in YAML.</item>
+                                 </list>
+                              </item>
+                           </list>
+                        </item>
+                     </list>
+                  </item>
+                  <item>Digital Exemplars of the Source Document
+                     <list>
+                        <item>Ditised images from which the lexographic resource's transcription was made. These images are distributed via Gallica.
+                        </item>
+                        <item>Metadata Source:
+                           <list>
+                              <item>International Image Interoperability Framework (IIIF) Image API
+                                 <list>
+                                    <item>API capable of retrieving a document's IIIF manifest.</item>
+                                    <item>Data structured in JSON.</item>
+                                 </list>
+                              </item>
+                           </list>
+                        </item>
+                     </list>
+                  </item>
+                  <item>Physical Source Document
+                     <list>
+                        <item>The physical source of the digitised images. This source is usually conserved within one of the BnF's departments or libraries.
+                        </item>
+                        <item>Metadata Source:
+                           <list>
+                              <item>BnF's "Search/Retrieve via URL" (SRU) API
+                                 <list>
+                                    <item>API that queries the BnF's general catalogue</item>
+                                    <item>Data structured in Marc XML, also known as Unimarc</item>
+                                 </list>
+                              </item>
+                              <item>Système Universitaire de Documentation's (Sudoc) website
+                                 <list>
+                                    <item>Online, open-source database of archival institutions</item>
+                                    <item>Data structured in HTML</item>
+                                 </list>
+                              </item>
+                           </list>
+                        </item>
+                     </list>
+                  </item>
+               </list>
+               If the catalogue entry for the physical source document was successfully found in the BnF's general catalogue, thanks 
+               to a query sent to the BnF's SRU API, the <gi>teiHeader</gi> draws from that data source as well as the Sudoc site. If the physical source 
+               document was not located in the catalogue, however, the <gi>teiHeader</gi> relies exclusively on the IIIF manifest. Thus, while the 
+               the SegmOnto-Gallic(orpor)a guidelines are designed for transcriptions of source documents conserved by the BnF, they can be 
+               adopted for any archival institution and the Gallic(orpor)a pipeline can generate a <gi>teiHeader</gi> for any digital exemplars that have a IIIF manifest.</p>
 
             <div xml:id="header">
                <head>Header</head>
-               <p>The composition of the <gi>teiHeader</gi> goes beyond the most minimal
+               <p>The composition of the <gi>teiHeader</gi> goes beyond a minimal
                      <gi>fileDesc</gi> and includes four components: <gi>titleStmt</gi>,
                   <gi>extent</gi>, <gi>publicationStmt</gi>, and <gi>sourceDesc</gi>. Furthermore, 
                   the <gi>teiHeader</gi> requires the use of <gi>profileDesc</gi> and <gi>encodingDesc</gi>: 
@@ -600,55 +663,60 @@ Custom:Entry#2
                   <head>Title statement</head>
                   <div xml:id="titleStmt-description">
                   <head>Description</head>
-                  <p>SegmOnto-Gallic(orpor)a pipeline automatically generates a <gi>titleStmt</gi>.
-                     This element contains the following elements:<list>
+                  <p>The Gallic(orpor)a pipeline automatically generates a <gi>titleStmt</gi>. This element contains the following elements:
+                     <list>
                         <item><gi>title</gi>: generated automatically from either the clean title 
-                           recorded in the BnF's catalogue général (Unimarc zone A200) 
-                           or the title recorded in the IIIF manifest (IIIF manifest "Title" label).</item>
-                        <item><gi>author</gi>: generated automatically from either the BnF's catalogue général 
-                           (Unimarc datafield 700 and/or 701) or the list of authors recorded in the IIIF manifest 
-                           (IIIF manifest "Creator" label).
+                           recorded in the BnF's general catalogue (Unimarc zone A200) 
+                           or the title recorded in the IIIF manifest (value of "Title" in JSON).</item>
+                        <item><gi>author</gi>: generated automatically from either the BnF's general catalogue  
+                           (Unimarc zone 700 and/or 701) or the author(s) recorded in the IIIF manifest 
+                           (value of "Creator" in JSON).
                            <list>
-                              <item>i. If we use the BnF catalogue général, all data about an author can be found in either 
-                                 Unimarc zone 700, which is reserved for one and only one principal author of a work, 
-                                 and/or in zone 701, which records information about one or more secondary authors. 
-                                 The SegmOnto-Gallic(orpor)a guidelines do not distinguish between principal and secondary authors 
-                                 because Unimarc's restrictions require the encoder to arbitrarily promote only one author 
-                                 as the primary author, even in cases when multiple people are equally responsible 
-                                 for a work's creation. In Unimarc, the subfields of zones 700 and 701 are identical and 
-                                 provide the <gi>teiHeader</gi> with the following information about a work's author(s):
+                              <item>i. If the BnF's general catalogue data are used, 
+                                 meaning a catalogue entry was located for the very physical source document whose digital exemplars were transcribed, 
+                                 all data about an author can be found in either Unimarc zone 700, which is reserved 
+                                 for one and only one principal author of a work, and/or in zone 701, which records information 
+                                 about one or more secondary authors. The SegmOnto-Gallic(orpor)a guidelines do not distinguish 
+                                 between principal and secondary authors because Unimarc's restrictions permit only one author 
+                                 to be recorded as a work's primary author, even in cases when multiple people are equally responsible 
+                                 for a work's creation. Therefore, the Segmonto-Galli(corpor)a guidelines do not further
+                                 promote this potentially arbitrary distinction between primary and secondary authors. 
+                                 All individuals encoded in Unimarc zones 700 and 701 are treated equally in the <gi>teiHeader</gi>. 
+                                 In Unimarc, the subfields of zones 700 and 701 are identical and provide information to the following children 
+                                 of the <gi>author</gi> element:
                                     <list>
-                                       <item><gi>forename</gi>: an author's first name(s) or secondary names 
-                                          (Unimarc zone B700 and/or zone B701, anything that is not "van der," "de la," "de," "du," "von," or "van")</item>
+                                       <item><gi>forename</gi>: an author's first name(s) or otherwise secondary name(s) 
+                                          (Unimarc zone B700 and/or zone B701, anything that is not "van der," "de la," "de," "du," "von," or "van").</item>
                                        <item><gi>namelink</gi>: a part of the name that connects the first name and last name 
-                                          (Unimarc zone B700 and/or zone B701, a part that is either "van der," "de la," "de," "du," "von," or "van")</item>
-                                       <item><gi>surname</gi>: an author's family name or primary name (Unimarc zone A700 and/or zone A701)</item>
+                                          (Unimarc zone B700 and/or zone B701, a part that is either "van der," "de la," "de," "du," "von," or "van").</item>
+                                       <item><gi>surname</gi>: an author's family name or primary name (Unimarc zone A700 and/or zone A701).</item>
                                        <item><att>target</att> of <gi>ptr</gi>: the International Standard Name Identifier (ISNI) of the author 
-                                          (Unimarc zone O700 and/or zone O701)</item>
+                                          (Unimarc zone O700 and/or zone O701).</item>
                                     </list>
                               </item>
-                              <item>ii. If the BnF's catalogue général cannot be used, meaning the physical exemplar of the digital document was not found, 
-                              data about the author(s) is derived from the IIIF manifest. Because the IIIF manifest does not distinguish parts of a name, 
-                              the TEI element <gi>name</gi> is used to encompass everything recorded in the "Creator" field, after first removing 
-                                 parenthetical information that might be included after the name, as in the case of "()"
+                              <item>ii. If the BnF's general catalogue data are not used, 
+                                 meaning a catalogue entry was not located for the very physical source document whose digital exemplars were transcribed, 
+                                 data about the author(s) is derived exclusively from the IIIF manifest. Because the IIIF manifest does not distinguish 
+                                 parts of a name, the TEI element <gi>name</gi> is used to encompass everything recorded in IIIF manifest's field "Creator," 
+                                 after first removing parenthetical information that might follow the author's name. This unwanted 
+                                 information can include dates, such as "(1606-1684)," as well as bibliographic notes, such as "Auteur du texte."
                                  <list>
-                                    <item><gi>name</gi>: the author's name (IIIF manifest "Creator" label)</item>
+                                    <item><gi>name</gi>: the author's name (value of "Creator" in JSON)</item>
                                  </list>
                               </item>
                            </list>
                         </item>
-                        <item><gi>respStmt</gi>: names and ORCID of the individuals who applied the 
-                           SegmOnto-Gallic(orpor)a guidelines to the digital edition. 
-                           The content of these elements can be modified in the configuration file 
-                           which the SegmOnto-Gallic(corpor)a pipeline uses to generate the <gi>respStmt</gi>.
+                        <item><gi>respStmt</gi>: contains details about each individual who applied the SegmOnto-Gallic(orpor)a guidelines to the digital 
+                           lexographic resource. Details for the following elements can be modified in the YAML configuration file that the 
+                           Gallic(orpor)a pipeline uses to generate the <gi>respStmt</gi>:
                         <list>
                            <item><gi>resp</gi>: brief prosaic description of how the digital edition was created, 
-                              eg. "Transformation from ALTO4 to TEI by"</item>
+                              which might resemble the phrase "Transformation from ALTO4 to TEI by."</item>
                            <item><gi>persName</gi>
                               <list>
-                                 <item><gi>forename</gi>: first name(s) of an individual responsible for the edition</item>
-                                 <item><gi>surname</gi>: family name of an individual responsible for the edition</item>
-                                 <item><att>target</att> of <gi>ptr</gi>: Open Researcher and Contributor ID (ORCID) of an individual responsible for the edition</item>
+                                 <item><gi>forename</gi>: first name(s) of an individual responsible for the edition.</item>
+                                 <item><gi>surname</gi>: family name of an individual responsible for the edition.</item>
+                                 <item><att>target</att> of <gi>ptr</gi>: Open Researcher and Contributor ID (ORCID) of an individual responsible for the edition.</item>
                               </list>
                            </item>
                         </list>
@@ -660,11 +728,12 @@ Custom:Entry#2
                      <head>Example of Title Statement</head>
                   <egXML xmlns="http://www.tei-c.org/ns/Examples">
                      <titleStmt>
-                        <title>Oeuvres posthumes de M. de Montesquieu</title>
-                        <author xml:id="Mo1">
+                        <title>Cinna, ou La clémence d'Auguste</title>
+                        <author xml:id="Co1">
                            <persName>
-                              <surname>Montesquieu</surname>
-                              <ptr type="isni" target="0000000120957940"/>
+                              <forename>Pierre</forename>
+                              <surname>Corneille</surname>
+                              <ptr type="isni" target="0000000121296128"/>
                            </persName>
                         </author>
                         <respStmt>
@@ -688,9 +757,9 @@ Custom:Entry#2
                      </titleStmt>
                   </egXML>
                   </div>
-               <div>
-                  <head>Example of YAML Configuration File</head>
-                  <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                  <div>
+                    <head>Example of YAML Configuration File</head>
+                    <egXML xmlns="http://www.tei-c.org/ns/Examples">
 responsibility:
    text: "Transformation from ALTO4 to TEI by"
 
@@ -707,16 +776,16 @@ responsibility:
      "surname":"Pinche",
      "ptr":{"type":"orcid","target":"0000000278435050"}}
    ]
-                  </egXML>
-               </div>
+                    </egXML>
+                 </div>
                </div>
                
                <div xml:id="extent">
                   <head>Extent</head>
-                  <p>The element <gi>extent</gi> represents the number of images files which the SegmOnto-Gallic(corpor)a pipeline processed in order to create the digital edition.</p>
+                  <p>The element <gi>extent</gi> represents the number of images files which the Gallic(corpor)a pipeline processed in order to create the digital lexographic resource.</p>
                   <egXML xmlns="http://www.tei-c.org/ns/Examples">
                      <extent>
-                        <measure unit="images" n="50"/>
+                        <measure unit="images" n="20"/>
                      </extent>
                   </egXML>
                </div>
@@ -726,17 +795,17 @@ responsibility:
                   <div xml:id="publicationStmt-description">
                   <head>Description</head>
                     <p>The <gi>publicationStmt</gi> is generated automtically from information registered in 
-                       the SegmOnto-Gallic(orpor)a pipeline configuration file.
+                       the Gallic(orpor)a pipeline's YAML configuration file.
                        <list>
-                          <item><gi>publisher</gi>: </item>
-                          <item><gi>authority</gi>: organization responsible for creating or making the resource available.</item>
+                          <item><gi>publisher</gi>: organization responsible for publishing and distributing the digital lexographic resource.</item>
+                          <item><gi>authority</gi>: organization financially responsible for making the resource available.</item>
                           <item><gi>availability</gi>: information on the conditions under which the given resource can be used, 
-                             including the status of its availability (<att>status</att>) and the licence's type (<att>n</att>).
+                             including the status of its availability (<att>status</att>) and the type of licence (<att>n</att>).
                              <list>
-                                <item><att>target</att> of <gi>licence</gi>: URL to the lexicographic resource's licence</item>
+                                <item><att>target</att> of <gi>licence</gi>: URL to the lexicographic resource's licence.</item>
                              </list>
                           </item>
-                          <item><att>when</att> of <gi>date</gi>: the day the SegmOnto-Gallic(orpor)a pipline generated the digital edition</item>
+                          <item><att>when</att> of <gi>date</gi>: the day the Gallic(orpor)a pipline generated the resource.</item>
                        </list>
                     </p>
                   </div>
@@ -768,43 +837,51 @@ licence: {"target":"https://creativecommons.org/licenses/by/4.0/"}
                   <head>Source Description</head>
                   <div xml:id="sourceDesc-description">
                   <head>Description</head>
-                  <p>Because a transcription is derived from a specific source, SegmOnto-Gallic(orpor)a requires two elements:
+                  <p>Because a transcription is derived from a specific source document, the SegmOnto-Gallic(orpor)a guidelines require that the <gi>sourceDesc</gi> has the following two elements:
                      <list>
-                        <item><gi>bibl</gi>: bibliographic data about the source of the transcription, specifically the physical exemplar from which the digital images were taken
-                        <list>
-                           <item>* <att>target</att> of <gi>ptr</gi>: the URL to the document in the catalogue (in controlfield tag="003" [marcxchange])</item>
-                           <item><gi>author</gi>: the same information provided in the <gi>titleStmt</gi> (<ptr target="#titleStmt"/>), but with an attribute <att>ref</att> that refers to the author's <att>xml:id</att> in the <gi>titleStmt</gi></item>
-                           <item><gi>title</gi>: the same title provided in the <gi>titleStmt</gi> (<ptr target="#titleStmt"/>)</item>
-                           <item>* <gi>pubPlace</gi>: this elements contains the city or other encoded information (in datafield "210," subfield code "a" [marcxchange]) and it presents country code in <att>key</att> (in datafield "102," subfield code "a" [marcxchange])</item>
-                           <item>* <gi>publisher</gi>: this elements contains the name of the publisher, whether they are an individual or an organization (in datafield "210," subfield code "c" [marcxchange])</item>
-                           <item><gi>date</gi>: if the physical exemplar was found in the BnF catalogue général, this elements presents the year of the document's publication in the attribute <att>when</att> (in datafield "100," subfield code "a," characters 9-13, or datafield "210," subfield code "d" [marcxchange])
-                              as well as the BnF's degree of certainty in the attributes <att>cert</att> (in datafield "100," subfield code "a," 8th character) and <att>resp</att> (always BnF); the text contained in this element is either the year in the BnF catalogue or the date in the IIIF manifest (in "Date" field [JSON])</item>
-                        </list>
+                        <item><gi>bibl</gi>: bibliographic data about the physical source document. 
+                           Some of the information in these elements is only provided if the source document was located in the BnF general catalogue. This condition is denoted 
+                           with an asterisk.
+                         <list>
+                            <item>* <att>target</att> of <gi>ptr</gi>: the URL to the document in the catalogue (Unimarc controlfield, tag="003").</item>
+                            <item><gi>author</gi>: the same information provided in the <gi>titleStmt</gi> (<ptr target="#titleStmt"/>), but with an attribute <att>ref</att> that refers to the author's <att>xml:id</att> in the <gi>titleStmt</gi>.</item>
+                            <item><gi>title</gi>: the same title provided in the <gi>titleStmt</gi> (<ptr target="#titleStmt"/>).</item>
+                            <item>* <gi>pubPlace</gi>: the location (Unimarc zone A210) where the work was produced and it presents that location's country code in <att>key</att> (Unimarc zone A102).</item>
+                            <item>* <gi>publisher</gi>: the name of the publisher, whether they are an individual or an organization (Unimarc zone C210).</item>
+                            <item><gi>date</gi>: if the physical source document was found in the BnF's general catalogue, this elements presents the year of the document's publication in the attribute <att>when</att> 
+                               (characters 9-13 of Unimarc zone A100 or the content of Unimarc zone D210) 
+                               as well as the BnF's degree of certainty about this date in the attributes <att>cert</att> 
+                               (8th character of Unimarz zone A100) and <att>resp</att>, whose value is always "BNF" because this information came from the BnF's general catalogue. 
+                               If, however, the BnF's catalogue data are not being used, the element <gi>date</gi> can be supplied with information in the IIIF manifest (value of "Date" in JSON).</item>
+                         </list>
                         </item>
                         <item><gi>msDesc</gi>
                            <list>
-                              <item><gi>msIdentifier</gi>: metadata to identify the the source of the transcription, including both the physical exemplar and the digital edition on Gallica
+                              <item><gi>msIdentifier</gi>: bibliographic data used to identify the source of the transcription, which includes information about the 
+                                 source document's digital exmplars online as well as the physical source document itself. 
+                                 Some of the information in these elements is only provided if the source document was located in the BnF general catalogue. This condition is denoted 
+                                 with an asterisk.
                                  <list>
-                                    <item>* <att>key</att> of <gi>country</gi>: country code describing the location of the institution that conserves the physical document (in datafield "801," subfield code "a" [marcxchange])</item>
-                                    <item><gi>settlement</gi>: city in which the institution is located</item>
-                                    <item><gi>repository</gi>: name of the institution (in "Repository" field [JSON])</item>
-                                    <item><gi>idno</gi>: identifier of the physical exemplar in the institution's catalogue (in datafield "930," subfield code "a" [marcxchange] or "Shelfmark" field [JSON])</item>
-                                    <item><gi>altIdentifier</gi>: provides a second identifier for the digitised exemplar of the document
+                                    <item>* <att>key</att> of <gi>country</gi>: country code describing the location of the institution that conserves the physical source document (Unimarc zone A801).</item>
+                                    <item>* <gi>settlement</gi>: city in which the institution is located (address scraped from webpage of Sudoc search results for the institution's RCR number, which is in Unimarc zone B930.</item>
+                                    <item><gi>repository</gi>: name of the institution (value of "Repository" in JSON or address scraped from webpage of Sudoc search results for the institution's RCR number, which is in Unimarc zone B930).</item>
+                                    <item><gi>idno</gi>: the physical source document's identifier in the institution's catalogue (Unimarc zone A930 or value of "Shelfmark" in JSON).</item>
+                                    <item><gi>altIdentifier</gi>: a second identifier for the digital exemplars of the source document.
                                     <list>
-                                       <item><tag>idno type="ark"</tag>: the Archival Resource Key (ARK) of the digitised exemplar used to make the transcription</item>
+                                       <item><tag>idno type="ark"</tag>: the Archival Resource Key (ARK) of the digital exemplars used to make the transcription.</item>
                                     </list>
                                     </item>
                                  </list>
                               </item>
-                              <item><gi>physDesc</gi>: metadata about the physical exemplar whose digital images were used for the transcription
+                              <item><gi>physDesc</gi>: metadata about the physical source document.
                                  <list>
-                                    <item><gi>objectDesc</gi>: note about the document's material description (in datafield "200," subfield code "b" [marcxchange])</item>
+                                    <item>* <gi>objectDesc</gi>: note about the source document's material description (Unimarc zone B200).</item>
                                  </list>
                               </item>
                         </list>
                         </item>
                      </list>
-                     * only if the physical exemplar was found in the BnF catalogue général
+                     * only if the physical source document's catalogue entry was located in the BnF general catalogue
                   </p>
                   </div>
                   
@@ -903,62 +980,17 @@ licence: {"target":"https://creativecommons.org/licenses/by/4.0/"}
                   
                </div>
                
-               <!-- ADD <encodingDesc> -->
-               <div xml:id="encodingDesc">
-                  <head>Encoding description</head>
-                  <p>Because a mechanical transcription is produced by a tool, and because tools can
-                     produce slightly different data (height of the baseline, etc.), it is crucial
-                     to indicate which one was used with <gi>appInfo</gi>. <egXML
-                        xmlns="http://www.tei-c.org/ns/Examples">
-                        <appInfo>
-                           <application ident="eScriptorium" version="1">
-                              <label>eScriptorium</label>
-                              <ptr target="https://gitlab.inria.fr/scripta/escriptorium"/>
-                           </application>
-                           <application ident="Kraken" version="3.0.5">
-                              <label>Kraken</label>
-                              <ptr target="https://github.com/mittagessen/kraken"/>
-                           </application>
-                        </appInfo>
-                     </egXML>
-                  </p>
-                  <p>Because SegmOnto uses precisely defined zones, it is important to provide a
-                     link for each of them via the <gi>taxonomy</gi> element in <gi>classDecl</gi>.
-                        <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                        <classDecl>
-                           <taxonomy xml:id="SegmOnto">
-                              <bibl>
-                                 <title>SegmOnto</title>
-                                 <ptr target="https://github.com/segmonto"/>
-                              </bibl>
-                              <category xml:id="SegmOntoZones">
-                                 <catDesc xml:id="DamageZone">
-                                    <title>DamageZone</title>
-                                    <ptr
-                                       target="https://segmonto.github.io/gd/gdZ/DamageZone/"
-                                    />
-                                 </catDesc>
-                              </category>
-                              <category xml:id="SegmOntoLines">
-                                 <catDesc xml:id="DefaultLine">
-                                    <title>DefaultLine</title>
-                                    <ptr
-                                       target="https://segmonto.github.io/gd/gdL/DefaultLine/"
-                                    />
-                                 </catDesc>
-                              </category>
-                           </taxonomy>
-                        </classDecl>
-                     </egXML>
-                  </p>
-               </div>
                <div xml:id="profileDesc">
                   <head>Profile Description</head>
-                  <p>In plain TEI, <gi>profileDesc</gi> is an optional element, whereas in SegmOnto,
+                  <p>Normally in the TEI, <gi>profileDesc</gi> is an optional element, whereas in SegmOnto,
                      it is required. This is because the nature of transcriptions is such that it is
-                     essential to identify and record the language(s) used as part of the resource
-                     metadata. </p>
-                  <p>That's why <gi>profileDesc</gi> requires <gi>langUsage</gi> and at least one <gi>language</gi> element.</p>
+                     essential to identify and record the language(s) used as part of the resource's 
+                     metadata.</p>
+                  <p>That's why <gi>profileDesc</gi> requires <gi>langUsage</gi> and at least one <gi>language</gi> element. 
+                     The Gallic(orpor)a pipeline derives this information from both the digital exemplars' IIIF manifest 
+                     (value of "Language" in JSON), which is the text contained in the element <gi>language</gi>, and 
+                     the physical source document's metadata in the BnF's general catalogue (Unimarc zone A101), 
+                     which is given as the attribute <att>ident</att>.</p>
                   <egXML xmlns="http://www.tei-c.org/ns/Examples">
                      <profileDesc>
                         <langUsage>
@@ -967,6 +999,65 @@ licence: {"target":"https://creativecommons.org/licenses/by/4.0/"}
                      </profileDesc>
                   </egXML>
                </div>
+               
+               <!-- ADD <encodingDesc> -->
+               <div xml:id="encodingDesc">
+                  <head>Encoding description</head>
+                  <div>
+                     <head>Apparatus</head>
+                     <p>Because a mechanical transcription is produced by a tool, and because tools can
+                        produce slightly different data (height of the baseline, etc.), it is crucial
+                        to indicate which one was used with <gi>appInfo</gi>. 
+                        <egXML
+                           xmlns="http://www.tei-c.org/ns/Examples">
+                           <appInfo>
+                              <application ident="Kraken" version="4.1.2">
+                                 <label>Kraken</label>
+                                 <ptr target="https://github.com/mittagessen/kraken"/>
+                              </application>
+                           </appInfo>
+                        </egXML>
+                     </p>
+                  </div>
+                  
+                  <div>
+                     <head>Taxonomy</head>
+                     <p>Because SegmOnto uses precisely defined zones, it is important to provide a
+                        link for each of them via the <gi>taxonomy</gi> element in <gi>classDecl</gi>. 
+                        The SegmOnto-Gallic(orpor)a guidelines recommend to only include as many SegmOnto 
+                        zones as the transcription uses, and the Galli(orpor)a pipeline only generates a 
+                        <gi>catDesc</gi> for zones whose tags it identifies in the mechanically produced 
+                        transcription.
+                           <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                           <classDecl>
+                              <taxonomy xml:id="SegmOnto">
+                                 <bibl>
+                                    <title>SegmOnto</title>
+                                    <ptr target="https://github.com/segmonto"/>
+                                 </bibl>
+                                 <category xml:id="SegmOntoZones">
+                                    <catDesc xml:id="DamageZone">
+                                       <title>DamageZone</title>
+                                       <ptr
+                                          target="https://segmonto.github.io/gd/gdZ/DamageZone/"
+                                       />
+                                    </catDesc>
+                                 </category>
+                                 <category xml:id="SegmOntoLines">
+                                    <catDesc xml:id="DefaultLine">
+                                       <title>DefaultLine</title>
+                                       <ptr
+                                          target="https://segmonto.github.io/gd/gdL/DefaultLine/"
+                                       />
+                                    </catDesc>
+                                 </category>
+                              </taxonomy>
+                           </classDecl>
+                        </egXML>
+                     </p>
+                  </div>
+               </div>
+               
             </div>
             <div rend="toc" xml:id="sourceDoc">
                <head>Source Document</head>
