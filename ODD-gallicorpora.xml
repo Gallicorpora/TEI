@@ -54,7 +54,7 @@
             <div xml:id="team">
                <head>Team</head>
                <p>SegmOnto was designed by a group of international researchers. The final version
-                  of the guidelines has been carried by S. Gabay, J.-B. Camps and A. Pinche.</p>
+                  of the guidelines has been carried by S. Gabay, J.-B. Camps, A. Pinche, and K. Christensen.</p>
                <p>
                   <figure>
                      <graphic url="media/people/sg.jpg"/>
@@ -96,6 +96,24 @@
                      <item>Claire Jahan</item>
                      <item>Peter Stokes</item>
                   </list> We thank them for their constant help, their useful feedback and above all
+                  their time. </p>
+               <p>
+                  <figure>
+                     <graphic url="media/people/ap.jpg"/>
+                     <figDesc>portait Kelly Christensen</figDesc>
+                  </figure>
+                  <hi rend="bold">Kelly Christensen</hi> has a PhD in historical musicology.
+                  As an intern working on the project Galli(corpor)a in 2022 with Simon Gabay and 
+                  Ariane Pinche, she put in place the Gallic(orpor)a pipeline described in this ODD, 
+                  which relies on tools developed by additional contributors. She also helped develop  
+                  the mapping that connects the format in which predicted text is exported, ALTO, 
+                  and the TEI. Her tool, alto2tei, realises this mapping in Python and generated the 
+                  TEI-XML files on which this ODD is based.</p>
+               <p>Additional contributors are: <list>
+                  <item>Daniel Stoekl</item>
+                  <item>Claire Jahan</item>
+                  <item>Peter Stokes</item>
+               </list> We thank them for their constant help, their useful feedback and above all
                   their time. </p>
             </div>
             <div rend="toc" xml:id="howto">
@@ -564,7 +582,6 @@ Custom:Entry#2
                   </TEI>
                </egXML>
             </p>
-
             <div xml:id="header">
                <head>Header</head>
                <p>Conceptually, there are three documents articulated in the <gi>teiHeader</gi>. First, there is a digital resource, which this ODD describes and 
@@ -1492,7 +1509,7 @@ licence: {"target":"https://creativecommons.org/licenses/by/4.0/"}
                            <Page WIDTH="2586"
                               HEIGHT="3631"
                               PHYSICAL_IMG_NR="2"
-                              ID="eSc_dummypage_">
+                              ID="page_2">
                               <PrintSpace HPOS="0"
                                  VPOS="0"
                                  WIDTH="2586"
@@ -1504,37 +1521,57 @@ licence: {"target":"https://creativecommons.org/licenses/by/4.0/"}
                      </egXML>
                   </div>
                   <div>
-                     <head>Mapping</head>
-                     <table rend="boxed" rows="6" cols="2">
+                     <head>Mapping of Page <gi>zone</gi></head>
+                     <table rend="boxed" rows="7" cols="3">
                         <row role="data">
-                           <cell role="ALTO">ALTO schema</cell>
-                           <cell role="space">    </cell>
                            <cell role="TEI">TEI model</cell>
+                           <cell role="space">    </cell>
+                           <cell role="ALTO">ALTO schema</cell>
                         </row>
                         <row role="data">
-                           <cell role="ALTO"><tag>Page PHYSICAL_IMAGE_NR="value"</tag></cell>
+                           <cell role="TEI"><tag>surface xml:id=[ALTO-XML file name / folio number]</tag></cell>
                            <cell/>
+                           <cell/>
+                        </row>
+                        <row role="data">
                            <cell role="TEI"><tag>surface n="value"</tag></cell>
+                           <cell/>
+                           <cell role="ALTO"><tag>Page PHYSICAL_IMAGE_NR="value"</tag></cell>
                         </row>
                         <row role="data">
-                           <cell role="ALTO"><tag>Page HPOS="value"</tag></cell>
-                           <cell/>
                            <cell role="TEI"><tag>surface ulx="value"</tag></cell>
+                           <cell/>
+                           <cell role="ALTO"><tag>Page HPOS="value"</tag></cell>
                         </row>
                         <row role="data">
-                           <cell role="ALTO"><tag>Page VPOS="value"</tag></cell>
-                           <cell/>
                            <cell role="TEI"><tag>surface uly="value"</tag></cell>
+                           <cell/>
+                           <cell role="ALTO"><tag>Page VPOS="value"</tag></cell>
                         </row>
                         <row role="data">
-                           <cell role="ALTO"><tag>Page WIDTH="value"</tag></cell>
-                           <cell/>
                            <cell role="TEI"><tag>surface lrx="value"</tag></cell>
+                           <cell/>
+                           <cell role="ALTO"><tag>Page WIDTH="value"</tag></cell>
                         </row>
                         <row role="data">
-                           <cell role="ALTO"><tag>Page HEIGHT="value"</tag></cell>
-                           <cell/>
                            <cell role="TEI"><tag>surface lry="value"</tag></cell>
+                           <cell/>
+                           <cell role="ALTO"><tag>Page HEIGHT="value"</tag></cell>
+                        </row>
+                     </table>
+                  </div>
+                  <div>
+                     <head>Mapping of Page <gi>graphic</gi></head>
+                     <table rend="boxed" rows="2" cols="3">
+                        <row role="data">
+                           <cell role="TEI">TEI model</cell>
+                           <cell role="space">    </cell>
+                           <cell role="ALTO">ALTO schema</cell>
+                        </row>
+                        <row role="data">
+                           <cell role="TEI"><tag>zone source="[URI]/[folio number]/full/full/0/native.jpg"</tag></cell>
+                           <cell/>
+                           <cell/>
                         </row>
                      </table>
                   </div>
@@ -1552,16 +1589,27 @@ licence: {"target":"https://creativecommons.org/licenses/by/4.0/"}
                </div>
                
                <div>
-                  <head>Layer 1: Zone</head>
-                  <p>Description</p>
+                  <head>Layer 1: SegmOnto Zone</head>
+                  <p>A SegmOnto zone describes a region on a source document's page that does not necessarily contain text, as in the case of a 
+                     StampZone or DamageZone. Thus, when mapped to the TEI element <gi>zone</gi>, this element does not have to include children. 
+                     It does, however, require certain attributes standard to all <gi>zone</gi> elements in the SegmOnto-Gallic(orpor)a guidelines. 
+                     These attributes describe the region's classification or function (<att>type</att>), the X coordinate where the region starts 
+                     (<att>ulx</att>), the Y coordinate where it starts (<att>uly</att>), the X coordinate where it ends (<att>lrx</att>), the Y 
+                     coordinate where it ends (<att>lry</att>), a sequence of X,Y coordinates that outline the region's polygonal perimeter (<att>points</att>), 
+                     and the IIIF URI that will display that region in a IIIF Image API viewer (<att>source</att>).</p>
+                  <p>The region of a SegmOnto zone and the region of an inter-word space are the only two <gi>zone</gi> elements that can and will not, 
+                     respectively, have any descendants. Another particularity of the SegmOnto zone is that it, along with the <gi>zone</gi> 
+                     for a SegmOnto line, has a composite classification, composed of a <att>type</att>, <att>subtype</att>, and <att>n</att>. Furthemore, the 
+                     <gi>zone</gi> element for a SegmOnto zone and SegmOnto line have an attribute <gi>correp</gi>, which associates its classification 
+                     with one described in the <gi>taxonomy</gi> (<ptr target="#Taxonomy"/>).</p>
                   <div>
-                     <head>Example of ALTO</head>
+                     <head>Example of ALTO of <gi>TextBlock</gi></head>
                      <egXML xmlns="http://www.tei-c.org/ns/Examples">
                         <TextBlock HPOS="323"
                            VPOS="336"
                            WIDTH="2056"
                            HEIGHT="2812"
-                           ID="eSc_textblock_87171671"
+                           ID="textblock_0"
                            TAGREFS="BT2062">
                            <Shape><Polygon POINTS="2379 336 2379 3148 323 3148 323 336"/></Shape>
                            [...]
@@ -1569,172 +1617,608 @@ licence: {"target":"https://creativecommons.org/licenses/by/4.0/"}
                      </egXML>
                   </div>
                   <div>
-                     <head>Mapping</head>
-                     <table rend="boxed" rows="6" cols="2">
+                     <head>Mapping of SegmOnto Zone <gi>zone</gi></head>
+                     <table rend="boxed" rows="12" cols="3">
                         <row role="data">
-                           <cell role="ALTO">ALTO schema</cell>
-                           <cell role="space">    </cell>
                            <cell role="TEI">TEI model</cell>
+                           <cell role="space">- calculation -</cell>
+                           <cell role="ALTO">ALTO schema</cell>
                         </row>
                         <row role="data">
-                           <cell role="ALTO"><tag>TextBlock HPOS="value"</tag></cell>
-                           <cell/>
-                           <cell role="TEI"><tag>zone ulx="value"</tag></cell>
-                        </row>
-                        <row role="data">
-                           <cell role="ALTO"><tag>TextBlock VPOS="value"</tag></cell>
-                           <cell/>
-                           <cell role="TEI"><tag>zone uly="value"</tag></cell>
-                        </row>
-                        <row role="data">
-                           <cell role="ALTO"><tag>TextBlock WIDTH="value"</tag></cell>
-                           <cell/>
-                           <cell role="TEI"><tag>zone lrx="value"</tag></cell>
-                        </row>
-                        <row role="data">
-                           <cell role="ALTO"><tag>TextBlock HEIGHT="value"</tag></cell>
-                           <cell/>
-                           <cell role="TEI"><tag>zone lry="value"</tag></cell>
-                        </row>
-                        <row role="data">
-                           <cell role="ALTO"><tag>TextBlock ID="value"</tag></cell>
-                           <cell/>
                            <cell role="TEI"><tag>zone xml:id="[folio number]-[value]-[count of TextBlock]"</tag></cell>
+                           <cell/>
+                           <cell role="ALTO"><tag>TextBlock ID="value"</tag></cell>
                         </row>
                         <row role="data">
-                           <cell role="ALTO"><tag>TextBlock TAGREFS="[value]:subtype#number"</tag></cell>
-                           <cell/>
                            <cell role="TEI"><tag>zone type="value"</tag></cell>
+                           <cell/>
+                           <cell role="ALTO"><tag>TextBlock TAGREFS="[value]:subtype#number"</tag></cell>
                         </row>
                         <row role="data">
-                           <cell role="ALTO"><tag>TextBlock TAGREFS="type:[value]#number"</tag></cell>
-                           <cell/>
+                           <cell role="TEI"><tag>zone corresp="#[id]"</tag></cell>
+                           <cell>search "value" in <gi>taxonomy</gi>, retrieve "id"</cell>
+                           <cell role="ALTO"><tag>TextBlock TAGREFS="[value]:subtype#number"</tag></cell>
+                        </row>
+                        <row role="data">
                            <cell role="TEI"><tag>zone subtype="value"</tag></cell>
+                           <cell/>
+                           <cell role="ALTO"><tag>TextBlock TAGREFS="type:[value]#number"</tag></cell>
                         </row>
                         <row role="data">
-                           <cell role="ALTO"><tag>TextBlock TAGREFS="type:subtype#[value]"</tag></cell>
-                           <cell/>
                            <cell role="TEI"><tag>zone n="value"</tag></cell>
+                           <cell/>
+                           <cell role="ALTO"><tag>TextBlock TAGREFS="type:subtype#[value]"</tag></cell>
                         </row>
                         <row role="data">
-                           <cell role="ALTO"><tag>Polygon POINTS="value"</tag></cell>
+                           <cell role="TEI"><tag>zone ulx="value"</tag></cell>
                            <cell/>
+                           <cell role="ALTO"><tag>TextBlock HPOS="value"</tag></cell>
+                        </row>
+                        <row role="data">
+                           <cell role="TEI"><tag>zone uly="value"</tag></cell>
+                           <cell/>
+                           <cell role="ALTO"><tag>TextBlock VPOS="value"</tag></cell>
+                        </row>
+                        <row role="data">
+                           <cell role="TEI"><tag>zone lrx="sum"</tag></cell>
+                           <cell role="space">HPOS + WDITH = "sum"</cell>
+                           <cell role="ALTO"><tag>TextBlock WIDTH="value"</tag></cell>
+                        </row>
+                        <row role="data">
+                           <cell role="TEI"><tag>zone lry="sum"</tag></cell>
+                           <cell role="space">VPOS + HEIGHT = "sum"</cell>
+                           <cell role="ALTO"><tag>TextBlock HEIGHT="value"</tag></cell>
+                        </row>
+                        <row role="data">
                            <cell role="TEI"><tag>zone points="value"</tag></cell>
+                           <cell/>
+                           <cell role="ALTO"><tag>Polygon POINTS="value"</tag></cell>
+                        </row>
+                        <row role="data">
+                           <cell role="TEI"><tag>zone source="[URI]/[folio number]/[HPOS],[VPOS],[WIDTH],[HEIGHT]/full/0/native.jpg"</tag></cell>
+                           <cell/>
+                           <cell role="ALTO"><tag>TextBlock HPOS="value"</tag>, <tag>TextBlock VPOS="value"</tag>, <tag>TextBlock WIDTH="value"</tag>, <tag>TextBlock HEIGHT="value"</tag></cell>
                         </row>
                      </table>
                   </div>
                   <div>
                      <head>Example of TEI</head>
-                     <p>Most the attributes in the <gi>zone</gi> of a block of text are directly derived from data in the <gi>TextBlock</gi> 
-                        element and its <gi>Polygon</gi> descendent. However, there are two attributes that synthesize this information with other 
-                        data from the XML-TEI encoding. The attribute <att>corresp</att> corresponds to the SegmOnto zone's <att>xml:id</att> described in 
-                        the <gi>taxonomy</gi> (<ptr target="#Taxonomy"/>). Secondly, the attribute <att>source</att> combines the same IIIF URI used 
-                        previously in the <gi>graphic</gi> element, but only a region of the source image is displayed. To specify a region, the IIIF URI 
-                        syntax requires four coordinates in the following order: the X coordinate of the upper-left-most pixel, the Y coordinate of the 
-                        upper-left-most pixel, the X coordinate of the lower-right-most pixel, and finally the Y coordinate of the lower-right-most pixel. 
-                        These four coordinates are identical to the values already mapped to the attributes <att>ulx</att>, 
-                        <att>uly</att>, <att>lrx</att>, and <att>lry</att>. Therefore, the IIIF URI is composed of the folio number and these four values.</p>
                      <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                        <zone xml:id="f11-eSc_textblock_87171671-blockCount1" 
-                           type="MainZone" 
-                           corresp="#MainZone" 
-                           subtype="none"
+                        <zone xml:id="f11-textblock_0-blockCount1" 
+                           type="MainZone" corresp="#MainZone" 
+                           subtype="none" 
                            n="none" 
-                           ulx="323"
+                           ulx="323" 
                            uly="336" 
-                           lrx="2056" 
-                           lry="2812" 
+                           lrx="2379" 
+                           lry="3148" 
                            points="2379,336 2379,3148 323,3148 323,336" 
                            source="https://gallica.bnf.fr/iiif/ark:/12148/btv1b8610802d/f11/323,336,2056,2812/full/0/native.jpg">
+                           [...]
                         </zone>
                      </egXML>
                   </div>
                </div>
                
                <div>
-                  <head>Layer 2: Line</head>
-                  <p>Description</p>
-                  <div>
-                     <head>Example of ALTO</head>
+                  <head>Layer 2: SegmOnto Line</head>
+                  <p>A SegmOnto line describes a region on a source document's page contains text and therefore most contain children that express the
+                     textual content of the line. Like all regions, the <gi>zone</gi>of a SegmOnto line requires certain standard attributes.  
+                     These attributes describe the region's classification or function (<att>type</att>), the X coordinate where the region starts 
+                     (<att>ulx</att>), the Y coordinate where it starts (<att>uly</att>), the X coordinate where it ends (<att>lrx</att>), the Y 
+                     coordinate where it ends (<att>lry</att>), a sequence of X,Y coordinates that outline the region's polygonal perimeter (<att>points</att>), 
+                     and the IIIF URI that will display that region in a IIIF Image API viewer (<att>source</att>).</p>
+                  <p>A SegmOnto line has a composite classification, composed of a <att>type</att>, <att>subtype</att>, and <att>n</att>. Furthemore, the 
+                     <gi>zone</gi> element for a SegmOnto line has an attribute <gi>correp</gi>, which associates its classification 
+                     with one described in the <gi>taxonomy</gi> (<ptr target="#Taxonomy"/>).</p>
+                  <p>What distinguishes the coordinates of a SegmOnto line from a SegmOnto zone, however, is the presence of a baseline, which is a 
+                     linear line segment and therefore has a pair of X,Y coordinates. In the TEI model, these four values are expressed in a separate 
+                     and empty element, <gi>path</gi>. The <gi>zone</gi> of a SegmOnto line has a second required child element, <gi>line</gi>, which 
+                     contains the line's text and keeps count of the number of lines in a SegmOnto zone with its attribute <gi>n</gi>.</p>
+                  <div xml:id="TextLine">
+                     <head>Example of ALTO <gi>TextLine</gi> (shallow granularity)</head>
                      <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                        
+                        <TextLine ID="textline_0"
+                           TAGREFS="LT722"
+                           BASELINE="605 944 2010 925" 
+                           HPOS="596"
+                           VPOS="777"
+                           WIDTH="1414"
+                           HEIGHT="182">
+                           <Shape><Polygon POINTS="605 944 596 816 666 795 669 795 672 795 814 810 838 792 838 789 841 789 844 789 847 789 932 804 953 789 956 789 959 789 962 789 1050 801 1323 783 1326 783 1704 798 1768 777 1771 777 1774 777 2004 798 2010 925 2004 953 1798 941 1750 956 1747 956 1744 956 605 959"/></Shape>
+                           <String CONTENT="A MONSIEVR"
+                              HPOS="596"
+                              VPOS="777"
+                              WIDTH="1414"
+                              HEIGHT="182"></String>
+                        </TextLine>
                      </egXML>
                   </div>
                   <div>
+                     <head>Mapping of SegmOnto Line <gi>zone</gi></head>
+                     <table rend="boxed" rows="12" cols="3">
+                        <row role="data">
+                           <cell role="TEI">TEI model</cell>
+                           <cell role="space">- calculation -</cell>
+                           <cell role="ALTO">ALTO schema</cell>
+                        </row>
+                        <row role="data">
+                           <cell role="TEI"><tag>zone xml:id="[folio number]-[@ID of parent TextBlock]-[value]-[count of TextLine]"</tag></cell>
+                           <cell/>
+                           <cell role="ALTO"><tag>TextLine ID="value"</tag></cell>
+                        </row>
+                        <row role="data">
+                           <cell role="TEI"><tag>zone type="value"</tag></cell>
+                           <cell/>
+                           <cell role="ALTO"><tag>TextLine TAGREFS="[value]:subtype#number"</tag></cell>
+                        </row>
+                        <row role="data">
+                           <cell role="TEI"><tag>zone corresp="#[id]"</tag></cell>
+                           <cell>search "value" in <gi>taxonomy</gi>, retrieve "id"</cell>
+                           <cell role="ALTO"><tag>TextLine TAGREFS="[value]:subtype#number"</tag></cell>
+                        </row>
+                        <row role="data">
+                           <cell role="TEI"><tag>zone subtype="value"</tag></cell>
+                           <cell/>
+                           <cell role="ALTO"><tag>TextLine TAGREFS="type:[value]#number"</tag></cell>
+                        </row>
+                        <row role="data">
+                           <cell role="TEI"><tag>zone n="value"</tag></cell>
+                           <cell/>
+                           <cell role="ALTO"><tag>TextLine TAGREFS="type:subtype#[value]"</tag></cell>
+                        </row>
+                        <row role="data">
+                           <cell role="TEI"><tag>zone ulx="value"</tag></cell>
+                           <cell/>
+                           <cell role="ALTO"><tag>TextLine HPOS="value"</tag></cell>
+                        </row>
+                        <row role="data">
+                           <cell role="TEI"><tag>zone uly="value"</tag></cell>
+                           <cell/>
+                           <cell role="ALTO"><tag>TextLine VPOS="value"</tag></cell>
+                        </row>
+                        <row role="data">
+                           <cell role="TEI"><tag>zone lrx="sum"</tag></cell>
+                           <cell role="space">HPOS + WDITH = "sum"</cell>
+                           <cell role="ALTO"><tag>TextLine WIDTH="value"</tag></cell>
+                        </row>
+                        <row role="data">
+                           <cell role="TEI"><tag>zone lry="sum"</tag></cell>
+                           <cell role="space">VPOS + HEIGHT = "sum"</cell>
+                           <cell role="ALTO"><tag>TextLine HEIGHT="value"</tag></cell>
+                        </row>
+                        <row role="data">
+                           <cell role="TEI"><tag>zone points="value"</tag></cell>
+                           <cell/>
+                           <cell role="ALTO"><tag>Polygon POINTS="value"</tag></cell>
+                        </row>
+                        <row role="data">
+                           <cell role="TEI"><tag>zone source="[URI]/[folio number]/[HPOS],[VPOS],[WIDTH],[HEIGHT]/full/0/native.jpg"</tag></cell>
+                           <cell/>
+                           <cell role="ALTO"><tag>TextLine HPOS="value"</tag>, <tag>TextBlock VPOS="value"</tag>, <tag>TextBlock WIDTH="value"</tag>, <tag>TextBlock HEIGHT="value"</tag></cell>
+                        </row>
+                     </table>
+                  </div>
+                  <div>
+                     <head>Mapping of SegmOnto Line <gi>path</gi></head>
+                     <table rend="boxed" rows="6" cols="2">
+                        <row role="data">
+                           <cell role="TEI">TEI schema</cell>
+                           <cell role="space">    </cell>
+                           <cell role="ALTO">ALTO model</cell>
+                        </row>
+                        <row role="data">
+                           <cell role="TEI"><tag>zone xml:id="[folio number]-[@ID of parent TextBlock]-[value]-[count of TextLine]-baseline"</tag></cell>
+                           <cell/>
+                           <cell role="ALTO"><tag>TextLine ID="value"</tag></cell>
+                        </row>
+                        <row role="data">
+                           <cell role="ALTO"><tag>TextLine BASELINE="value"</tag></cell>
+                           <cell/>
+                           <cell role="TEI"><tag>path points="value"</tag></cell>
+                        </row>
+                     </table>
+                  </div>
+                  <div>
+                     <head>Mapping of SegmOnto Line <gi>line</gi> (shallow granularity)</head>
+                     <table rend="boxed" rows="6" cols="2">
+                        <row role="data">
+                           <cell role="TEI">TEI schema</cell>
+                           <cell role="space">    </cell>
+                           <cell role="ALTO">ALTO model</cell>
+                        </row>
+                        <row role="data">
+                           <cell role="TEI"><tag>zone xml:id="[folio number]-[@ID of parent TextBlock]-[value]-[count of TextLine]-text"</tag></cell>
+                           <cell/>
+                           <cell role="ALTO"><tag>TextLine ID="value"</tag></cell>
+                        </row>
+                        <row role="data">
+                           <cell role="TEI"><tag>line</tag>value<tag>/line</tag></cell>
+                           <cell/>
+                           <cell role="ALTO"><tag>String CONTENT="value"</tag></cell>
+                        </row>
+                     </table>
+                  </div>
+                  <div>
                      <head>Example of TEI</head>
+                     <p></p>
                      <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                        
+                        <zone xml:id="f11-textblock_0-textline_0-lineCount1" 
+                           type="HeadingLine" 
+                           corresp="#HeadingLine" 
+                           subtype="none" 
+                           n="none" 
+                           ulx="596" 
+                           uly="777" 
+                           lrx="2010" 
+                           lry="959" 
+                           points="605,944 596,816 666,795 669,795 672,795 814,810 838,792 838,789 841,789 844,789 847,789 932,804 953,789 956,789 959,789 962,789 1050,801 1323,783 1326,783 1704,798 1768,777 1771,777 1774,777 2004,798 2010,925 2004,953 1798,941 1750,956 1747,956 1744,956 605,959" 
+                           source="https://gallica.bnf.fr/iiif/ark:/12148/btv1b8610802d/f11/596,777,1414,182/full/0/native.jpg">
+                           <path xml:id="f11-textblock_0-textline_0-lineCount1-baseline" points="605,944 2010,925"/>
+                           <line xml:id="f11-textblock_0-textline_0-lineCount1-text" n="1">A MONSIEVR</line>
+                        </zone>
                      </egXML>
+                  </div>
+                  <div>
+                     <head>Deep Granularity</head>
+                     <p>When the ALTO-XML file's granularity descends to the level of glyphs, the <gi>String</gi> element does not present 
+                        the textual content of a line in the attribute <att>CONTENT</att>, as it did in the previous example (<ptr target="#TextLine"/>). 
+                        Thus, in the case of a very descriptive ALTO-XML file, 
+                        the SegmOnto-Gallic(orpor)a guidlines require that a line's textual content is extracted and reconstructed from glyphs and 
+                        put inside the element <gi>line</gi>. The <gi>line</gi> element is a required child for a SegmOnto line's <gi>zone</gi> 
+                        element and must contain textual content.</p>
                   </div>
                </div>
                
                <div>
                   <head>Layer 3: Segment</head>
-                  <p>Description</p>
+                  <p>In ALTO-XML files with deep granularity, the element <gi>String</gi> that descends from <gi>TextLine</gi> describes only one segment 
+                     within a line, rather than the line's composition of words as in files with shallow granularity. Furthermore, the <gi>String</gi> element can either carry 
+                     textual information, which means it contains children, or it can demarcate the empty space between words, in which case it does not have 
+                     any descenents. Therefore, when an ALTO-XML file descends to a deep level of granularity, <gi>TextLine</gi> often has multiple <gi>String</gi> 
+                     children elements. On the contrary, in ALTO-XML files of shallow granularity, the <gi>TextLine</gi> element has only one child element <gi>String</gi>.
+                  </p>
+                  <p>When created using the Kraken engine, most ALTO-XML files that have deep granularity use the attribute <att>WC</att> to ascribe a degree of 
+                     certainty to a model's prediction of word segments and glyphs. 
+                     The SegmOnto-Gallic(orpor)a guidelines require that this data about a model's 
+                     prediction be conserved and represented in the TEI element <gi>certainty</gi>, specifically its attribute <att>degree</att>. 
+                     In the TEI, the element <gi>certainty</gi> requires the attribute <att>locus</att>, which describes what exactly is uncertain. 
+                     The SegmOnto-Gallic(orpor)a guidelines require that the value of <att>locus</att> is always "value" because the degree of certainty 
+                     refers to the segment's or glyph's predicted text.
+                  </p>
+                  <p>
+                     Other than the addition of the attribute <gi>WC</gi> and the different meaning of the attribute <gi>CONTENT</gi>, the region described 
+                     in the <gi>String</gi> element closely resembles the previous two layers.
+                  </p>
                   <div>
-                     <head>Example of ALTO</head>
+                     <head>Example of ALTO <gi>String</gi> (word)</head>
                      <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                        
+                        <String ID="segment_1"
+                           CONTENT="MONSIEVR" 
+                           HPOS="837" 
+                           VPOS="777"
+                           WIDTH="1172" 
+                           HEIGHT="182" 
+                           WC="0.9064">
+                           <Shape>
+                              <Polygon POINTS="..."/>
+                           </Shape>
+                           [...]
+                        </String>
                      </egXML>
                   </div>
                   <div>
-                     <head>Example of TEI</head>
+                     <head>Mapping Segment <gi>zone</gi></head>
+                     <table rend="boxed" rows="6" cols="2">
+                        <row role="data">
+                           <cell role="TEI">TEI model</cell>
+                           <cell role="space">- calculation -</cell>
+                           <cell role="ALTO">ALTO schema</cell>
+                        </row>
+                        <row role="data">
+                           <cell role="TEI"><tag>zone xml:id="[folio number]-[@ID of parent TextBlock]-[@ID of parent TextLine]-[value]-[count of String]"</tag></cell>
+                           <cell/>
+                           <cell role="ALTO"><tag>String ID="value"</tag></cell>
+                        </row>
+                        <row role="data">
+                           <cell role="TEI"><tag>zone type="String"</tag></cell>
+                           <cell/>
+                           <cell role="ALTO"><tag>String</tag></cell>
+                        </row>
+                        <row role="data">
+                           <cell role="TEI"><tag>zone ulx="value"</tag></cell>
+                           <cell/>
+                           <cell role="ALTO"><tag>String HPOS="value"</tag></cell>
+                        </row>
+                        <row role="data">
+                           <cell role="TEI"><tag>zone uly="value"</tag></cell>
+                           <cell/>
+                           <cell role="ALTO"><tag>String VPOS="value"</tag></cell>
+                        </row>
+                        <row role="data">
+                           <cell role="TEI"><tag>zone lrx="sum"</tag></cell>
+                           <cell role="space">HPOS + WDITH = "sum"</cell>
+                           <cell role="ALTO"><tag>String WIDTH="value"</tag></cell>
+                        </row>
+                        <row role="data">
+                           <cell role="TEI"><tag>zone lry="sum"</tag></cell>
+                           <cell role="space">VPOS + HEIGHT = "sum"</cell>
+                           <cell role="ALTO"><tag>String HEIGHT="value"</tag></cell>
+                        </row>
+                        <row role="data">
+                           <cell role="TEI"><tag>zone points="value"</tag></cell>
+                           <cell/>
+                           <cell role="ALTO"><tag>Polygon POINTS="value"</tag></cell>
+                        </row>
+                        <row role="data">
+                           <cell role="TEI"><tag>zone source="[URI]/[folio number]/[HPOS],[VPOS],[WIDTH],[HEIGHT]/full/0/native.jpg"</tag></cell>
+                           <cell/>
+                           <cell role="ALTO"><tag>String HPOS="value"</tag>, <tag>String VPOS="value"</tag>, <tag>String WIDTH="value"</tag>, <tag>String HEIGHT="value"</tag></cell>
+                        </row>
+                     </table>
+                  </div>
+                  <div>
+                     <head>Mapping Segment <gi>certainty</gi></head>
+                     <table rend="boxed" rows="6" cols="2">
+                        <row role="data">
+                           <cell role="TEI">TEI model</cell>
+                           <cell role="space">    </cell>
+                           <cell role="ALTO">ALTO schema</cell>
+                        </row>
+                        <row role="data">
+                           <cell role="TEI"><tag>certainty xml:id="[folio number]-[@ID of parent TextBlock]-[@ID of parent TextLine]-[value]-[count of String]-cert"</tag></cell>
+                           <cell/>
+                           <cell role="ALTO"><tag>String ID="value"</tag></cell>
+                        </row>
+                        <row role="data">
+                           <cell role="TEI"><tag>certainty target="#[folio number]-[@ID of parent TextBlock]-[@ID of parent TextLine]-[value]-[count of String]-text"</tag></cell>
+                           <cell/>
+                           <cell role="ALTO"><tag>String ID="value"</tag></cell>
+                        </row>
+                        <row role="data">
+                           <cell role="TEI"><tag>certainty degree="value"</tag></cell>
+                           <cell/>
+                           <cell role="ALTO"><tag>String WC="value"</tag></cell>
+                        </row>
+                     </table>
+                  </div>
+                  <div>
+                     <head>Example of TEI (word)</head>
                      <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                        
+                        <zone xml:id="f11-textblock_0-textline_0-segment_2-segCount3" 
+                              type="String" 
+                              ulx="837" 
+                              uly="777" 
+                              lrx="2009" 
+                              lry="959" 
+                              points="..." 
+                              source="https://gallica.bnf.fr/iiif/ark:/12148/btv1b8610802d/f11/837,777,1172,182/full/0/native.jpg">
+                              <certainty xml:id="f11-textblock_0-textline_0-segment_2-segCount3-cert"
+                                 target="#f11-textblock_0-textline_0-segment_2-segCount3-text" 
+                                 locus="value" 
+                                 degree="0.9064"/>
+                              [...]
+                           </zone>
+                     </egXML>
+                  </div>
+                  <div>
+                     <head>Example of TEI (inter-word space)</head>
+                     <p>ALTO-XML files with deep granularity specify both segments of words and segments of space between words. The latter, 
+                        which the ALTO schema marks with the element <gi>SP</gi>, are rectangles rather than polygons and therefore do not 
+                        have the descendent <gi>Polygon</gi>. This means that the TEI translation of this information does not have a <gi>path</gi> 
+                        descendent. Instead, the empty <gi>zone</gi> for an inter-word space has an ID (<att>xml:id</att>), the type "Space," 
+                        and the four coordinates <att>ulx</att>, <att>uly</att>, <att>lrx</att>, and <att>lry</att>.</p>
+                     <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                        <zone xml:id="f11-textblock_0-textline_0-segment_1-segCount2" 
+                           type="Space" 
+                           ulx="..." 
+                           uly="..." 
+                           lrx="..." 
+                           lry="..."/>
                      </egXML>
                   </div>
                </div>
                
                <div>
                   <head>Layer 4: Glyph</head>
-                  <p>Description</p>
+                  <p>Regarding textual content, the element <gi>Glyph</gi> is the deepest level of granularity expressed in the ALTO-XML schema.
+                     <gi>Glyph</gi> is always embedded in a <gi>String</gi> and, like a word segment, is ascribed a degree of certainty about the model's 
+                     prediction. The SegmOnto-Gallic(orpor)a guidelines require that this data be represented in the TEI element <gi>certainty</gi>. 
+                     In the TEI, the element <gi>certainty</gi> requires the attribute <att>locus</att>, which describes what exactly is uncertain. 
+                     The SegmOnto-Gallic(orpor)a guidelines require that the value of <att>locus</att> is always "value" because the degree of certainty 
+                     refers to the glyph's predicted text.
+                  </p>
+                  <p>
+                     Other than the addition of the attribute <gi>GC</gi> and the different meaning of the attribute <gi>CONTENT</gi>, the region described 
+                     in the <gi>String</gi> element closely resembles the previous three layers.
+                  </p>
                   <div>
-                     <head>Example of ALTO</head>
+                     <head>Example of ALTO <gi>Glyph</gi></head>
                      <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                        
+                        <Glyph ID="char_1"
+                           CONTENT="M" 
+                           HPOS="837" 
+                           VPOS="777"
+                           WIDTH="159" 
+                           HEIGHT="162" 
+                           GC="0.8127">
+                           <Shape>
+                              <Polygon POINTS="..."/>
+                           </Shape>
+                        </Glyph>
                      </egXML>
+                  </div>
+                  <div>
+                     <head>Mapping Glyph <gi>zone</gi></head>
+                     <table rend="boxed" rows="6" cols="2">
+                        <row role="data">
+                           <cell role="TEI">TEI model</cell>
+                           <cell role="space">- calculation -</cell>
+                           <cell role="ALTO">ALTO schema</cell>
+                        </row>
+                        <row role="data">
+                           <cell role="TEI"><tag>zone xml:id="[folio number]-[@ID of parent TextBlock]-[@ID of parent TextLine]-[@ID of parent String]-[value]-[count of Glyph]"</tag></cell>
+                           <cell/>
+                           <cell role="ALTO"><tag>Glyph ID="value"</tag></cell>
+                        </row>
+                        <row role="data">
+                           <cell role="TEI"><tag>zone type="Glyph"</tag></cell>
+                           <cell/>
+                           <cell role="ALTO"><tag>Glyph</tag></cell>
+                        </row>
+                        <row role="data">
+                           <cell role="TEI"><tag>zone ulx="value"</tag></cell>
+                           <cell/>
+                           <cell role="ALTO"><tag>Glyph HPOS="value"</tag></cell>
+                        </row>
+                        <row role="data">
+                           <cell role="TEI"><tag>zone uly="value"</tag></cell>
+                           <cell/>
+                           <cell role="ALTO"><tag>Glyph VPOS="value"</tag></cell>
+                        </row>
+                        <row role="data">
+                           <cell role="TEI"><tag>zone lrx="sum"</tag></cell>
+                           <cell role="space">HPOS + WDITH = "sum"</cell>
+                           <cell role="ALTO"><tag>Glyph WIDTH="value"</tag></cell>
+                        </row>
+                        <row role="data">
+                           <cell role="TEI"><tag>zone lry="sum"</tag></cell>
+                           <cell role="space">VPOS + HEIGHT = "sum"</cell>
+                           <cell role="ALTO"><tag>Glyph HEIGHT="value"</tag></cell>
+                        </row>
+                        <row role="data">
+                           <cell role="TEI"><tag>zone points="value"</tag></cell>
+                           <cell/>
+                           <cell role="ALTO"><tag>Polygon POINTS="value"</tag></cell>
+                        </row>
+                        <row role="data">
+                           <cell role="TEI"><tag>zone source="[URI]/[folio number]/[HPOS],[VPOS],[WIDTH],[HEIGHT]/full/0/native.jpg"</tag></cell>
+                           <cell/>
+                           <cell role="ALTO"><tag>Glyph HPOS="value"</tag>, <tag>String VPOS="value"</tag>, <tag>String WIDTH="value"</tag>, <tag>String HEIGHT="value"</tag></cell>
+                        </row>
+                     </table>
+                  </div>
+                  <div>
+                     <head>Mapping Glyph <gi>certainty</gi></head>
+                     <table rend="boxed" rows="6" cols="2">
+                        <row role="data">
+                           <cell role="TEI">TEI model</cell>
+                           <cell role="space">    </cell>
+                           <cell role="ALTO">ALTO schema</cell>
+                        </row>
+                        <row role="data">
+                           <cell role="TEI"><tag>certainty xml:id="[folio number]-[@ID of parent TextBlock]-[@ID of parent TextLine]-[@ID of parent String]-[value]-[count of Glyph]-cert"</tag></cell>
+                           <cell/>
+                           <cell role="ALTO"><tag>String ID="value"</tag></cell>
+                        </row>
+                        <row role="data">
+                           <cell role="TEI"><tag>certainty target="#[folio number]-[@ID of parent TextBlock]-[@ID of parent TextLine]-[@ID of parent String]-[value]-[count of Glyph]-text"</tag></cell>
+                           <cell/>
+                           <cell role="ALTO"><tag>String ID="value"</tag></cell>
+                        </row>
+                        <row role="data">
+                           <cell role="TEI"><tag>certainty degree="value"</tag></cell>
+                           <cell/>
+                           <cell role="ALTO"><tag>String GC="value"</tag></cell>
+                        </row>
+                     </table>
+                  </div>
+                  <div>
+                     <head>Mapping Glyph <gi>c</gi></head>
+                     <table rend="boxed" rows="6" cols="2">
+                        <row role="data">
+                           <cell role="TEI">TEI model</cell>
+                           <cell role="space">    </cell>
+                           <cell role="ALTO">ALTO schema</cell>
+                        </row>
+                        <row role="data">
+                           <cell role="TEI"><tag>c xml:id="[folio number]-[@ID of parent TextBlock]-[@ID of parent TextLine]-[@ID of parent String]-[value]-[count of Glyph]-text"</tag></cell>
+                           <cell/>
+                           <cell role="ALTO"><tag>String ID="value"</tag></cell>
+                        </row>
+                        <row role="data">
+                           <cell role="TEI"><tag>c</tag>value<tag>/c</tag></cell>
+                           <cell/>
+                           <cell role="ALTO"><tag>String CONTENT="value"</tag></cell>
+                        </row>
+                     </table>
                   </div>
                   <div>
                      <head>Example of TEI</head>
                      <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                        
+                        <zone xml:id="f11-textblock_0-textline_0-segment_2-char_1-glyphCount2" 
+                           type="String" 
+                           ulx="837" 
+                           uly="777" 
+                           lrx="996" 
+                           lry="939" 
+                           points="..." 
+                           source="https://gallica.bnf.fr/iiif/ark:/12148/btv1b8610802d/f11/837,777,154,120/full/0/native.jpg">
+                           <certainty xml:id="f11-textblock_0-textline_0-segment_2-char_1-glyphCount2-cert"
+                              target="#f11-textblock_0-textline_0-segment_2-char_1-glyphCount2-text" 
+                              locus="value" 
+                              degree="0.8127"/>
+                           <c xml:id="f11-textblock_0-textline_0-segment_2-char_1-glyphCount2-text">H</c>
+                        </zone>
                      </egXML>
                   </div>
                </div>
-
             </div>
-          
-          
             <div rend="toc" xml:id="text">
                <head>Text</head>
-               <p>The content of <gi>text</gi> is kept open. Thanks to SegmOnto, it is however
-                  possible to pre-annotate the content with the following mapping:</p>
-               <table rend="boxed" rows="6" cols="2">
-                  <row role="data">
-                     <cell role="SegmOnto">SegmOnto</cell>
-                     <cell role="TEI">TEI</cell>
-                  </row>
-                  <row role="data">
-                     <cell role="SegmOnto"><val>Numbering</val></cell>
-                     <cell role="TEI"><gi>fw</gi></cell>
-                  </row>
-                  <row role="data">
-                     <cell role="SegmOnto"><val>QuireMarks</val></cell>
-                     <cell role="TEI"><gi>fw</gi></cell>
-                  </row>
-                  <row role="data">
-                     <cell role="SegmOnto"><val>Main</val></cell>
-                     <cell role="TEI"><gi>p</gi></cell>
-                  </row>
-                  <row role="data">
-                     <cell role="SegmOnto"><val>GraphicZone</val></cell>
-                     <cell role="TEI"><gi>figure</gi></cell>
-                  </row>
-                  <row role="data">
-                     <cell role="SegmOnto"><val>MusicZone</val></cell>
-                     <cell role="TEI"><gi>musicNotation</gi></cell>
-                  </row>
-               </table>
+               <p>Contrary to the <gi>sourceDoc</gi>, the SegmOnto-Gallic(orpor)a guidelines do not strictly dictate the content of <gi>text</gi>. 
+                  Thanks to SegmOnto's strict vocabulary, however, the Gallic(orpor)a pipeline is able to map certain types of textual content 
+                  to certain elements of the TEI, permitting the creation of a pre-annotated edition of the source document.</p>
+               <div xml:id="Body-Zones">
+                  <head>Mapping of Zones of Text</head>
+                  <table rend="boxed" rows="6" cols="2">
+                     <row role="data">
+                        <cell role="SegmOnto">SegmOnto</cell>
+                        <cell role="TEI">TEI</cell>
+                     </row>
+                     <row role="data">
+                        <cell role="SegmOnto"><val>NumberingZone</val></cell>
+                        <cell role="TEI"><tag>fw corresp="#folio-textblock-blockCount" type="NumberingZone"</tag></cell>
+                     </row>
+                     <row role="data">
+                        <cell role="SegmOnto"><val>QuireMarksZone</val></cell>
+                        <cell role="TEI"><tag>fw corresp="#folio-textblock-blockCount" type="QuireMarksZone"</tag></cell>
+                     </row>
+                     <row role="data">
+                        <cell role="SegmOnto"><val>RunningTitleZone</val></cell>
+                        <cell role="TEI"><tag>fw corresp="#folio-textblock-blockCount" type="RunningTitleZone"</tag></cell>
+                     </row>
+                     <row role="data">
+                        <cell role="SegmOnto"><val>MarginTextZone</val></cell>
+                        <cell role="TEI"><tag>note corresp="#folio-textblock-blockCount" type="MarginTextZone"</tag></cell>
+                     </row>
+                     <row role="data">
+                        <cell role="SegmOnto"><val>MainZone</val></cell>
+                        <cell role="TEI"><tag>ab corresp="#folio-textblock-blockCount" type="MainZone"</tag></cell>
+                     </row>
+                  </table>
+               </div>
+               <div>
+                  <head>Mapping of Lines of Text</head>
+                  <p>Almost all SegmOnto lines are contained within one of the zones listed previously (<ptr target="#Body-Zones"/>) and their textual 
+                     content trails after the empty TEI element <gi>lb</gi>. The only exceptions to this rule are the DropCapitalLine and HeadingLine, which are 
+                     contained inside a MainZone yet are also distinguished from other lines of text in the MainZone by being contained within the TEI element <gi>hi</gi>.</p>
+                  <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                     <ab corresp="#f11-textblock_0-blockCount1" type="MainZone">
+                        <hi rend="HeadingLine">
+                           <lb corresp="#f11-textblock_0-textline_0-lineCount1"/>A MONSIEVR
+                           <lb corresp="#f11-textblock_0-textline_0-lineCount2"/>DE
+                           <lb corresp="#f11-textblock_0-textline_0-lineCount3"/>MONTORON.
+                           <lb corresp="#f11-textblock_0-textline_0-lineCount4"/>ONSIEVR,
+                        </hi>
+                        <hi rend="DropCapitalLine">
+                           <lb corresp="#f11-textblock_0-textline_0-lineCount5"/>M
+                        </hi>
+                        <lb corresp="#f11-textblock_0-textline_0-lineCount6"/>Ie vous preſente vn tableau d'vne des
+                        <lb corresp="#f11-textblock_0-textline_0-lineCount7"/>plus belles actions d’Auguſte. Ce Monar¬
+                     </ab>
+                  </egXML>
+               </div>
             </div>
          </div>
          <div rend="toc" xml:id="bibliography">
