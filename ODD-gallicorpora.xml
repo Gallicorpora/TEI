@@ -3,24 +3,28 @@
    <teiHeader>
       <fileDesc>
          <titleStmt>
-            <title type="main">SegmOnto</title>
-            <title type="sub">A Controlled Vocabulary to Describe the Layout of Pages</title>
+            <title type="main">Gallicorpora Project TEI</title>
+            <title type="sub">Between automatic and manual encoding : Towards a generic TEI model
+               for historical prints and manuscripts</title>
             <author xml:id="SG">
                <persName>Simon Gabay</persName>
-            </author>
-            <author xml:id="JBC">
-               <persName>Jean-Baptiste Camps</persName>
             </author>
             <author xml:id="AP">
                <persName>Ariane Pinche</persName>
             </author>
+            <author xml:id="KC">
+               <persName>Kelly Christensen</persName>
+            </author>
+            <author xml:id="JBC">
+               <persName>Jean-Baptiste Camps</persName>
+            </author>
          </titleStmt>
          <editionStmt>
-            <edition n="0.9">Version 0.9</edition>
+            <edition n="1">Version 1</edition>
          </editionStmt>
          <publicationStmt>
-            <authority>SegmOnto working group</authority>
-            <date when="2021"/>
+            <authority>https://github.com/Gallicorpora</authority>
+            <date when="2022"/>
             <ptr target="https://github.com/SegmOnto"/>
          </publicationStmt>
          <sourceDesc>
@@ -32,6 +36,9 @@
             <listChange n="0.9">
                <change when="2021-11-01"/>
             </listChange>
+            <listChange n="1">
+               <change when="2022-09-09"/>
+            </listChange>
          </listChange>
       </revisionDesc>
    </teiHeader>
@@ -39,9 +46,84 @@
       <body>
          <div rend="toc" xml:id="intro">
             <head>Introduction</head>
+            <div xml:id="Project_Presentation">
+               <head>Presentation du projet</head>
+               <p> Cultural heritage institutions today aim to digitise their collections of prints
+                  and manuscripts and are generating more and more digital images To enrich these
+                  images, many institutions work with standardised formats such as IIIF, preserving
+                  as much of the source's information as possible. To take full advantage of textual
+                  documents, an image alone is not enough. Thanks to automatic text recognition
+                  technology, it is now possible to extract images content on a large scale. The TEI
+                  seems to provide the perfect format to capture both an image's formal and textual
+                  data. To ensure compatibility with a range of use cases, TEI XML files must
+                  guarantee IIIF or RDF exports and therefore must be based on strict data
+                  structures that can be automated. But a rigid structure contradicts the basic
+                  principles of philology, which require maximum flexibility to cope with various
+                  situations. The solution proposed by the Gallic(orpor)a project attempted to deal
+                  with such a contradiction, focusing on French historical documents produced
+                  between the 15th and the 18th c. It aims to enrich the digital facsimiles
+                  distributed by the French National Library (BnF) in two different ways: <list>
+                     <item>text extraction, including the segmentation of the image (layout
+                        analysis) with <ref target="https://segmonto.github.io">SegmOnto</ref>
+                        controlled vocubalary and the recognition of the text (Handwritten Text
+                        Recognition);</item>
+                     <item>linguistic annotation, including lemmatisation, POS tagging, named entity
+                        recognition and linguistic normalisation.</item></list> Our TEI document
+                  modelling has two strictly coercive automatically generated data blocks: <list>
+                     <item>the <gi>sourceDoc</gi> with information from the digital facsimile, which
+                        computer vision, HTR and segmentation tools produce thanks to machine
+                        learning;</item>
+                     <item>the <gi>standOff</gi> with linguistic information produced by natural
+                        language processing tools to make it easier to search the corpus.</item>
+                  </list> Two other elements are added that can be customised according to
+                  researchers’ specific needs: <list>
+                     <item>a pre-filled <gi>teiHeader</gi> with basic bibliographic metadata
+                        automatically retrieved from (i) the digital facsimile’s IIIF Image API and
+                        (ii) the BnF’s Search/Retrieve via URL (SRU) API. It can be enriched with
+                        additional data, as long as it respects a strict minimum encoding;</item>
+                     <item> pre-editorialised <gi>body</gi> with a structure based on layout
+                        analysis and the SegmOnto vocabulary. It is the only element totally free
+                        regarding encoding choices.</item>
+                  </list>
+                  <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                     <body>
+                        <div>
+                           <pb corresp="#page5"/>
+                           <note corresp="#page5_zone2" type="MarginTextZone">
+                              <lb corresp="#page5_zone2_line1"/>79/4120 </note>
+                           <pb corresp="#page6"/>
+                           <ab corresp="#page6_zone1" type="MainZone">
+                              <hi rend="HeadingLine">
+                                 <lb corresp="#page6_zone1_line1"/>BRADAMANTE, <lb
+                                    corresp="#page6_zone1_line2"/>TRAGECOMDEDIE. </hi>
+                           </ab>
+                           <pb corresp="#page9"/>
+                           <fw corresp="#page9_zone1" type="RunningTitleZone">
+                              <lb corresp="#page9_zone1_line1"/>AV ROY. </fw>
+                           <ab corresp="#page9_zone2" type="MainZone">
+                              <lb corresp="#page9_zone2_line1"/>uiuront nostre siecle, les admira¬
+                                 <lb corresp="#page9_zone2_line2"/>bles effets de vos heroiques ver¬
+                                 <gap reason="sampling"/>
+                           </ab>
+                        </div>
+                     </body></egXML> By restricting certain elements and allowing others to be
+                  customisable, our TEI model can efficiently pivot toward other export formats,
+                  including RDF and IIIF. Furthermore, the <gi>body</gi> element’s strict and
+                  thorough encoding of all of the document’s graphical information allows the TEI
+                  document to be converted into PAGE XML and ALTO XML files, which can then be used
+                  to train OCR, HTR, and segmentation models. Thus, not only does our TEI model’s
+                  strict encoding avoid limiting philological choices, thanks to the <gi>body</gi>,
+                  it also allows us to pre-editorialise the <gi>body</gi> via the content of the
+                     <gi>body</gi> and, in a near future, the <gi>standOff</gi>.</p>
+               
+               <p>The structure of the text is based on the material description of the source and
+                  the analysis of the layout of the document. We used the Zone and Line label
+                  detected by the segmenter to model the <gi>body</gi> element. In order to provided
+                  label to the project we choose to follow the segmOnto guidelines.</p>
+            </div>
             <div xml:id="why">
-               <head>Why SegmOnto?</head>
-               <p>SegmOnto offers a controlled vocabulary to describe the content of books or
+               <head>Why SegmOnto vocabulary?</head>
+               <p> SegmOnto offers a controlled vocabulary to describe the content of books or
                   manuscripts pages, in order to homogenise the data required by layout analysers.
                   This project follows a double objective: <list>
                      <item>Mutualise data to train stronger models on various layouts.</item>
@@ -54,7 +136,8 @@
             <div xml:id="team">
                <head>Team</head>
                <p>SegmOnto was designed by a group of international researchers. The final version
-                  of the guidelines has been carried by S. Gabay, J.-B. Camps, A. Pinche, and K. Christensen.</p>
+                  of the guidelines has been carried by S. Gabay, J.-B. Camps, A. Pinche, and K.
+                  Christensen.</p>
                <p>
                   <figure>
                      <graphic url="media/people/sg.jpg"/>
@@ -102,18 +185,18 @@
                      <graphic url="media/people/ap.jpg"/>
                      <figDesc>portait Kelly Christensen</figDesc>
                   </figure>
-                  <hi rend="bold">Kelly Christensen</hi> has a PhD in historical musicology.
-                  As an intern working on the project Galli(corpor)a in 2022 with Simon Gabay and 
-                  Ariane Pinche, she put in place the Gallic(orpor)a pipeline described in this ODD, 
-                  which relies on tools developed by additional contributors. She also helped develop  
-                  the mapping that connects the format in which predicted text is exported, ALTO, 
-                  and the TEI. Her tool, alto2tei, realises this mapping in Python and generated the 
+                  <hi rend="bold">Kelly Christensen</hi> has a PhD in historical musicology. As an
+                  intern working on the project Galli(corpor)a in 2022 with Simon Gabay and Ariane
+                  Pinche, she put in place the Gallic(orpor)a pipeline described in this ODD, which
+                  relies on tools developed by additional contributors. She also helped develop the
+                  mapping that connects the format in which predicted text is exported, ALTO, and
+                  the TEI. Her tool, alto2tei, realises this mapping in Python and generated the
                   TEI-XML files on which this ODD is based.</p>
                <p>Additional contributors are: <list>
-                  <item>Daniel Stoekl</item>
-                  <item>Claire Jahan</item>
-                  <item>Peter Stokes</item>
-               </list> We thank them for their constant help, their useful feedback and above all
+                     <item>Daniel Stoekl</item>
+                     <item>Claire Jahan</item>
+                     <item>Peter Stokes</item>
+                  </list> We thank them for their constant help, their useful feedback and above all
                   their time. </p>
             </div>
             <div rend="toc" xml:id="howto">
@@ -277,7 +360,7 @@
             </div>
          </div>
          <div xml:id="Pipeline">
-            <head>Production pipeline</head>
+            <head>SegmOnto Production pipeline</head>
             <p>SegmOnto is language independent: it aims at describing the page, no matter the
                digital format. This choice is necessary, because of the various needs of scholars
                and institutions: specialists of OCR/HTR technologies use ALTO or PAGE XML documents,
@@ -459,8 +542,9 @@
             ]]></eg>
                <p>RDF can be expressed in XML: <egXML xmlns="http://www.tei-c.org/ns/Examples">
                      <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-                        xmlns:foaf="http://xmlns.com/foaf/0.1/"> <foaf:Person
-                           rdf:about="http://example.org/Moliere"> </foaf:Person> </rdf:RDF>
+                        xmlns:foaf="http://xmlns.com/foaf/0.1/">
+                        <foaf:Person rdf:about="http://example.org/Moliere"> </foaf:Person>
+                     </rdf:RDF>
                   </egXML>
                </p>
             </div>
@@ -564,16 +648,17 @@ Custom:Entry#2
          </div>
          <div rend="toc" xml:id="TEIModelling">
             <head>TEI Modelling</head>
-            <p>The SegmOnto-Gallic(orpor)a guidelines are not a subset of the TEI: all elements remain available.
-               However, the guidelines recommend or require the use of specific elements, which will be
-               described below, the most important of which is the compulsory use of a
-                  <gi>sourceDoc</gi> in addition to the required elements <gi>teiHeader</gi> and <gi>text</gi>:
-                  <egXML xmlns="http://www.tei-c.org/ns/Examples">
+            <p>The SegmOnto-Gallic(orpor)a guidelines are not a subset of the TEI: all elements
+               remain available. However, the guidelines recommend or require the use of specific
+               elements, which will be described below, the most important of which is the
+               compulsory use of a <gi>sourceDoc</gi> in addition to the required elements
+                  <gi>teiHeader</gi> and <gi>text</gi>: <egXML
+                  xmlns="http://www.tei-c.org/ns/Examples">
                   <TEI>
                      <teiHeader>
                         <!-- Supplies descriptive and declarative metadata associated with a digital resource or set of resources. -->
-                        </teiHeader>
-                     <sourceDoc> 
+                     </teiHeader>
+                     <sourceDoc>
                         <!--Contains a transcription or other representation of a single source document. -->
                      </sourceDoc>
                      <text>
@@ -584,22 +669,25 @@ Custom:Entry#2
             </p>
             <div xml:id="header">
                <head>Header</head>
-               <p>Conceptually, there are three documents articulated in the <gi>teiHeader</gi>. First, there is a digital resource, which this ODD describes and 
-                  which includes a transcription of a source document. Second, there is the digital exemplar of that source document which was processed with 
-                  machine learning models to create a transcription. And finally, there is the physical source document itself. The SegmOnto-Gallic(orpor)a guidelines 
-                  are designed to encode digital exemplars of source documents in the Bibliothèque nationale de France's (BnF) Gallica collection. 
-                  When generated by the Galli(copor)a pipeline, therefore, the <gi>teiHeader</gi> draws on four data sources to supply information about these three documents:
-                  <list>
-                     <item>Digital Lexographic Resource
-                        <list>
-                           <item>A transcription of and lexographic resource about a source document. 
-                              It is created by the  the Gallic(orpor)a pipeline and conforms to the SegmOnto-Gallic(orpor)a guidelines.
-                           </item>
-                           <item>Metadata Source:
-                              <list>
-                                 <item>Yet Another Markup Language (YAML) configuration file
-                                    <list>
-                                       <item>Customisable configuration file in which the pipeline's users specify details about the lexographic resource.</item>
+               <p>Conceptually, there are three documents articulated in the <gi>teiHeader</gi>.
+                  First, there is a digital resource, which this ODD describes and which includes a
+                  transcription of a source document. Second, there is the digital exemplar of that
+                  source document which was processed with machine learning models to create a
+                  transcription. And finally, there is the physical source document itself. The
+                  SegmOnto-Gallic(orpor)a guidelines are designed to encode digital exemplars of
+                  source documents in the Bibliothèque nationale de France's (BnF) Gallica
+                  collection. When generated by the Galli(copor)a pipeline, therefore, the
+                     <gi>teiHeader</gi> draws on four data sources to supply information about these
+                  three documents: <list>
+                     <item>Digital Lexographic Resource <list>
+                           <item>A transcription of and lexographic resource about a source
+                              document. It is created by the the Gallic(orpor)a pipeline and
+                              conforms to the SegmOnto-Gallic(orpor)a guidelines. </item>
+                           <item>Metadata Source: <list>
+                                 <item>Yet Another Markup Language (YAML) configuration file <list>
+                                       <item>Customisable configuration file in which the pipeline's
+                                          users specify details about the lexographic
+                                          resource.</item>
                                        <item>Data structured in YAML.</item>
                                     </list>
                                  </item>
@@ -607,15 +695,14 @@ Custom:Entry#2
                            </item>
                         </list>
                      </item>
-                     <item>Digital Exemplars of the Source Document
-                        <list>
-                           <item>Digitised images from which the lexographic resource's transcription was made. These images are distributed via Gallica.
-                           </item>
-                           <item>Metadata Source:
-                              <list>
-                                 <item>International Image Interoperability Framework (IIIF) Image API
-                                    <list>
-                                       <item>API capable of retrieving a document's IIIF manifest.</item>
+                     <item>Digital Exemplars of the Source Document <list>
+                           <item>Digitised images from which the lexographic resource's
+                              transcription was made. These images are distributed via Gallica. </item>
+                           <item>Metadata Source: <list>
+                                 <item>International Image Interoperability Framework (IIIF) Image
+                                    API <list>
+                                       <item>API capable of retrieving a document's IIIF
+                                          manifest.</item>
                                        <item>Data structured in JSON.</item>
                                     </list>
                                  </item>
@@ -623,21 +710,19 @@ Custom:Entry#2
                            </item>
                         </list>
                      </item>
-                     <item>Physical Source Document
-                        <list>
-                           <item>The physical source of the digitised images. This source is usually conserved within one of the BnF's departments or libraries.
-                           </item>
-                           <item>Metadata Source:
-                              <list>
-                                 <item>BnF's "Search/Retrieve via URL" (SRU) API
-                                    <list>
+                     <item>Physical Source Document <list>
+                           <item>The physical source of the digitised images. This source is usually
+                              conserved within one of the BnF's departments or libraries. </item>
+                           <item>Metadata Source: <list>
+                                 <item>BnF's "Search/Retrieve via URL" (SRU) API <list>
                                        <item>API that queries the BnF's general catalogue.</item>
-                                       <item>Data structured in Marc XML, also known as Unimarc.</item>
+                                       <item>Data structured in Marc XML, also known as
+                                          Unimarc.</item>
                                     </list>
                                  </item>
-                                 <item>Système Universitaire de Documentation's (Sudoc) website
-                                    <list>
-                                       <item>Online, open-source database of archival institutions.</item>
+                                 <item>Système Universitaire de Documentation's (Sudoc) website <list>
+                                       <item>Online, open-source database of archival
+                                          institutions.</item>
                                        <item>Data structured in HTML.</item>
                                     </list>
                                  </item>
@@ -645,20 +730,24 @@ Custom:Entry#2
                            </item>
                         </list>
                      </item>
-                  </list>
-                  If the catalogue entry for the physical source document was successfully found in the BnF's general catalogue, thanks 
-                  to a query sent to the BnF's SRU API, the <gi>teiHeader</gi> draws from that data source as well as the Sudoc site. If the physical source 
-                  document was not located in the catalogue, however, the <gi>teiHeader</gi> relies exclusively on the IIIF manifest. Thus, while the 
-                  the SegmOnto-Gallic(orpor)a guidelines are designed for transcriptions of source documents conserved by the BnF, they can be 
-                  adapted for any archival institution and the Gallic(orpor)a pipeline can generate a <gi>teiHeader</gi> for any digital exemplars that have a IIIF manifest.</p>
-               
-               <p>The composition of the <gi>teiHeader</gi> goes beyond a minimal <gi>fileDesc</gi> and includes four components: 
-                  <gi>titleStmt</gi>, <gi>extent</gi>, <gi>publicationStmt</gi>, and <gi>sourceDesc</gi>. 
-                  Furthermore, the <gi>teiHeader</gi> requires the use of <gi>profileDesc</gi> and <gi>encodingDesc</gi>: 
-                  <!-- EXAMPLE -->
+                  </list> If the catalogue entry for the physical source document was successfully
+                  found in the BnF's general catalogue, thanks to a query sent to the BnF's SRU API,
+                  the <gi>teiHeader</gi> draws from that data source as well as the Sudoc site. If
+                  the physical source document was not located in the catalogue, however, the
+                     <gi>teiHeader</gi> relies exclusively on the IIIF manifest. Thus, while the the
+                  SegmOnto-Gallic(orpor)a guidelines are designed for transcriptions of source
+                  documents conserved by the BnF, they can be adapted for any archival institution
+                  and the Gallic(orpor)a pipeline can generate a <gi>teiHeader</gi> for any digital
+                  exemplars that have a IIIF manifest.</p>
+
+               <p>The composition of the <gi>teiHeader</gi> goes beyond a minimal <gi>fileDesc</gi>
+                  and includes four components: <gi>titleStmt</gi>, <gi>extent</gi>,
+                     <gi>publicationStmt</gi>, and <gi>sourceDesc</gi>. Furthermore, the
+                     <gi>teiHeader</gi> requires the use of <gi>profileDesc</gi> and
+                     <gi>encodingDesc</gi>: <!-- EXAMPLE -->
                   <egXML xmlns="http://www.tei-c.org/ns/Examples">
                      <teiHeader>
-                        
+
                         <!-- fileDesc: Contains a full bibliographic description of the TEI document. -->
                         <fileDesc>
                            <!-- titleStmt: Bibliographic description including title, author, individuals responsible for text-acquisition pipeline production. -->
@@ -670,78 +759,101 @@ Custom:Entry#2
                            <!-- sourceDesc: Bibliographic description of physical and digital examplars of the source document. -->
                            <sourceDesc/>
                         </fileDesc>
-                        
+
                         <!-- profileDesc: Provides the languages and sublanguages used in the source document. -->
-                        <profileDesc></profileDesc>
-                        
+                        <profileDesc/>
+
                         <!-- encodingDesc: Provides information about segmentation and HTR engines used to produce the transcription. -->
-                        <encodingDesc></encodingDesc>
-                        
+                        <encodingDesc/>
+
                      </teiHeader>
                   </egXML>
                </p>
-               
+
                <div xml:id="titleStmt">
                   <head>Title statement</head>
                   <div xml:id="titleStmt-description">
-                  <head>Description</head>
-                  <p>The Gallic(orpor)a pipeline automatically generates a <gi>titleStmt</gi>. This element contains the following elements:
-                     <list>
-                        <item><gi>title</gi>: either the clean title recorded in the BnF's general catalogue (Unimarc zone A200) 
-                           or the title recorded in the IIIF manifest (value of "Title" in JSON).</item>
-                        <item><gi>author</gi>: individual(s) to whom the work is attributed (Unimarc zone 700 and/or 701, or value of "Creator" in JSON).
-                           <list>
-                              <item>i. If the BnF's general catalogue data are used, 
-                                 meaning a catalogue entry was located for the exact physical source document whose digital exemplars were transcribed, 
-                                 all data about an author can be found in either Unimarc zone 700, which is reserved 
-                                 for one and only one principal author of a work, and/or in zone 701, which records information 
-                                 about one or more secondary authors. The SegmOnto-Gallic(orpor)a guidelines do not distinguish 
-                                 between principal and secondary authors because Unimarc's restrictions permit only one author 
-                                 to be recorded as a work's primary author, even in cases when multiple people are equally responsible 
-                                 for a work's creation. Therefore, the Segmonto-Galli(corpor)a guidelines do not further
-                                 promote this potentially arbitrary distinction between primary and secondary authors. 
-                                 All individuals encoded in Unimarc zones 700 and 701 are treated equally in the <gi>teiHeader</gi>. 
-                                 In Unimarc, the subfields of zones 700 and 701 are identical and provide information to the following children 
-                                 of the <gi>author</gi> element:
-                                    <list>
-                                       <item><gi>forename</gi>: an author's first name(s) or otherwise secondary name(s) 
-                                          (Unimarc zone B700 and/or zone B701, anything that is not "van der," "de la," "de," "du," "von," or "van").</item>
-                                       <item><gi>namelink</gi>: a part of the name that connects the first name and last name 
-                                          (Unimarc zone B700 and/or zone B701, a part that is either "van der," "de la," "de," "du," "von," or "van").</item>
-                                       <item><gi>surname</gi>: an author's family name or primary name (Unimarc zone A700 and/or zone A701).</item>
-                                       <item><att>target</att> of <gi>ptr</gi>: the International Standard Name Identifier (ISNI) of the author 
-                                          (Unimarc zone O700 and/or zone O701).</item>
+                     <head>Description</head>
+                     <p>The Gallic(orpor)a pipeline automatically generates a <gi>titleStmt</gi>.
+                        This element contains the following elements: <list>
+                           <item><gi>title</gi>: either the clean title recorded in the BnF's
+                              general catalogue (Unimarc zone A200) or the title recorded in the
+                              IIIF manifest (value of "Title" in JSON).</item>
+                           <item><gi>author</gi>: individual(s) to whom the work is attributed
+                              (Unimarc zone 700 and/or 701, or value of "Creator" in JSON). <list>
+                                 <item>i. If the BnF's general catalogue data are used, meaning a
+                                    catalogue entry was located for the exact physical source
+                                    document whose digital exemplars were transcribed, all data
+                                    about an author can be found in either Unimarc zone 700, which
+                                    is reserved for one and only one principal author of a work,
+                                    and/or in zone 701, which records information about one or more
+                                    secondary authors. The SegmOnto-Gallic(orpor)a guidelines do not
+                                    distinguish between principal and secondary authors because
+                                    Unimarc's restrictions permit only one author to be recorded as
+                                    a work's primary author, even in cases when multiple people are
+                                    equally responsible for a work's creation. Therefore, the
+                                    Segmonto-Galli(corpor)a guidelines do not further promote this
+                                    potentially arbitrary distinction between primary and secondary
+                                    authors. All individuals encoded in Unimarc zones 700 and 701
+                                    are treated equally in the <gi>teiHeader</gi>. In Unimarc, the
+                                    subfields of zones 700 and 701 are identical and provide
+                                    information to the following children of the <gi>author</gi>
+                                    element: <list>
+                                       <item><gi>forename</gi>: an author's first name(s) or
+                                          otherwise secondary name(s) (Unimarc zone B700 and/or zone
+                                          B701, anything that is not "van der," "de la," "de," "du,"
+                                          "von," or "van").</item>
+                                       <item><gi>namelink</gi>: a part of the name that connects the
+                                          first name and last name (Unimarc zone B700 and/or zone
+                                          B701, a part that is either "van der," "de la," "de,"
+                                          "du," "von," or "van").</item>
+                                       <item><gi>surname</gi>: an author's family name or primary
+                                          name (Unimarc zone A700 and/or zone A701).</item>
+                                       <item><att>target</att> of <gi>ptr</gi>: the International
+                                          Standard Name Identifier (ISNI) of the author (Unimarc
+                                          zone O700 and/or zone O701).</item>
                                     </list>
-                              </item>
-                              <item>ii. If the BnF's general catalogue data are not used, 
-                                 meaning a catalogue entry was not located for the very physical source document whose digital exemplars were transcribed, 
-                                 data about the author(s) is derived exclusively from the IIIF manifest. Because the IIIF manifest does not distinguish 
-                                 parts of a name, the TEI element <gi>name</gi> is used to encompass everything recorded in IIIF manifest's field "Creator," 
-                                 after first removing parenthetical information that might follow the author's name. This unwanted 
-                                 information can include dates, such as "(1606-1684)," as well as bibliographic notes, such as "Auteur du texte."
-                                 <list>
-                                    <item><gi>name</gi>: the author's name (value of "Creator" in JSON)</item>
-                                 </list>
-                              </item>
-                           </list>
-                        </item>
-                        <item><gi>respStmt</gi>: contains details about each individual who applied the SegmOnto-Gallic(orpor)a guidelines to the digital 
-                           lexographic resource. Details for the following elements can be modified in the YAML configuration file that the 
-                           Gallic(orpor)a pipeline uses to generate the <gi>respStmt</gi>:
-                        <list>
-                           <item><gi>resp</gi>: brief prosaic description of how the digital edition was created, 
-                              which might resemble the phrase "Transformation from ALTO4 to TEI by."</item>
-                           <item><gi>persName</gi>
-                              <list>
-                                 <item><gi>forename</gi>: first name(s) of an individual responsible for the edition.</item>
-                                 <item><gi>surname</gi>: family name of an individual responsible for the edition.</item>
-                                 <item><att>target</att> of <gi>ptr</gi>: Open Researcher and Contributor ID (ORCID) of an individual responsible for the edition.</item>
+                                 </item>
+                                 <item>ii. If the BnF's general catalogue data are not used, meaning
+                                    a catalogue entry was not located for the very physical source
+                                    document whose digital exemplars were transcribed, data about
+                                    the author(s) is derived exclusively from the IIIF manifest.
+                                    Because the IIIF manifest does not distinguish parts of a name,
+                                    the TEI element <gi>name</gi> is used to encompass everything
+                                    recorded in IIIF manifest's field "Creator," after first
+                                    removing parenthetical information that might follow the
+                                    author's name. This unwanted information can include dates, such
+                                    as "(1606-1684)," as well as bibliographic notes, such as
+                                    "Auteur du texte." <list>
+                                       <item><gi>name</gi>: the author's name (value of "Creator" in
+                                          JSON)</item>
+                                    </list>
+                                 </item>
+                              </list>
+                           </item>
+                           <item><gi>respStmt</gi>: contains details about each individual who
+                              applied the SegmOnto-Gallic(orpor)a guidelines to the digital
+                              lexographic resource. Details for the following elements can be
+                              modified in the YAML configuration file that the Gallic(orpor)a
+                              pipeline uses to generate the <gi>respStmt</gi>: <list>
+                                 <item><gi>resp</gi>: brief prosaic description of how the digital
+                                    edition was created, which might resemble the phrase
+                                    "Transformation from ALTO4 to TEI by."</item>
+                                 <item><gi>persName</gi>
+                                    <list>
+                                       <item><gi>forename</gi>: first name(s) of an individual
+                                          responsible for the edition.</item>
+                                       <item><gi>surname</gi>: family name of an individual
+                                          responsible for the edition.</item>
+                                       <item><att>target</att> of <gi>ptr</gi>: Open Researcher and
+                                          Contributor ID (ORCID) of an individual responsible for
+                                          the edition.</item>
+                                    </list>
+                                 </item>
                               </list>
                            </item>
                         </list>
-                        </item>
-                     </list>
-                  </p>
+                     </p>
                   </div>
                   <div>
                      <head>Example of TEI</head>
@@ -777,122 +889,103 @@ Custom:Entry#2
                      </egXML>
                   </div>
                   <div>
-                    <head>Data Sources</head>
-                     
+                     <head>Data Sources</head>
+
                      <div>
                         <head>Title</head>
                         <div>
                            <head>SRU API Response</head>
                            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                              <mxc:record xmlns:mxc="info:lc/xmlns/marcxchange-v2">
-                                 [...]
-                                 <mxc:datafield tag="200" ind1="1" ind2=" ">
+                              <mxc:record xmlns:mxc="info:lc/xmlns/marcxchange-v2"> [...]
+                                    <mxc:datafield tag="200" ind1="1" ind2=" ">
                                     <!-- TEI translation: <title>Cinna, ou La clémence d'Auguste</title> -->
-                                    <mxc:subfield code="a">Cinna, ou La clémence d'Auguste</mxc:subfield>
-                                    [...]
-                                 </mxc:datafield>
-                                 [...]
+                                    <mxc:subfield code="a">Cinna, ou La clémence
+                                       d'Auguste</mxc:subfield> [...] </mxc:datafield> [...]
                               </mxc:record>
                            </egXML>
                         </div>
                         <div>
                            <head>IIIF Manifest</head>
-                           <egXML xmlns="http://www.tei-c.org/ns/Examples">
-{
-   [...]
-   "Title": "Cinna, ou La clémence d'Auguste : tragédie / [par P. Corneille]",
-   [...]
-}
+                           <egXML xmlns="http://www.tei-c.org/ns/Examples"> { [...] "Title": "Cinna,
+                              ou La clémence d'Auguste : tragédie / [par P. Corneille]", [...] }
                            </egXML>
                         </div>
                      </div>
-                     
+
                      <div>
                         <head>Author</head>
                         <div>
                            <head>SRU API Response</head>
                            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                              <mxc:record xmlns:mxc="info:lc/xmlns/marcxchange-v2">
-                                 [...]
-                                 <mxc:datafield tag="700" ind1=" " ind2="|">
+                              <mxc:record xmlns:mxc="info:lc/xmlns/marcxchange-v2"> [...]
+                                    <mxc:datafield tag="700" ind1=" " ind2="|">
                                     <!-- TEI translation: <ptr type="isni" target="0000000121296128"/> -->
                                     <mxc:subfield code="o">ISNI0000000121296128</mxc:subfield>
                                     <!-- TEI translation: <surname>Corneille</surname> -->
                                     <mxc:subfield code="a">Corneille</mxc:subfield>
                                     <!-- TEI translation: <forename>Pierre</forename> -->
-                                    <mxc:subfield code="b">Pierre</mxc:subfield>
-                                    [...]
-                                 </mxc:datafield>
-                                 [...]
-                              </mxc:record>
+                                    <mxc:subfield code="b">Pierre</mxc:subfield> [...]
+                                 </mxc:datafield> [...] </mxc:record>
                            </egXML>
                         </div>
                         <div>
                            <head>IIIF Manifest</head>
-                           <egXML xmlns="http://www.tei-c.org/ns/Examples">
-{
-   "Creator": "Corneille, Pierre (1606-1684). Auteur du texte",
-   [...]
-}
-                           </egXML>
+                           <egXML xmlns="http://www.tei-c.org/ns/Examples"> { "Creator": "Corneille,
+                              Pierre (1606-1684). Auteur du texte", [...] } </egXML>
                         </div>
                      </div>
-                     
+
                      <div>
                         <head>Responsibility Statement</head>
                         <div>
                            <head>YAML Configuration File</head>
-                           <egXML xmlns="http://www.tei-c.org/ns/Examples">
-responsibility:
-   text: "Transformation from ALTO4 to TEI by"
-
-   resp: [
-      {"forename":"Kelly", 
-      "surname":"Christensen", 
-      "ptr":{"type":"orcid","target":"000000027236874X"}},
-      
-      {"forename":"Simon",
-      "surname":"Gabay", 
-      "ptr":{"type":"orcid","target":"0000000190944475"}},
-      
-      {"forename":"Ariane",
-      "surname":"Pinche",
-      "ptr":{"type":"orcid","target":"0000000278435050"}}
-   ]
-                           </egXML>
+                           <egXML xmlns="http://www.tei-c.org/ns/Examples"> responsibility: text:
+                              "Transformation from ALTO4 to TEI by" resp: [ {"forename":"Kelly",
+                              "surname":"Christensen",
+                              "ptr":{"type":"orcid","target":"000000027236874X"}},
+                              {"forename":"Simon", "surname":"Gabay",
+                              "ptr":{"type":"orcid","target":"0000000190944475"}},
+                              {"forename":"Ariane", "surname":"Pinche",
+                              "ptr":{"type":"orcid","target":"0000000278435050"}} ] </egXML>
                         </div>
                      </div>
                   </div>
                </div>
-               
+
                <div xml:id="extent">
                   <head>Extent</head>
-                  <p>The element <gi>extent</gi> represents the number of images files which the Gallic(corpor)a pipeline processed in order to create the digital lexographic resource.</p>
+                  <p>The element <gi>extent</gi> represents the number of images files which the
+                     Gallic(corpor)a pipeline processed in order to create the digital lexographic
+                     resource.</p>
                   <egXML xmlns="http://www.tei-c.org/ns/Examples">
                      <extent>
                         <measure unit="images" n="20"/>
                      </extent>
                   </egXML>
                </div>
-               
+
                <div xml:id="publicationStmt">
                   <head>Publication Statement</head>
                   <div xml:id="publicationStmt-description">
-                  <head>Description</head>
-                    <p>The <gi>publicationStmt</gi> is generated automtically from information registered in 
-                       the Gallic(orpor)a pipeline's YAML configuration file.
-                       <list>
-                          <item><gi>publisher</gi>: organization responsible for publishing and distributing the digital lexographic resource.</item>
-                          <item><gi>authority</gi>: organization financially responsible for making the resource available.</item>
-                          <item><gi>availability</gi>: information on the conditions under which the given resource can be used, 
-                             including the status of its availability (<att>status</att>) and the type of licence (<att>n</att>).
-                             <list>
-                                <item><att>target</att> of <gi>licence</gi>: URL to the lexicographic resource's licence.</item>
-                             </list>
-                          </item>
-                          <item><att>when</att> of <gi>date</gi>: the day the Gallic(orpor)a pipline generated the resource.</item>
-                       </list>
-                    </p>
+                     <head>Description</head>
+                     <p>The <gi>publicationStmt</gi> is generated automtically from information
+                        registered in the Gallic(orpor)a pipeline's YAML configuration file. <list>
+                           <item><gi>publisher</gi>: organization responsible for publishing and
+                              distributing the digital lexographic resource.</item>
+                           <item><gi>authority</gi>: organization financially responsible for making
+                              the resource available.</item>
+                           <item><gi>availability</gi>: information on the conditions under which
+                              the given resource can be used, including the status of its
+                              availability (<att>status</att>) and the type of licence
+                              (<att>n</att>). <list>
+                                 <item><att>target</att> of <gi>licence</gi>: URL to the
+                                    lexicographic resource's licence.</item>
+                              </list>
+                           </item>
+                           <item><att>when</att> of <gi>date</gi>: the day the Gallic(orpor)a
+                              pipline generated the resource.</item>
+                        </list>
+                     </p>
                   </div>
                   <div>
                      <head>Example of TEI</head>
@@ -913,105 +1006,132 @@ responsibility:
                         <head>Publication Statement</head>
                         <div>
                            <head>YAML Configuration File</head>
-                           <egXML xmlns="http://www.tei-c.org/ns/Examples">
-publisher: "Gallic(orpor)a"
-authority: "BnF DATALab"
-availability: {"status": "restricted", "n":"cc-by"}
-licence: {"target":"https://creativecommons.org/licenses/by/4.0/"}
-                           </egXML>
+                           <egXML xmlns="http://www.tei-c.org/ns/Examples"> publisher:
+                              "Gallic(orpor)a" authority: "BnF DATALab" availability: {"status":
+                              "restricted", "n":"cc-by"} licence:
+                              {"target":"https://creativecommons.org/licenses/by/4.0/"} </egXML>
                         </div>
                      </div>
                   </div>
                </div>
-               
+
                <div xml:id="sourceDesc">
                   <head>Source Description</head>
                   <div xml:id="sourceDesc-description">
-                  <head>Description</head>
-                  <p>Because a transcription is derived from a specific source document, the SegmOnto-Gallic(orpor)a guidelines require that the <gi>sourceDesc</gi> has the following two elements:
-                     <list>
-                        <item><gi>bibl</gi>: bibliographic data about the physical source document. 
-                           Some of the information in these elements is only provided if the source document was located in the BnF general catalogue. This condition is denoted 
-                           with an asterisk.
-                         <list>
-                            <item>* <att>target</att> of <gi>ptr</gi>: the URL to the document in the catalogue (Unimarc controlfield, tag="003").</item>
-                            <item><gi>author</gi>: the same information provided in the <gi>titleStmt</gi> (<ptr target="#titleStmt"/>), but with an attribute <att>ref</att> that refers to the author's <att>xml:id</att> in the <gi>titleStmt</gi>.</item>
-                            <item><gi>title</gi>: the same title provided in the <gi>titleStmt</gi> (<ptr target="#titleStmt"/>).</item>
-                            <item>* <gi>pubPlace</gi>: the location (Unimarc zone A210) where the work was produced and it presents that location's country code in <att>key</att> (Unimarc zone A102).</item>
-                            <item>* <gi>publisher</gi>: the name of the publisher, whether they are an individual or an organization (Unimarc zone C210).</item>
-                            <item><gi>date</gi>: if the physical source document was found in the BnF's general catalogue, this elements presents the year of the document's publication in the attribute <att>when</att> 
-                               (characters 9-13 of Unimarc zone A100 or the content of Unimarc zone D210) 
-                               as well as the BnF's degree of certainty about this date in the attributes <att>cert</att> 
-                               (8th character of Unimarz zone A100) and <att>resp</att>, whose value is always "BNF" because this information came from the BnF's general catalogue. 
-                               If, however, the BnF's catalogue data are not being used, the element <gi>date</gi> can be supplied with information in the IIIF manifest (value of "Date" in JSON).</item>
-                         </list>
-                        </item>
-                        <item><gi>msDesc</gi>
-                           <list>
-                              <item><gi>msIdentifier</gi>: bibliographic data used to identify the source of the transcription, which includes information about the 
-                                 source document's digital exmplars online as well as the physical source document itself. 
-                                 Some of the information in these elements is only provided if the source document was located in the BnF general catalogue. This condition is denoted 
-                                 with an asterisk.
-                                 <list>
-                                    <item>* <att>key</att> of <gi>country</gi>: country code describing the location of the institution that conserves the physical source document (Unimarc zone A801).</item>
-                                    <item>* <gi>settlement</gi>: city in which the institution is located (address scraped from webpage of Sudoc search results for the institution's RCR number, which is in Unimarc zone B930.</item>
-                                    <item><gi>repository</gi>: name of the institution (value of "Repository" in JSON or address scraped from webpage of Sudoc search results for the institution's RCR number, which is in Unimarc zone B930).</item>
-                                    <item><gi>idno</gi>: the physical source document's identifier in the institution's catalogue (Unimarc zone A930 or value of "Shelfmark" in JSON).</item>
-                                    <item><gi>altIdentifier</gi>: a second identifier for the digital exemplars of the source document.
-                                    <list>
-                                       <item><tag>idno type="ark"</tag>: the Archival Resource Key (ARK) of the digital exemplars used to make the transcription.</item>
+                     <head>Description</head>
+                     <p>Because a transcription is derived from a specific source document, the
+                        SegmOnto-Gallic(orpor)a guidelines require that the <gi>sourceDesc</gi> has
+                        the following two elements: <list>
+                           <item><gi>bibl</gi>: bibliographic data about the physical source
+                              document. Some of the information in these elements is only provided
+                              if the source document was located in the BnF general catalogue. This
+                              condition is denoted with an asterisk. <list>
+                                 <item>* <att>target</att> of <gi>ptr</gi>: the URL to the document
+                                    in the catalogue (Unimarc controlfield, tag="003").</item>
+                                 <item><gi>author</gi>: the same information provided in the
+                                       <gi>titleStmt</gi> (<ptr target="#titleStmt"/>), but with an
+                                    attribute <att>ref</att> that refers to the author's
+                                       <att>xml:id</att> in the <gi>titleStmt</gi>.</item>
+                                 <item><gi>title</gi>: the same title provided in the
+                                       <gi>titleStmt</gi> (<ptr target="#titleStmt"/>).</item>
+                                 <item>* <gi>pubPlace</gi>: the location (Unimarc zone A210) where
+                                    the work was produced and it presents that location's country
+                                    code in <att>key</att> (Unimarc zone A102).</item>
+                                 <item>* <gi>publisher</gi>: the name of the publisher, whether they
+                                    are an individual or an organization (Unimarc zone C210).</item>
+                                 <item><gi>date</gi>: if the physical source document was found in
+                                    the BnF's general catalogue, this elements presents the year of
+                                    the document's publication in the attribute <att>when</att>
+                                    (characters 9-13 of Unimarc zone A100 or the content of Unimarc
+                                    zone D210) as well as the BnF's degree of certainty about this
+                                    date in the attributes <att>cert</att> (8th character of Unimarz
+                                    zone A100) and <att>resp</att>, whose value is always "BNF"
+                                    because this information came from the BnF's general catalogue.
+                                    If, however, the BnF's catalogue data are not being used, the
+                                    element <gi>date</gi> can be supplied with information in the
+                                    IIIF manifest (value of "Date" in JSON).</item>
+                              </list>
+                           </item>
+                           <item><gi>msDesc</gi>
+                              <list>
+                                 <item><gi>msIdentifier</gi>: bibliographic data used to identify
+                                    the source of the transcription, which includes information
+                                    about the source document's digital exmplars online as well as
+                                    the physical source document itself. Some of the information in
+                                    these elements is only provided if the source document was
+                                    located in the BnF general catalogue. This condition is denoted
+                                    with an asterisk. <list>
+                                       <item>* <att>key</att> of <gi>country</gi>: country code
+                                          describing the location of the institution that conserves
+                                          the physical source document (Unimarc zone A801).</item>
+                                       <item>* <gi>settlement</gi>: city in which the institution is
+                                          located (address scraped from webpage of Sudoc search
+                                          results for the institution's RCR number, which is in
+                                          Unimarc zone B930.</item>
+                                       <item><gi>repository</gi>: name of the institution (value of
+                                          "Repository" in JSON or address scraped from webpage of
+                                          Sudoc search results for the institution's RCR number,
+                                          which is in Unimarc zone B930).</item>
+                                       <item><gi>idno</gi>: the physical source document's
+                                          identifier in the institution's catalogue (Unimarc zone
+                                          A930 or value of "Shelfmark" in JSON).</item>
+                                       <item><gi>altIdentifier</gi>: a second identifier for the
+                                          digital exemplars of the source document. <list>
+                                             <item><tag>idno type="ark"</tag>: the Archival Resource
+                                                Key (ARK) of the digital exemplars used to make the
+                                                transcription.</item>
+                                          </list>
+                                       </item>
                                     </list>
-                                    </item>
-                                 </list>
-                              </item>
-                              <item><gi>physDesc</gi>: metadata about the physical source document.
-                                 <list>
-                                    <item>* <gi>objectDesc</gi>: note about the source document's material description (Unimarc zone B200).</item>
-                                 </list>
-                              </item>
-                        </list>
-                        </item>
-                     </list>
-                     * only if the physical source document's catalogue entry was located in the BnF general catalogue
-                  </p>
+                                 </item>
+                                 <item><gi>physDesc</gi>: metadata about the physical source
+                                    document. <list>
+                                       <item>* <gi>objectDesc</gi>: note about the source document's
+                                          material description (Unimarc zone B200).</item>
+                                    </list>
+                                 </item>
+                              </list>
+                           </item>
+                        </list> * only if the physical source document's catalogue entry was located
+                        in the BnF general catalogue </p>
                   </div>
-                  
+
                   <div xml:id="sourceDesc-tei">
-                  <head>Example of TEI</head>
-                  <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                     <sourceDesc>
-                        <bibl>
-                           <ptr target="http://catalogue.bnf.fr/ark:/12148/cb30271542q"/>
-                           <author ref="#Co1">
-                              <persName>
-                                 <forename>Pierre</forename>
-                                 <surname>Corneille</surname>
-                                 <ptr type="isni" target="0000000121296128"/>
-                              </persName>
-                           </author>
-                           <title>Cinna, ou La clémence d'Auguste</title>
-                           <pubPlace key="FR">Imprimé à Rouen aux despens de l'autheur</pubPlace>
-                           <publisher>T. Quinet</publisher>
-                           <date when="1643" cert="high" resp="BNF">1643</date>
-                        </bibl>
-                        <msDesc>
-                           <msIdentifier>
-                              <country key="FR"/>
-                              <settlement>Paris</settlement>
-                              <repository>Bibliothèque nationale de France</repository>
-                              <idno>RES-YF-620</idno>
-                              <altIdentifier>
-                                 <idno type="ark">btv1b8610802d</idno>
-                              </altIdentifier>
-                           </msIdentifier>
-                           <physDesc>
-                              <objectDesc>
-                                 <p>Texte imprimé</p>
-                              </objectDesc>
-                           </physDesc>
-                        </msDesc>
-                     </sourceDesc>
-                  </egXML>
+                     <head>Example of TEI</head>
+                     <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                        <sourceDesc>
+                           <bibl>
+                              <ptr target="http://catalogue.bnf.fr/ark:/12148/cb30271542q"/>
+                              <author ref="#Co1">
+                                 <persName>
+                                    <forename>Pierre</forename>
+                                    <surname>Corneille</surname>
+                                    <ptr type="isni" target="0000000121296128"/>
+                                 </persName>
+                              </author>
+                              <title>Cinna, ou La clémence d'Auguste</title>
+                              <pubPlace key="FR">Imprimé à Rouen aux despens de l'autheur</pubPlace>
+                              <publisher>T. Quinet</publisher>
+                              <date when="1643" cert="high" resp="BNF">1643</date>
+                           </bibl>
+                           <msDesc>
+                              <msIdentifier>
+                                 <country key="FR"/>
+                                 <settlement>Paris</settlement>
+                                 <repository>Bibliothèque nationale de France</repository>
+                                 <idno>RES-YF-620</idno>
+                                 <altIdentifier>
+                                    <idno type="ark">btv1b8610802d</idno>
+                                 </altIdentifier>
+                              </msIdentifier>
+                              <physDesc>
+                                 <objectDesc>
+                                    <p>Texte imprimé</p>
+                                 </objectDesc>
+                              </physDesc>
+                           </msDesc>
+                        </sourceDesc>
+                     </egXML>
                   </div>
                   <div>
                      <head>Data Sources</head>
@@ -1020,267 +1140,247 @@ licence: {"target":"https://creativecommons.org/licenses/by/4.0/"}
                         <div>
                            <head>SRU API Response</head>
                            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                              <mxc:record xmlns:mxc="info:lc/xmlns/marcxchange-v2">
-                                 [...]
-                                 <!-- TEI translation: <ptr target="http://catalogue.bnf.fr/ark:/12148/cb30271542q"/> (in <bibl>) -->
-                                 <mxc:controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb30271542q</mxc:controlfield>
-                                 [...]
-                              </mxc:record>
+                              <mxc:record xmlns:mxc="info:lc/xmlns/marcxchange-v2"> [...] <!-- TEI translation: <ptr target="http://catalogue.bnf.fr/ark:/12148/cb30271542q"/> (in <bibl>) -->
+                                 <mxc:controlfield tag="003"
+                                    >http://catalogue.bnf.fr/ark:/12148/cb30271542q</mxc:controlfield>
+                                 [...] </mxc:record>
                            </egXML>
                         </div>
                      </div>
-                        
+
                      <div>
                         <head>Publication Place of Source Document</head>
                         <div>
                            <head>SRU API Response</head>
                            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                              <mxc:record xmlns:mxc="info:lc/xmlns/marcxchange-v2">
-                                 [...]
-                                 <mxc:datafield tag="102" ind1=" " ind2=" ">
+                              <mxc:record xmlns:mxc="info:lc/xmlns/marcxchange-v2"> [...]
+                                    <mxc:datafield tag="102" ind1=" " ind2=" ">
                                     <!-- TEI translation: <pubPlace key="FR"> (in <bibl>) -->
                                     <mxc:subfield code="a">FR</mxc:subfield>
-                                 </mxc:datafield>
-                                 [...]
-                                 <mxc:datafield tag="210" ind1=" " ind2=" ">
+                                 </mxc:datafield> [...] <mxc:datafield tag="210" ind1=" " ind2=" ">
                                     <!-- TEI translation: <pubPlace>Imprimé à Rouen aux despens de l'auteur</pubPlace> (in <bibl>)  -->
-                                    <mxc:subfield code="a">Imprimé à Rouen aux despens de l'autheur</mxc:subfield>
-                                    [...]
-                                 </mxc:datafield>
-                                 [...]
+                                    <mxc:subfield code="a">Imprimé à Rouen aux despens de
+                                       l'autheur</mxc:subfield> [...] </mxc:datafield> [...]
                               </mxc:record>
                            </egXML>
                         </div>
                      </div>
-                     
+
                      <div>
                         <head>Publisher of Source Document</head>
                         <div>
                            <head>SRU API Response</head>
                            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                              <mxc:record xmlns:mxc="info:lc/xmlns/marcxchange-v2">
-                                 [...]
-                                 <mxc:datafield tag="210" ind1=" " ind2=" ">
-                                    [...]
-                                    <!-- TEI translation: <publisher>T. Quinet</publisher> (in <bibl>) -->
-                                    <mxc:subfield code="c">T. Quinet</mxc:subfield>
-                                    [...]
-                                 </mxc:datafield>
-                                 [...]
-                              </mxc:record>
+                              <mxc:record xmlns:mxc="info:lc/xmlns/marcxchange-v2"> [...]
+                                    <mxc:datafield tag="210" ind1=" " ind2=" "> [...] <!-- TEI translation: <publisher>T. Quinet</publisher> (in <bibl>) -->
+                                    <mxc:subfield code="c">T. Quinet</mxc:subfield> [...]
+                                 </mxc:datafield> [...] </mxc:record>
                            </egXML>
                         </div>
                      </div>
-                     
+
                      <div>
                         <head>Date of Source Document's Publication</head>
                         <div>
                            <head>SRU API Response</head>
                            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                              <mxc:record xmlns:mxc="info:lc/xmlns/marcxchange-v2">
-                                 [...]
-                                 <!-- TEI translation: <date when="1643" cert="high" resp="BNF">1643</date> (in <bibl>) -->
+                              <mxc:record xmlns:mxc="info:lc/xmlns/marcxchange-v2"> [...] <!-- TEI translation: <date when="1643" cert="high" resp="BNF">1643</date> (in <bibl>) -->
                                  <mxc:datafield tag="100" ind1=" " ind2=" ">
-                                    <mxc:subfield code="a">19970701d1643    m  y0frey50      ba</mxc:subfield>
+                                    <mxc:subfield code="a">19970701d1643 m y0frey50
+                                       ba</mxc:subfield>
                                     <!-- code "d" within "19970701d1643" means the monograph was complete when issued or issued within one calendar year, 
                                  and therefore the certainty about the date is considered to be "high"-->
-                                 </mxc:datafield>
-                                 [...]
-                              </mxc:record>
+                                 </mxc:datafield> [...] </mxc:record>
                            </egXML>
                         </div>
                         <div>
                            <head>IIIF Manifest</head>
-                           <egXML xmlns="http://www.tei-c.org/ns/Examples">
-{
-   [...]
-   "Date": "1643",
-   [...]
-}
-                           </egXML>                           
+                           <egXML xmlns="http://www.tei-c.org/ns/Examples"> { [...] "Date": "1643",
+                              [...] } </egXML>
                         </div>
                      </div>
-                     
+
                      <div>
                         <head>Country Code of Conserving Institution</head>
                         <div>
                            <head>SRU API Response</head>
                            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                              <mxc:record xmlns:mxc="info:lc/xmlns/marcxchange-v2">
-                                 [...]
-                                 <!-- TEI translation: <country key="FR"/> (in <msDesc>) -->
+                              <mxc:record xmlns:mxc="info:lc/xmlns/marcxchange-v2"> [...] <!-- TEI translation: <country key="FR"/> (in <msDesc>) -->
                                  <mxc:datafield tag="801" ind1=" " ind2="0">
                                     <mxc:subfield code="a">FR</mxc:subfield>
-                                 </mxc:datafield>
-                                 [...]
-                              </mxc:record>
+                                 </mxc:datafield> [...] </mxc:record>
                            </egXML>
                         </div>
                      </div>
-                     
+
                      <div>
                         <head>City of Conserving Institution</head>
                         <div>
                            <head>Results Page of Sudoc Site</head>
-                           <p>First, from the BnF's SRU API response, the Gallic(orpor)a pipeline retrieves the unique RCR number 
-                              for the institution that conserves the source document.</p>
+                           <p>First, from the BnF's SRU API response, the Gallic(orpor)a pipeline
+                              retrieves the unique RCR number for the institution that conserves the
+                              source document.</p>
                            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                              <mxc:record xmlns:mxc="info:lc/xmlns/marcxchange-v2">
-                                 [...]
-                                 <mxc:datafield tag="930" ind1=" " ind2=" ">
-                                    [...]
-                                    <!-- Retrieve this RCR number for the institution -->
-                                    <mxc:subfield code="b">759999999</mxc:subfield>
-                                    [...]
-                                 </mxc:datafield>
-                                 [...]
-                              </mxc:record>
+                              <mxc:record xmlns:mxc="info:lc/xmlns/marcxchange-v2"> [...]
+                                    <mxc:datafield tag="930" ind1=" " ind2=" "> [...] <!-- Retrieve this RCR number for the institution -->
+                                    <mxc:subfield code="b">759999999</mxc:subfield> [...]
+                                 </mxc:datafield> [...] </mxc:record>
                            </egXML>
-                           <p>Next, the pipeline requests the results page of the Sudoc site for the institution that has this RCR number.</p>
+                           <p>Next, the pipeline requests the results page of the Sudoc site for the
+                              institution that has this RCR number.</p>
                            <egXML xmlns="http://www.tei-c.org/ns/Examples">
                               <tr>
-                                 <td class="rec_lable"><div><span>Adresse postale : </span></div></td>
+                                 <td class="rec_lable"><div>
+                                       <span>Adresse postale : </span>
+                                    </div></td>
                                  <td class="rec_title">
-                                    <div><span>Bibliothèque nationale de France</span></div>
-                                    <div><span>quai Francois Mauriac </span></div>
+                                    <div>
+                                       <span>Bibliothèque nationale de France</span>
+                                    </div>
+                                    <div>
+                                       <span>quai Francois Mauriac </span>
+                                    </div>
                                     <!-- TEI translation: <settlement>Paris</settlement> (in <msDesc>) -->
-                                    <div><span>75706 Paris CEDEX 13</span></div>
-                                    <div><span>France</span></div>
-                                    <div><span> </span></div>
+                                    <div>
+                                       <span>75706 Paris CEDEX 13</span>
+                                    </div>
+                                    <div>
+                                       <span>France</span>
+                                    </div>
+                                    <div>
+                                       <span> </span>
+                                    </div>
                                  </td>
                               </tr>
                            </egXML>
-                           <p>Finally, the pipeline locates the address line that names the country, in this case "France," and retrieves the line 
-                              immediately preceding the country, which would presumably be the city. After some cleaning, in which any numbers and 
-                              the French term "Cedex," which is assumed to not be the name of a city, are removed, the remaining string is inserted 
-                              in the <gi>msDesc</gi>.</p>
+                           <p>Finally, the pipeline locates the address line that names the country,
+                              in this case "France," and retrieves the line immediately preceding
+                              the country, which would presumably be the city. After some cleaning,
+                              in which any numbers and the French term "Cedex," which is assumed to
+                              not be the name of a city, are removed, the remaining string is
+                              inserted in the <gi>msDesc</gi>.</p>
                         </div>
                      </div>
-                     
+
                      <div>
                         <head>Name of Conserving Institution</head>
                         <div>
                            <head>Results Page of Sudoc Site</head>
-                           <p>First, from the BnF's SRU API response, the Gallic(orpor)a pipeline retrieves the unique RCR number 
-                              for the institution that conserves the source document.</p>
+                           <p>First, from the BnF's SRU API response, the Gallic(orpor)a pipeline
+                              retrieves the unique RCR number for the institution that conserves the
+                              source document.</p>
                            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                              <mxc:record xmlns:mxc="info:lc/xmlns/marcxchange-v2">
-                                 [...]
-                                 <mxc:datafield tag="930" ind1=" " ind2=" ">
-                                    [...]
-                                    <!-- Retrieve this RCR number for the institution -->
-                                    <mxc:subfield code="b">759999999</mxc:subfield>
-                                    [...]
-                                 </mxc:datafield>
-                                 [...]
-                              </mxc:record>
+                              <mxc:record xmlns:mxc="info:lc/xmlns/marcxchange-v2"> [...]
+                                    <mxc:datafield tag="930" ind1=" " ind2=" "> [...] <!-- Retrieve this RCR number for the institution -->
+                                    <mxc:subfield code="b">759999999</mxc:subfield> [...]
+                                 </mxc:datafield> [...] </mxc:record>
                            </egXML>
-                           <p>Next, the pipeline requests the results page of the Sudoc site for the institution that has this RCR number.</p>
+                           <p>Next, the pipeline requests the results page of the Sudoc site for the
+                              institution that has this RCR number.</p>
                            <egXML xmlns="http://www.tei-c.org/ns/Examples">
                               <tr>
-                                 <td class="rec_lable"><div><span>Adresse postale : </span></div></td>
+                                 <td class="rec_lable"><div>
+                                       <span>Adresse postale : </span>
+                                    </div></td>
                                  <td class="rec_title">
                                     <!-- TEI translation: <repository>Bibliothèque nationale de France</repository> (in <msDesc>) -->
-                                    <div><span>Bibliothèque nationale de France</span></div>
-                                    <div><span>quai Francois Mauriac </span></div>
-                                    <div><span>75706 Paris CEDEX 13</span></div>
-                                    <div><span>France</span></div>
-                                    <div><span> </span></div>
+                                    <div>
+                                       <span>Bibliothèque nationale de France</span>
+                                    </div>
+                                    <div>
+                                       <span>quai Francois Mauriac </span>
+                                    </div>
+                                    <div>
+                                       <span>75706 Paris CEDEX 13</span>
+                                    </div>
+                                    <div>
+                                       <span>France</span>
+                                    </div>
+                                    <div>
+                                       <span> </span>
+                                    </div>
                                  </td>
                               </tr>
                            </egXML>
-                           <p>Finally, the pipeline locates the first address line, which is presumed to be the name of the institution.</p>
+                           <p>Finally, the pipeline locates the first address line, which is
+                              presumed to be the name of the institution.</p>
                         </div>
                         <div>
                            <head>IIIF Manifest</head>
-                           <p>Otherwise, the name of the institution can be derived from the IIIF manfiest.</p>
-                           <egXML xmlns="http://www.tei-c.org/ns/Examples">
-{
-   [...]
-   "Repository": "Bibliothèque nationale de France",
-   [...]
-}
-                           </egXML>                           
+                           <p>Otherwise, the name of the institution can be derived from the IIIF
+                              manfiest.</p>
+                           <egXML xmlns="http://www.tei-c.org/ns/Examples"> { [...] "Repository":
+                              "Bibliothèque nationale de France", [...] } </egXML>
                         </div>
                      </div>
-                     
+
                      <div>
                         <head>Shelfmark of Source Document</head>
                         <div>
                            <head>SRU API Response</head>
                            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                              <mxc:record xmlns:mxc="info:lc/xmlns/marcxchange-v2">
-                                 [...]
-                                 <!-- TEI translation: <idno>RES-YF-620</idno> (in <msDesc>) -->
-                                 <mxc:datafield tag="930" ind1=" " ind2=" ">
-                                    [...]
-                                    <mxc:subfield code="a">RES-YF-620</mxc:subfield>
-                                    [...]
-                                 </mxc:datafield>
+                              <mxc:record xmlns:mxc="info:lc/xmlns/marcxchange-v2"> [...] <!-- TEI translation: <idno>RES-YF-620</idno> (in <msDesc>) -->
+                                 <mxc:datafield tag="930" ind1=" " ind2=" "> [...] <mxc:subfield
+                                       code="a">RES-YF-620</mxc:subfield> [...] </mxc:datafield>
                                  <!-- The current version of the pipeline does not acccommodate multiple Unimarc zones 930; it retrieves only the first response -->
-                                 <mxc:datafield tag="930" ind1=" " ind2=" ">
-                                    [...]
-                                    <mxc:subfield code="a">RES-YF-621</mxc:subfield>
-                                    [...]
-                                    <mxc:subfield code="d">N</mxc:subfield>
-                                 </mxc:datafield>
-                                 [...]
-                              </mxc:record>
+                                 <mxc:datafield tag="930" ind1=" " ind2=" "> [...] <mxc:subfield
+                                       code="a">RES-YF-621</mxc:subfield> [...] <mxc:subfield
+                                       code="d">N</mxc:subfield>
+                                 </mxc:datafield> [...] </mxc:record>
                            </egXML>
                         </div>
                         <div>
                            <head>IIIF Manifest</head>
-                           <egXML xmlns="http://www.tei-c.org/ns/Examples">
-{
-   [...]
-   "Shelfmark": "Bibliothèque nationale de France, département Réserve des livres rares, RES-YF-621",
-   [...]
-}
-                           </egXML>                           
+                           <egXML xmlns="http://www.tei-c.org/ns/Examples"> { [...] "Shelfmark":
+                              "Bibliothèque nationale de France, département Réserve des livres
+                              rares, RES-YF-621", [...] } </egXML>
                         </div>
                      </div>
-                     
+
                      <div>
                         <head>ARK of Digital Exemplars of Source Document</head>
-                        <p>The Archival Resource Key (ARK) of the digital exemplars are known to the Gallic(orpor)a pipeline thanks to the file naming system 
-                           that it constructs and on which it relies. The transcribed pages of a source document are stored in a directory named after the ARK. 
-                           Consequently, the pipeline retains access to this data and draws on the directory's name when generating the XML-TEI file and the 
-                           <gi>idno</gi> of the <gi>altIdentifer</gi>.
-                        </p>
+                        <p>The Archival Resource Key (ARK) of the digital exemplars are known to the
+                           Gallic(orpor)a pipeline thanks to the file naming system that it
+                           constructs and on which it relies. The transcribed pages of a source
+                           document are stored in a directory named after the ARK. Consequently, the
+                           pipeline retains access to this data and draws on the directory's name
+                           when generating the XML-TEI file and the <gi>idno</gi> of the
+                              <gi>altIdentifer</gi>. </p>
                      </div>
-                     
+
                      <div>
                         <head>Type of Source Document's Material</head>
                         <div>
                            <head>SRU API Response</head>
                            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                              <mxc:record xmlns:mxc="info:lc/xmlns/marcxchange-v2">
-                                 [...]
-                                 <!-- TEI translation: <p>Texte imprimé</p> (in <objectDesc>) -->
+                              <mxc:record xmlns:mxc="info:lc/xmlns/marcxchange-v2"> [...] <!-- TEI translation: <p>Texte imprimé</p> (in <objectDesc>) -->
                                  <mxc:datafield tag="200" ind1="1" ind2=" ">
                                     <mxc:subfield code="b">Texte imprimé</mxc:subfield>
-                                 </mxc:datafield>
-                                 [...]
-                              </mxc:record>
+                                 </mxc:datafield> [...] </mxc:record>
                            </egXML>
                         </div>
                      </div>
                   </div>
                </div>
-               
+
                <div xml:id="profileDesc">
                   <head>Profile Description</head>
-                  <div><head>Description</head>
-                    <p>In SegmOnto, <gi>profileDesc</gi>is required because the nature of transcriptions is such that it is
-                       essential to identify and record the language(s) used as part of the resource's metadata.</p>
-                    <p>Consequently, <gi>profileDesc</gi> requires <gi>langUsage</gi> and at least one <gi>language</gi> element. 
-                       The Gallic(orpor)a pipeline derives this information from both the digital exemplars' IIIF manifest 
-                       (value of "Language" in JSON), which is the text contained in the element <gi>language</gi>, as well as 
-                       the physical source document's metadata in the BnF's general catalogue (Unimarc zone A101), 
-                       which is given as the attribute <att>ident</att>.</p>
+                  <div>
+                     <head>Description</head>
+                     <p>In SegmOnto, <gi>profileDesc</gi>is required because the nature of
+                        transcriptions is such that it is essential to identify and record the
+                        language(s) used as part of the resource's metadata.</p>
+                     <p>Consequently, <gi>profileDesc</gi> requires <gi>langUsage</gi> and at least
+                        one <gi>language</gi> element. The Gallic(orpor)a pipeline derives this
+                        information from both the digital exemplars' IIIF manifest (value of
+                        "Language" in JSON), which is the text contained in the element
+                           <gi>language</gi>, as well as the physical source document's metadata in
+                        the BnF's general catalogue (Unimarc zone A101), which is given as the
+                        attribute <att>ident</att>.</p>
                      <p>In its current version, the pipeline only accommodates one language.</p>
                   </div>
-                  <div><head>Example of TEI</head>
+                  <div>
+                     <head>Example of TEI</head>
                      <egXML xmlns="http://www.tei-c.org/ns/Examples">
                         <profileDesc>
                            <langUsage>
@@ -1296,30 +1396,21 @@ licence: {"target":"https://creativecommons.org/licenses/by/4.0/"}
                         <div>
                            <head>SRU API Response</head>
                            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                              <mxc:record xmlns:mxc="info:lc/xmlns/marcxchange-v2">
-                                 [...]
-                                 <!-- TEI translation: <language ident="fre"> -->
+                              <mxc:record xmlns:mxc="info:lc/xmlns/marcxchange-v2"> [...] <!-- TEI translation: <language ident="fre"> -->
                                  <mxc:datafield tag="101" ind1="0" ind2=" ">
                                     <mxc:subfield code="a">fre</mxc:subfield>
-                                 </mxc:datafield>
-                                 [...]
-                              </mxc:record>
+                                 </mxc:datafield> [...] </mxc:record>
                            </egXML>
                         </div>
                         <div>
                            <head>IIIF Manifest</head>
-                           <egXML xmlns="http://www.tei-c.org/ns/Examples">
-{
-   [...]
-   "Language": "français",
-   [...]
-}
-                           </egXML> 
+                           <egXML xmlns="http://www.tei-c.org/ns/Examples"> { [...] "Language":
+                              "français", [...] } </egXML>
                         </div>
                      </div>
                   </div>
                </div>
-               
+
                <!-- ADD <encodingDesc> -->
                <div xml:id="encodingDesc">
                   <head>Encoding description</head>
@@ -1327,22 +1418,22 @@ licence: {"target":"https://creativecommons.org/licenses/by/4.0/"}
                      <head>Apparatus</head>
                      <div>
                         <head>Description</head>
-                           <p>Because a mechanical transcription is produced by a tool, and because tools can
-                              produce slightly different data (height of the baseline, etc.), it is crucial
-                              to indicate which one was used with <gi>appInfo</gi>.</p>
-                           <p>The current version of the Gallic(orpor)a pipeline draws this information either from
-                              the requirements.txt file that lists the version of Kraken used to mechanically produce
-                              the transcription or, if the transcriptions have already been made and only the pipeline's 
-                              tool that transforms ALTO-XML files to a TEI-XML file is being used, the user can manually 
-                              declare a version of Kraken. The Gallic(orpor)a pipeline presumes that the engine responsible 
-                              for creating the transcriptions is Kraken. However, any applications can be declared in an 
-                              <gi>appInfo</gi> and the SegmOnto-Gallic(orpor)a guidelines require at least one.
-                           </p>
+                        <p>Because a mechanical transcription is produced by a tool, and because
+                           tools can produce slightly different data (height of the baseline, etc.),
+                           it is crucial to indicate which one was used with <gi>appInfo</gi>.</p>
+                        <p>The current version of the Gallic(orpor)a pipeline draws this information
+                           either from the requirements.txt file that lists the version of Kraken
+                           used to mechanically produce the transcription or, if the transcriptions
+                           have already been made and only the pipeline's tool that transforms
+                           ALTO-XML files to a TEI-XML file is being used, the user can manually
+                           declare a version of Kraken. The Gallic(orpor)a pipeline presumes that
+                           the engine responsible for creating the transcriptions is Kraken.
+                           However, any applications can be declared in an <gi>appInfo</gi> and the
+                           SegmOnto-Gallic(orpor)a guidelines require at least one. </p>
                      </div>
                      <div>
                         <head>Example of TEI</head>
-                        <egXML
-                           xmlns="http://www.tei-c.org/ns/Examples">
+                        <egXML xmlns="http://www.tei-c.org/ns/Examples">
                            <appInfo>
                               <application ident="Kraken" version="4.1.2">
                                  <label>Kraken</label>
@@ -1352,31 +1443,30 @@ licence: {"target":"https://creativecommons.org/licenses/by/4.0/"}
                         </egXML>
                      </div>
                   </div>
-                  
+
                   <div xml:id="Taxonomy">
                      <head>Taxonomy</head>
                      <div>
                         <head>Description</head>
-                        <p>Because SegmOnto uses precisely defined zones, it is important to provide a
-                           link for each of them via the <gi>taxonomy</gi> element in <gi>classDecl</gi>. 
-                           The SegmOnto-Gallic(orpor)a guidelines recommend to only include as many SegmOnto 
-                           zones as the transcription uses, and the Galli(orpor)a pipeline only generates a 
-                           <gi>catDesc</gi> for zones and lines whose tags it identified in the mechanically produced 
-                           transcription.
-                        </p>
-                        <p>
-                           The pipeline enriches the description of zones and lines by inserting a 
-                           URL from SegmOnto's website that provides up-to-date detail about the entity. This 
-                           connection is made when the pipeline identifies a tag used in the transcription 
-                           whose name corresponds to a name in its internal index, each of which is paired 
-                           with a URL from SegmOnto's website. Training models to respect SegmOnto's syntax, 
-                           including capitalisation and the spelling of zones and lines, allows the pipeline 
-                           to automatically fill the <gi>taxonomy</gi> with these enriched descriptions.
-                        </p>
+                        <p>Because SegmOnto uses precisely defined zones, it is important to provide
+                           a link for each of them via the <gi>taxonomy</gi> element in
+                              <gi>classDecl</gi>. The SegmOnto-Gallic(orpor)a guidelines recommend
+                           to only include as many SegmOnto zones as the transcription uses, and the
+                           Galli(orpor)a pipeline only generates a <gi>catDesc</gi> for zones and
+                           lines whose tags it identified in the mechanically produced
+                           transcription. </p>
+                        <p> The pipeline enriches the description of zones and lines by inserting a
+                           URL from SegmOnto's website that provides up-to-date detail about the
+                           entity. This connection is made when the pipeline identifies a tag used
+                           in the transcription whose name corresponds to a name in its internal
+                           index, each of which is paired with a URL from SegmOnto's website.
+                           Training models to respect SegmOnto's syntax, including capitalisation
+                           and the spelling of zones and lines, allows the pipeline to automatically
+                           fill the <gi>taxonomy</gi> with these enriched descriptions. </p>
                      </div>
                      <div>
                         <head>Example of TEI</head>
-                           <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                        <egXML xmlns="http://www.tei-c.org/ns/Examples">
                            <classDecl>
                               <taxonomy xml:id="SegmOnto">
                                  <bibl>
@@ -1386,135 +1476,117 @@ licence: {"target":"https://creativecommons.org/licenses/by/4.0/"}
                                  <category xml:id="SegmOntoZones">
                                     <catDesc xml:id="DropCapitalZone">
                                        <title>DropCapitalZone</title>
-                                       <ptr target="https://segmonto.github.io/gd/gdZ/DropCapitalZone"/>
-                                    </catDesc>
-                                    [...]
-                                 </category>
+                                       <ptr
+                                          target="https://segmonto.github.io/gd/gdZ/DropCapitalZone"
+                                       />
+                                    </catDesc> [...] </category>
                                  <category xml:id="SegmOntoLines">
                                     <catDesc xml:id="HeadingLine">
                                        <title>HeadingLine</title>
                                        <ptr target="https://segmonto.github.io/gd/gdL/HeadingLine"/>
-                                    </catDesc>
-                                    [...]
-                                 </category>
+                                    </catDesc> [...] </category>
                               </taxonomy>
                            </classDecl>
                         </egXML>
                      </div>
-                     <div><head>Example of ALTO</head>
-                        <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                           [...]
-                           <Tags>
+                     <div>
+                        <head>Example of ALTO</head>
+                        <egXML xmlns="http://www.tei-c.org/ns/Examples"> [...] <Tags>
                               <!-- TEI translation: <catDesc xml:id="DropCapitalZone"> -->
-                              [...]<OtherTag ID="BT2060" LABEL="DropCapitalZone" DESCRIPTION="block type DropCapitalZone"/>[...]
+                                 [...]<OtherTag ID="BT2060" LABEL="DropCapitalZone"
+                                 DESCRIPTION="block type DropCapitalZone"/>[...]
                               <!-- TEI translation: <catDesc xml:id="HeadingLine"> -->
-                              [...]<OtherTag ID="LT722" LABEL="HeadingLine" DESCRIPTION="line type HeadingLine"/>[...]
-                           </Tags>
+                                 [...]<OtherTag ID="LT722" LABEL="HeadingLine"
+                                 DESCRIPTION="line type HeadingLine"/>[...] </Tags>
                         </egXML>
                      </div>
                   </div>
                </div>
-               
+
             </div>
             <div rend="toc" xml:id="sourceDoc">
                <head>Source Document</head>
-               <p>
-                  In the TEI, the <gi>sourceDoc</gi> contains a transcription of a source document. The SegmOnto-Gallic(orpor)a 
-                  guidelines take full advantage of this purpose and use the <gi>sourceDoc</gi> to conserve every piece of information conveyed in 
-                  ALTO-XML files. Thanks to this commitment to data conservation, the <gi>sourceDoc</gi> can be used to recreate ALTO-XML files and 
-                  therefore re-train models based on transcriptions represented in a TEI-XML file.
-               </p>
-               <p>Whereas certain elements of the <gi>teiHeader</gi> are open to modification, the SegmOnto-Gallic(orpor)a guidelines 
-                  apply strict limits to the <gi>sourceDoc</gi>. It must contain two types of information: (1) coordinates and a classification for geometric regions, 
-                  and (2) textual content linked to a region. The only variety permitted in the 
-                  <gi>sourceDoc</gi> is the level of granularity of a page's embedded regions, which depends on the mechanically prodocued ALTO-XML files. 
-                  In an ALTO-XML file, a transcription's granularity can either descend only to the level of a line of text, such as the line "Textual content." 
-                  Or it can descend as deep as the level of a glyph inside a segment, such as the character "T" in the segment "Textual." 
-               </p>
-               <p>When processing ALTO-XML files with shallow granularity, the <gi>sourceDoc</gi> explores the top two embedded layers of a page's 
-                  possible granularity: a zone and line(s) of text within that zone. The text line's content is expressed in an element <gi>line</gi>, which 
-                  is embedded inside the geometric region of that line, the innermost <gi>zone</gi>.</p>
-                  <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                     <sourceDoc>[...]
-                        <!-- Region of one page. -->
-                        <surface>
-                           [...]
-                           <!-- Region of one zone. -->
-                           <zone type="Zone">
-                              <!-- Region of one line of text (i.e. "Textual content."). -->
-                              <zone type="Line">
-                                 [...]
-                              <line>Textual content.</line>
-                              </zone>
+               <p> In the TEI, the <gi>sourceDoc</gi> contains a transcription of a source document.
+                  The SegmOnto-Gallic(orpor)a guidelines take full advantage of this purpose and use
+                  the <gi>sourceDoc</gi> to conserve every piece of information conveyed in ALTO-XML
+                  files. Thanks to this commitment to data conservation, the <gi>sourceDoc</gi> can
+                  be used to recreate ALTO-XML files and therefore re-train models based on
+                  transcriptions represented in a TEI-XML file. </p>
+               <p>Whereas certain elements of the <gi>teiHeader</gi> are open to modification, the
+                  SegmOnto-Gallic(orpor)a guidelines apply strict limits to the <gi>sourceDoc</gi>.
+                  It must contain two types of information: (1) coordinates and a classification for
+                  geometric regions, and (2) textual content linked to a region. The only variety
+                  permitted in the <gi>sourceDoc</gi> is the level of granularity of a page's
+                  embedded regions, which depends on the mechanically prodocued ALTO-XML files. In
+                  an ALTO-XML file, a transcription's granularity can either descend only to the
+                  level of a line of text, such as the line "Textual content." Or it can descend as
+                  deep as the level of a glyph inside a segment, such as the character "T" in the
+                  segment "Textual." </p>
+               <p>When processing ALTO-XML files with shallow granularity, the <gi>sourceDoc</gi>
+                  explores the top two embedded layers of a page's possible granularity: a zone and
+                  line(s) of text within that zone. The text line's content is expressed in an
+                  element <gi>line</gi>, which is embedded inside the geometric region of that line,
+                  the innermost <gi>zone</gi>.</p>
+               <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                  <sourceDoc>[...] <!-- Region of one page. -->
+                     <surface> [...] <!-- Region of one zone. -->
+                        <zone type="Zone">
+                           <!-- Region of one line of text (i.e. "Textual content."). -->
+                           <zone type="Line"> [...] <line>Textual content.</line>
                            </zone>
-                        </surface>
-                     </sourceDoc>
-                  </egXML>
-               <p>When processing ALTO-XML files with deep granularity, the <gi>sourceDoc</gi> explores all four embedded layers of a page's 
-                  granularity: a zone, line(s) of text within that zone, segment(s) that compose that line, and glyph(s) that compose that 
-                  segment. The text line's content is still expressed in the element <gi>line</gi>, which establishes uniformity 
-                  between the two possible <gi>sourceDoc</gi> structures. However, the textual content of glyphs is also expressed. The 
-                  glyph's content is contained inside the element <gi>c</gi>, which is itself embedded within the <gi>zone</gi> of that glyph.</p>
-                  <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                     <sourceDoc>[...]
-                        <!-- Region of one page. -->
-                        <surface>
-                           [...]
-                           <!-- Region of one zone. -->
-                           <zone type="Zone">
-                              <!-- Region of one line of text (i.e. "Textual content."). -->
-                              <zone type="Line">
-                                 [...]
-                                 <!-- Region of one segment in a line (i.e. "Textual"). -->
-                                 <zone type="String">
-                                    [...]
-                                    <!-- Region of one glyph in a segment (i.e. "T"). -->
-                                    <zone type="Glyph">
-                                       [...]
-                                       <c>T</c>
-                                    </zone>
-                                    [...]
-                                 </zone>
-                                 [...]
-                                 <!-- Region of a white space between segments. -->
-                                 <zone type="Space"/>
-                                 [...]
-                                 <line>Textual content.</line>
-                              </zone>
+                        </zone>
+                     </surface>
+                  </sourceDoc>
+               </egXML>
+               <p>When processing ALTO-XML files with deep granularity, the <gi>sourceDoc</gi>
+                  explores all four embedded layers of a page's granularity: a zone, line(s) of text
+                  within that zone, segment(s) that compose that line, and glyph(s) that compose
+                  that segment. The text line's content is still expressed in the element
+                     <gi>line</gi>, which establishes uniformity between the two possible
+                     <gi>sourceDoc</gi> structures. However, the textual content of glyphs is also
+                  expressed. The glyph's content is contained inside the element <gi>c</gi>, which
+                  is itself embedded within the <gi>zone</gi> of that glyph.</p>
+               <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                  <sourceDoc>[...] <!-- Region of one page. -->
+                     <surface> [...] <!-- Region of one zone. -->
+                        <zone type="Zone">
+                           <!-- Region of one line of text (i.e. "Textual content."). -->
+                           <zone type="Line"> [...] <!-- Region of one segment in a line (i.e. "Textual"). -->
+                              <zone type="String"> [...] <!-- Region of one glyph in a segment (i.e. "T"). -->
+                                 <zone type="Glyph"> [...] <c>T</c>
+                                 </zone> [...] </zone> [...] <!-- Region of a white space between segments. -->
+                              <zone type="Space"/> [...] <line>Textual content.</line>
                            </zone>
-                        </surface>
-                     </sourceDoc>
-                  </egXML>
-               
+                        </zone>
+                     </surface>
+                  </sourceDoc>
+               </egXML>
+
                <div>
                   <head>Page</head>
-                  <p>One ALTO-XML file usually represents the transcription of one page from a source document. In the ALTO schema, 
-                     data about one page is embedded in the element <gi>Page</gi>, whose attributes describe that page's width 
-                     and height, as well as how many other pages had been mechanically processed before it. The ALTO attribute 
-                     <att>PHYSICAL_IMAGE_NR</att> represents the position of that transcribed image within the context of a series 
-                     of processed images. Contrary to the data forementioned, there is one piece of information that the SegmOnto-Gallic(orpor)a
-                     guidelines do not consider essential. Mechanical processes generate automatically an ID for the region of a page.
-                     The Gallic(orpo)a pipeline replaces this ID with a more meaningful identifier that represents the folio number of 
-                     the source document.</p>
-                  <p>
-                     In the TEI model, one <gi>surface</gi> represents one page and includes all the geometric information encoded in the 
-                     elements that the ALTO-XML file uses to represent one page. When mechanically generated, an ALTO-XML file redundantly 
-                     describes the height and width of a page in two locations, the <gi>Page</gi> element and the <gi>PrintSpace</gi> 
-                     element, because the entirety of an image is transcribed.
-                  </p>
+                  <p>One ALTO-XML file usually represents the transcription of one page from a
+                     source document. In the ALTO schema, data about one page is embedded in the
+                     element <gi>Page</gi>, whose attributes describe that page's width and height,
+                     as well as how many other pages had been mechanically processed before it. The
+                     ALTO attribute <att>PHYSICAL_IMAGE_NR</att> represents the position of that
+                     transcribed image within the context of a series of processed images. Contrary
+                     to the data forementioned, there is one piece of information that the
+                     SegmOnto-Gallic(orpor)a guidelines do not consider essential. Mechanical
+                     processes generate automatically an ID for the region of a page. The
+                     Gallic(orpo)a pipeline replaces this ID with a more meaningful identifier that
+                     represents the folio number of the source document.</p>
+                  <p> In the TEI model, one <gi>surface</gi> represents one page and includes all
+                     the geometric information encoded in the elements that the ALTO-XML file uses
+                     to represent one page. When mechanically generated, an ALTO-XML file
+                     redundantly describes the height and width of a page in two locations, the
+                        <gi>Page</gi> element and the <gi>PrintSpace</gi> element, because the
+                     entirety of an image is transcribed. </p>
                   <div>
                      <head>Example of ALTO</head>
                      <egXML xmlns="http://www.tei-c.org/ns/Examples">
                         <Layout>
-                           <Page WIDTH="2586"
-                              HEIGHT="3631"
-                              PHYSICAL_IMG_NR="2"
-                              ID="page_2">
-                              <PrintSpace HPOS="0"
-                                 VPOS="0"
-                                 WIDTH="2586"
-                                 HEIGHT="3631">
-                                 [...]
+                           <Page WIDTH="2586" HEIGHT="3631" PHYSICAL_IMG_NR="2" ID="page_2">
+                              <PrintSpace HPOS="0" VPOS="0" WIDTH="2586" HEIGHT="3631"> [...]
                               </PrintSpace>
                            </Page>
                         </Layout>
@@ -1525,11 +1597,12 @@ licence: {"target":"https://creativecommons.org/licenses/by/4.0/"}
                      <table rend="boxed" rows="7" cols="3">
                         <row role="data">
                            <cell role="TEI">TEI model</cell>
-                           <cell role="space">    </cell>
+                           <cell role="space"> </cell>
                            <cell role="ALTO">ALTO schema</cell>
                         </row>
                         <row role="data">
-                           <cell role="TEI"><tag>surface xml:id=[ALTO-XML file name / folio number]</tag></cell>
+                           <cell role="TEI"><tag>surface xml:id=[ALTO-XML file name / folio
+                                 number]</tag></cell>
                            <cell/>
                            <cell/>
                         </row>
@@ -1565,11 +1638,12 @@ licence: {"target":"https://creativecommons.org/licenses/by/4.0/"}
                      <table rend="boxed" rows="2" cols="3">
                         <row role="data">
                            <cell role="TEI">TEI model</cell>
-                           <cell role="space">    </cell>
+                           <cell role="space"> </cell>
                            <cell role="ALTO">ALTO schema</cell>
                         </row>
                         <row role="data">
-                           <cell role="TEI"><tag>zone source="[URI]/[folio number]/full/full/0/native.jpg"</tag></cell>
+                           <cell role="TEI"><tag>zone source="[URI]/[folio
+                                 number]/full/full/0/native.jpg"</tag></cell>
                            <cell/>
                            <cell/>
                         </row>
@@ -1577,43 +1651,48 @@ licence: {"target":"https://creativecommons.org/licenses/by/4.0/"}
                   </div>
                   <div>
                      <head>Example of TEI</head>
-                     <p>Embedded in the <gi>surface</gi> element, the element <gi>graphic</gi> combines the ARK of the digital exemplars 
-                        and the IIIF URI for Gallica's documents to generate a IIIF URI of the full region of the page transcribed.</p>
+                     <p>Embedded in the <gi>surface</gi> element, the element <gi>graphic</gi>
+                        combines the ARK of the digital exemplars and the IIIF URI for Gallica's
+                        documents to generate a IIIF URI of the full region of the page
+                        transcribed.</p>
                      <egXML xmlns="http://www.tei-c.org/ns/Examples">
                         <surface xml:id="f11" n="2" ulx="0" uly="0" lrx="2586" lry="3631">
-                           <graphic url="https://gallica.bnf.fr/iiif/ark:/12148/btv1b8610802d/f11/full/full/0/native.jpg"/>
-                           [...]
-                        </surface>
+                           <graphic
+                              url="https://gallica.bnf.fr/iiif/ark:/12148/btv1b8610802d/f11/full/full/0/native.jpg"
+                           /> [...] </surface>
                      </egXML>
                   </div>
                </div>
-               
+
                <div>
                   <head>Layer 1: SegmOnto Zone</head>
-                  <p>A SegmOnto zone describes a region on a source document's page that does not necessarily contain text, as in the case of a 
-                     StampZone or DamageZone. Thus, when mapped to the TEI element <gi>zone</gi>, this element does not have to include children. 
-                     It does, however, require certain attributes standard to all <gi>zone</gi> elements in the SegmOnto-Gallic(orpor)a guidelines. 
-                     These attributes describe the region's classification or function (<att>type</att>), the X coordinate where the region starts 
-                     (<att>ulx</att>), the Y coordinate where it starts (<att>uly</att>), the X coordinate where it ends (<att>lrx</att>), the Y 
-                     coordinate where it ends (<att>lry</att>), a sequence of X,Y coordinates that outline the region's polygonal perimeter (<att>points</att>), 
-                     and the IIIF URI that will display that region in a IIIF Image API viewer (<att>source</att>).</p>
-                  <p>The region of a SegmOnto zone and the region of an inter-word space are the only two <gi>zone</gi> elements that can and will not, 
-                     respectively, have any descendants. Another particularity of the SegmOnto zone is that it, along with the <gi>zone</gi> 
-                     for a SegmOnto line, has a composite classification, composed of a <att>type</att>, <att>subtype</att>, and <att>n</att>. Furthemore, the 
-                     <gi>zone</gi> element for a SegmOnto zone and SegmOnto line have an attribute <gi>correp</gi>, which associates its classification 
-                     with one described in the <gi>taxonomy</gi> (<ptr target="#Taxonomy"/>).</p>
+                  <p>A SegmOnto zone describes a region on a source document's page that does not
+                     necessarily contain text, as in the case of a StampZone or DamageZone. Thus,
+                     when mapped to the TEI element <gi>zone</gi>, this element does not have to
+                     include children. It does, however, require certain attributes standard to all
+                        <gi>zone</gi> elements in the SegmOnto-Gallic(orpor)a guidelines. These
+                     attributes describe the region's classification or function (<att>type</att>),
+                     the X coordinate where the region starts (<att>ulx</att>), the Y coordinate
+                     where it starts (<att>uly</att>), the X coordinate where it ends
+                        (<att>lrx</att>), the Y coordinate where it ends (<att>lry</att>), a
+                     sequence of X,Y coordinates that outline the region's polygonal perimeter
+                        (<att>points</att>), and the IIIF URI that will display that region in a
+                     IIIF Image API viewer (<att>source</att>).</p>
+                  <p>The region of a SegmOnto zone and the region of an inter-word space are the
+                     only two <gi>zone</gi> elements that can and will not, respectively, have any
+                     descendants. Another particularity of the SegmOnto zone is that it, along with
+                     the <gi>zone</gi> for a SegmOnto line, has a composite classification, composed
+                     of a <att>type</att>, <att>subtype</att>, and <att>n</att>. Furthemore, the
+                        <gi>zone</gi> element for a SegmOnto zone and SegmOnto line have an
+                     attribute <gi>correp</gi>, which associates its classification with one
+                     described in the <gi>taxonomy</gi> (<ptr target="#Taxonomy"/>).</p>
                   <div>
                      <head>Example of ALTO of <gi>TextBlock</gi></head>
                      <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                        <TextBlock HPOS="323"
-                           VPOS="336"
-                           WIDTH="2056"
-                           HEIGHT="2812"
-                           ID="textblock_0"
+                        <TextBlock HPOS="323" VPOS="336" WIDTH="2056" HEIGHT="2812" ID="textblock_0"
                            TAGREFS="BT2062">
                            <Shape><Polygon POINTS="2379 336 2379 3148 323 3148 323 336"/></Shape>
-                           [...]
-                        </TextBlock>
+                           [...] </TextBlock>
                      </egXML>
                   </div>
                   <div>
@@ -1625,29 +1704,34 @@ licence: {"target":"https://creativecommons.org/licenses/by/4.0/"}
                            <cell role="ALTO">ALTO schema</cell>
                         </row>
                         <row role="data">
-                           <cell role="TEI"><tag>zone xml:id="[folio number]-[value]-[count of TextBlock]"</tag></cell>
+                           <cell role="TEI"><tag>zone xml:id="[folio number]-[value]-[count of
+                                 TextBlock]"</tag></cell>
                            <cell/>
                            <cell role="ALTO"><tag>TextBlock ID="value"</tag></cell>
                         </row>
                         <row role="data">
                            <cell role="TEI"><tag>zone type="value"</tag></cell>
                            <cell/>
-                           <cell role="ALTO"><tag>TextBlock TAGREFS="[value]:subtype#number"</tag></cell>
+                           <cell role="ALTO"><tag>TextBlock
+                              TAGREFS="[value]:subtype#number"</tag></cell>
                         </row>
                         <row role="data">
                            <cell role="TEI"><tag>zone corresp="#[id]"</tag></cell>
                            <cell>search "value" in <gi>taxonomy</gi>, retrieve "id"</cell>
-                           <cell role="ALTO"><tag>TextBlock TAGREFS="[value]:subtype#number"</tag></cell>
+                           <cell role="ALTO"><tag>TextBlock
+                              TAGREFS="[value]:subtype#number"</tag></cell>
                         </row>
                         <row role="data">
                            <cell role="TEI"><tag>zone subtype="value"</tag></cell>
                            <cell/>
-                           <cell role="ALTO"><tag>TextBlock TAGREFS="type:[value]#number"</tag></cell>
+                           <cell role="ALTO"><tag>TextBlock
+                              TAGREFS="type:[value]#number"</tag></cell>
                         </row>
                         <row role="data">
                            <cell role="TEI"><tag>zone n="value"</tag></cell>
                            <cell/>
-                           <cell role="ALTO"><tag>TextBlock TAGREFS="type:subtype#[value]"</tag></cell>
+                           <cell role="ALTO"><tag>TextBlock
+                              TAGREFS="type:subtype#[value]"</tag></cell>
                         </row>
                         <row role="data">
                            <cell role="TEI"><tag>zone ulx="value"</tag></cell>
@@ -1675,62 +1759,61 @@ licence: {"target":"https://creativecommons.org/licenses/by/4.0/"}
                            <cell role="ALTO"><tag>Polygon POINTS="value"</tag></cell>
                         </row>
                         <row role="data">
-                           <cell role="TEI"><tag>zone source="[URI]/[folio number]/[HPOS],[VPOS],[WIDTH],[HEIGHT]/full/0/native.jpg"</tag></cell>
+                           <cell role="TEI"><tag>zone source="[URI]/[folio
+                                 number]/[HPOS],[VPOS],[WIDTH],[HEIGHT]/full/0/native.jpg"</tag></cell>
                            <cell/>
-                           <cell role="ALTO"><tag>TextBlock HPOS="value"</tag>, <tag>TextBlock VPOS="value"</tag>, <tag>TextBlock WIDTH="value"</tag>, <tag>TextBlock HEIGHT="value"</tag></cell>
+                           <cell role="ALTO"><tag>TextBlock HPOS="value"</tag>, <tag>TextBlock
+                                 VPOS="value"</tag>, <tag>TextBlock WIDTH="value"</tag>,
+                                 <tag>TextBlock HEIGHT="value"</tag></cell>
                         </row>
                      </table>
                   </div>
                   <div>
                      <head>Example of TEI</head>
                      <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                        <zone xml:id="f11-textblock_0-blockCount1" 
-                           type="MainZone" corresp="#MainZone" 
-                           subtype="none" 
-                           n="none" 
-                           ulx="323" 
-                           uly="336" 
-                           lrx="2379" 
-                           lry="3148" 
-                           points="2379,336 2379,3148 323,3148 323,336" 
-                           source="https://gallica.bnf.fr/iiif/ark:/12148/btv1b8610802d/f11/323,336,2056,2812/full/0/native.jpg">
-                           [...]
-                        </zone>
+                        <zone xml:id="f11-textblock_0-blockCount1" type="MainZone"
+                           corresp="#MainZone" subtype="none" n="none" ulx="323" uly="336"
+                           lrx="2379" lry="3148" points="2379,336 2379,3148 323,3148 323,336"
+                           source="https://gallica.bnf.fr/iiif/ark:/12148/btv1b8610802d/f11/323,336,2056,2812/full/0/native.jpg"
+                           > [...] </zone>
                      </egXML>
                   </div>
                </div>
-               
+
                <div>
                   <head>Layer 2: SegmOnto Line</head>
-                  <p>A SegmOnto line describes a region on a source document's page contains text and therefore most contain children that express the
-                     textual content of the line. Like all regions, the <gi>zone</gi>of a SegmOnto line requires certain standard attributes.  
-                     These attributes describe the region's classification or function (<att>type</att>), the X coordinate where the region starts 
-                     (<att>ulx</att>), the Y coordinate where it starts (<att>uly</att>), the X coordinate where it ends (<att>lrx</att>), the Y 
-                     coordinate where it ends (<att>lry</att>), a sequence of X,Y coordinates that outline the region's polygonal perimeter (<att>points</att>), 
-                     and the IIIF URI that will display that region in a IIIF Image API viewer (<att>source</att>).</p>
-                  <p>A SegmOnto line has a composite classification, composed of a <att>type</att>, <att>subtype</att>, and <att>n</att>. Furthemore, the 
-                     <gi>zone</gi> element for a SegmOnto line has an attribute <gi>correp</gi>, which associates its classification 
-                     with one described in the <gi>taxonomy</gi> (<ptr target="#Taxonomy"/>).</p>
-                  <p>What distinguishes the coordinates of a SegmOnto line from a SegmOnto zone, however, is the presence of a baseline, which is a 
-                     linear line segment and therefore has a pair of X,Y coordinates. In the TEI model, these four values are expressed in a separate 
-                     and empty element, <gi>path</gi>. The <gi>zone</gi> of a SegmOnto line has a second required child element, <gi>line</gi>, which 
-                     contains the line's text and keeps count of the number of lines in a SegmOnto zone with its attribute <gi>n</gi>.</p>
+                  <p>A SegmOnto line describes a region on a source document's page contains text
+                     and therefore most contain children that express the textual content of the
+                     line. Like all regions, the <gi>zone</gi>of a SegmOnto line requires certain
+                     standard attributes. These attributes describe the region's classification or
+                     function (<att>type</att>), the X coordinate where the region starts
+                        (<att>ulx</att>), the Y coordinate where it starts (<att>uly</att>), the X
+                     coordinate where it ends (<att>lrx</att>), the Y coordinate where it ends
+                        (<att>lry</att>), a sequence of X,Y coordinates that outline the region's
+                     polygonal perimeter (<att>points</att>), and the IIIF URI that will display
+                     that region in a IIIF Image API viewer (<att>source</att>).</p>
+                  <p>A SegmOnto line has a composite classification, composed of a <att>type</att>,
+                        <att>subtype</att>, and <att>n</att>. Furthemore, the <gi>zone</gi> element
+                     for a SegmOnto line has an attribute <gi>correp</gi>, which associates its
+                     classification with one described in the <gi>taxonomy</gi> (<ptr
+                        target="#Taxonomy"/>).</p>
+                  <p>What distinguishes the coordinates of a SegmOnto line from a SegmOnto zone,
+                     however, is the presence of a baseline, which is a linear line segment and
+                     therefore has a pair of X,Y coordinates. In the TEI model, these four values
+                     are expressed in a separate and empty element, <gi>path</gi>. The <gi>zone</gi>
+                     of a SegmOnto line has a second required child element, <gi>line</gi>, which
+                     contains the line's text and keeps count of the number of lines in a SegmOnto
+                     zone with its attribute <gi>n</gi>.</p>
                   <div xml:id="TextLine">
                      <head>Example of ALTO <gi>TextLine</gi> (shallow granularity)</head>
                      <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                        <TextLine ID="textline_0"
-                           TAGREFS="LT722"
-                           BASELINE="605 944 2010 925" 
-                           HPOS="596"
-                           VPOS="777"
-                           WIDTH="1414"
-                           HEIGHT="182">
-                           <Shape><Polygon POINTS="605 944 596 816 666 795 669 795 672 795 814 810 838 792 838 789 841 789 844 789 847 789 932 804 953 789 956 789 959 789 962 789 1050 801 1323 783 1326 783 1704 798 1768 777 1771 777 1774 777 2004 798 2010 925 2004 953 1798 941 1750 956 1747 956 1744 956 605 959"/></Shape>
-                           <String CONTENT="A MONSIEVR"
-                              HPOS="596"
-                              VPOS="777"
-                              WIDTH="1414"
-                              HEIGHT="182"></String>
+                        <TextLine ID="textline_0" TAGREFS="LT722" BASELINE="605 944 2010 925"
+                           HPOS="596" VPOS="777" WIDTH="1414" HEIGHT="182">
+                           <Shape><Polygon
+                                 POINTS="605 944 596 816 666 795 669 795 672 795 814 810 838 792 838 789 841 789 844 789 847 789 932 804 953 789 956 789 959 789 962 789 1050 801 1323 783 1326 783 1704 798 1768 777 1771 777 1774 777 2004 798 2010 925 2004 953 1798 941 1750 956 1747 956 1744 956 605 959"
+                              /></Shape>
+                           <String CONTENT="A MONSIEVR" HPOS="596" VPOS="777" WIDTH="1414"
+                              HEIGHT="182"/>
                         </TextLine>
                      </egXML>
                   </div>
@@ -1743,29 +1826,34 @@ licence: {"target":"https://creativecommons.org/licenses/by/4.0/"}
                            <cell role="ALTO">ALTO schema</cell>
                         </row>
                         <row role="data">
-                           <cell role="TEI"><tag>zone xml:id="[folio number]-[@ID of parent TextBlock]-[value]-[count of TextLine]"</tag></cell>
+                           <cell role="TEI"><tag>zone xml:id="[folio number]-[@ID of parent
+                                 TextBlock]-[value]-[count of TextLine]"</tag></cell>
                            <cell/>
                            <cell role="ALTO"><tag>TextLine ID="value"</tag></cell>
                         </row>
                         <row role="data">
                            <cell role="TEI"><tag>zone type="value"</tag></cell>
                            <cell/>
-                           <cell role="ALTO"><tag>TextLine TAGREFS="[value]:subtype#number"</tag></cell>
+                           <cell role="ALTO"><tag>TextLine
+                              TAGREFS="[value]:subtype#number"</tag></cell>
                         </row>
                         <row role="data">
                            <cell role="TEI"><tag>zone corresp="#[id]"</tag></cell>
                            <cell>search "value" in <gi>taxonomy</gi>, retrieve "id"</cell>
-                           <cell role="ALTO"><tag>TextLine TAGREFS="[value]:subtype#number"</tag></cell>
+                           <cell role="ALTO"><tag>TextLine
+                              TAGREFS="[value]:subtype#number"</tag></cell>
                         </row>
                         <row role="data">
                            <cell role="TEI"><tag>zone subtype="value"</tag></cell>
                            <cell/>
-                           <cell role="ALTO"><tag>TextLine TAGREFS="type:[value]#number"</tag></cell>
+                           <cell role="ALTO"><tag>TextLine
+                              TAGREFS="type:[value]#number"</tag></cell>
                         </row>
                         <row role="data">
                            <cell role="TEI"><tag>zone n="value"</tag></cell>
                            <cell/>
-                           <cell role="ALTO"><tag>TextLine TAGREFS="type:subtype#[value]"</tag></cell>
+                           <cell role="ALTO"><tag>TextLine
+                              TAGREFS="type:subtype#[value]"</tag></cell>
                         </row>
                         <row role="data">
                            <cell role="TEI"><tag>zone ulx="value"</tag></cell>
@@ -1793,9 +1881,12 @@ licence: {"target":"https://creativecommons.org/licenses/by/4.0/"}
                            <cell role="ALTO"><tag>Polygon POINTS="value"</tag></cell>
                         </row>
                         <row role="data">
-                           <cell role="TEI"><tag>zone source="[URI]/[folio number]/[HPOS],[VPOS],[WIDTH],[HEIGHT]/full/0/native.jpg"</tag></cell>
+                           <cell role="TEI"><tag>zone source="[URI]/[folio
+                                 number]/[HPOS],[VPOS],[WIDTH],[HEIGHT]/full/0/native.jpg"</tag></cell>
                            <cell/>
-                           <cell role="ALTO"><tag>TextLine HPOS="value"</tag>, <tag>TextBlock VPOS="value"</tag>, <tag>TextBlock WIDTH="value"</tag>, <tag>TextBlock HEIGHT="value"</tag></cell>
+                           <cell role="ALTO"><tag>TextLine HPOS="value"</tag>, <tag>TextBlock
+                                 VPOS="value"</tag>, <tag>TextBlock WIDTH="value"</tag>,
+                                 <tag>TextBlock HEIGHT="value"</tag></cell>
                         </row>
                      </table>
                   </div>
@@ -1804,11 +1895,12 @@ licence: {"target":"https://creativecommons.org/licenses/by/4.0/"}
                      <table rend="boxed" rows="6" cols="2">
                         <row role="data">
                            <cell role="TEI">TEI schema</cell>
-                           <cell role="space">    </cell>
+                           <cell role="space"> </cell>
                            <cell role="ALTO">ALTO model</cell>
                         </row>
                         <row role="data">
-                           <cell role="TEI"><tag>zone xml:id="[folio number]-[@ID of parent TextBlock]-[value]-[count of TextLine]-baseline"</tag></cell>
+                           <cell role="TEI"><tag>zone xml:id="[folio number]-[@ID of parent
+                                 TextBlock]-[value]-[count of TextLine]-baseline"</tag></cell>
                            <cell/>
                            <cell role="ALTO"><tag>TextLine ID="value"</tag></cell>
                         </row>
@@ -1824,11 +1916,12 @@ licence: {"target":"https://creativecommons.org/licenses/by/4.0/"}
                      <table rend="boxed" rows="6" cols="2">
                         <row role="data">
                            <cell role="TEI">TEI schema</cell>
-                           <cell role="space">    </cell>
+                           <cell role="space"> </cell>
                            <cell role="ALTO">ALTO model</cell>
                         </row>
                         <row role="data">
-                           <cell role="TEI"><tag>zone xml:id="[folio number]-[@ID of parent TextBlock]-[value]-[count of TextLine]-text"</tag></cell>
+                           <cell role="TEI"><tag>zone xml:id="[folio number]-[@ID of parent
+                                 TextBlock]-[value]-[count of TextLine]-text"</tag></cell>
                            <cell/>
                            <cell role="ALTO"><tag>TextLine ID="value"</tag></cell>
                         </row>
@@ -1841,70 +1934,66 @@ licence: {"target":"https://creativecommons.org/licenses/by/4.0/"}
                   </div>
                   <div>
                      <head>Example of TEI</head>
-                     <p></p>
+                     <p/>
                      <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                        <zone xml:id="f11-textblock_0-textline_0-lineCount1" 
-                           type="HeadingLine" 
-                           corresp="#HeadingLine" 
-                           subtype="none" 
-                           n="none" 
-                           ulx="596" 
-                           uly="777" 
-                           lrx="2010" 
-                           lry="959" 
-                           points="605,944 596,816 666,795 669,795 672,795 814,810 838,792 838,789 841,789 844,789 847,789 932,804 953,789 956,789 959,789 962,789 1050,801 1323,783 1326,783 1704,798 1768,777 1771,777 1774,777 2004,798 2010,925 2004,953 1798,941 1750,956 1747,956 1744,956 605,959" 
+                        <zone xml:id="f11-textblock_0-textline_0-lineCount1" type="HeadingLine"
+                           corresp="#HeadingLine" subtype="none" n="none" ulx="596" uly="777"
+                           lrx="2010" lry="959"
+                           points="605,944 596,816 666,795 669,795 672,795 814,810 838,792 838,789 841,789 844,789 847,789 932,804 953,789 956,789 959,789 962,789 1050,801 1323,783 1326,783 1704,798 1768,777 1771,777 1774,777 2004,798 2010,925 2004,953 1798,941 1750,956 1747,956 1744,956 605,959"
                            source="https://gallica.bnf.fr/iiif/ark:/12148/btv1b8610802d/f11/596,777,1414,182/full/0/native.jpg">
-                           <path xml:id="f11-textblock_0-textline_0-lineCount1-baseline" points="605,944 2010,925"/>
-                           <line xml:id="f11-textblock_0-textline_0-lineCount1-text" n="1">A MONSIEVR</line>
+                           <path xml:id="f11-textblock_0-textline_0-lineCount1-baseline"
+                              points="605,944 2010,925"/>
+                           <line xml:id="f11-textblock_0-textline_0-lineCount1-text" n="1">A
+                              MONSIEVR</line>
                         </zone>
                      </egXML>
                   </div>
                   <div>
                      <head>Deep Granularity</head>
-                     <p>When the ALTO-XML file's granularity descends to the level of glyphs, the <gi>String</gi> element does not present 
-                        the textual content of a line in the attribute <att>CONTENT</att>, as it did in the previous example (<ptr target="#TextLine"/>). 
-                        Thus, in the case of a very descriptive ALTO-XML file, 
-                        the SegmOnto-Gallic(orpor)a guidlines require that a line's textual content is extracted and reconstructed from glyphs and 
-                        put inside the element <gi>line</gi>. The <gi>line</gi> element is a required child for a SegmOnto line's <gi>zone</gi> 
-                        element and must contain textual content.</p>
+                     <p>When the ALTO-XML file's granularity descends to the level of glyphs, the
+                           <gi>String</gi> element does not present the textual content of a line in
+                        the attribute <att>CONTENT</att>, as it did in the previous example (<ptr
+                           target="#TextLine"/>). Thus, in the case of a very descriptive ALTO-XML
+                        file, the SegmOnto-Gallic(orpor)a guidlines require that a line's textual
+                        content is extracted and reconstructed from glyphs and put inside the
+                        element <gi>line</gi>. The <gi>line</gi> element is a required child for a
+                        SegmOnto line's <gi>zone</gi> element and must contain textual content.</p>
                   </div>
                </div>
-               
+
                <div>
                   <head>Layer 3: Segment</head>
-                  <p>In ALTO-XML files with deep granularity, the element <gi>String</gi> that descends from <gi>TextLine</gi> describes only one segment 
-                     within a line, rather than the line's composition of words as in files with shallow granularity. Furthermore, the <gi>String</gi> element can either carry 
-                     textual information, which means it contains children, or it can demarcate the empty space between words, in which case it does not have 
-                     any descenents. Therefore, when an ALTO-XML file descends to a deep level of granularity, <gi>TextLine</gi> often has multiple <gi>String</gi> 
-                     children elements. On the contrary, in ALTO-XML files of shallow granularity, the <gi>TextLine</gi> element has only one child element <gi>String</gi>.
-                  </p>
-                  <p>When created using the Kraken engine, most ALTO-XML files that have deep granularity use the attribute <att>WC</att> to ascribe a degree of 
-                     certainty to a model's prediction of word segments and glyphs. 
-                     The SegmOnto-Gallic(orpor)a guidelines require that this data about a model's 
-                     prediction be conserved and represented in the TEI element <gi>certainty</gi>, specifically its attribute <att>degree</att>. 
-                     In the TEI, the element <gi>certainty</gi> requires the attribute <att>locus</att>, which describes what exactly is uncertain. 
-                     The SegmOnto-Gallic(orpor)a guidelines require that the value of <att>locus</att> is always "value" because the degree of certainty 
-                     refers to the segment's or glyph's predicted text.
-                  </p>
-                  <p>
-                     Other than the addition of the attribute <gi>WC</gi> and the different meaning of the attribute <gi>CONTENT</gi>, the region described 
-                     in the <gi>String</gi> element closely resembles the previous two layers.
-                  </p>
+                  <p>In ALTO-XML files with deep granularity, the element <gi>String</gi> that
+                     descends from <gi>TextLine</gi> describes only one segment within a line,
+                     rather than the line's composition of words as in files with shallow
+                     granularity. Furthermore, the <gi>String</gi> element can either carry textual
+                     information, which means it contains children, or it can demarcate the empty
+                     space between words, in which case it does not have any descenents. Therefore,
+                     when an ALTO-XML file descends to a deep level of granularity,
+                        <gi>TextLine</gi> often has multiple <gi>String</gi> children elements. On
+                     the contrary, in ALTO-XML files of shallow granularity, the <gi>TextLine</gi>
+                     element has only one child element <gi>String</gi>. </p>
+                  <p>When created using the Kraken engine, most ALTO-XML files that have deep
+                     granularity use the attribute <att>WC</att> to ascribe a degree of certainty to
+                     a model's prediction of word segments and glyphs. The SegmOnto-Gallic(orpor)a
+                     guidelines require that this data about a model's prediction be conserved and
+                     represented in the TEI element <gi>certainty</gi>, specifically its attribute
+                        <att>degree</att>. In the TEI, the element <gi>certainty</gi> requires the
+                     attribute <att>locus</att>, which describes what exactly is uncertain. The
+                     SegmOnto-Gallic(orpor)a guidelines require that the value of <att>locus</att>
+                     is always "value" because the degree of certainty refers to the segment's or
+                     glyph's predicted text. </p>
+                  <p> Other than the addition of the attribute <gi>WC</gi> and the different meaning
+                     of the attribute <gi>CONTENT</gi>, the region described in the <gi>String</gi>
+                     element closely resembles the previous two layers. </p>
                   <div>
                      <head>Example of ALTO <gi>String</gi> (word)</head>
                      <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                        <String ID="segment_1"
-                           CONTENT="MONSIEVR" 
-                           HPOS="837" 
-                           VPOS="777"
-                           WIDTH="1172" 
-                           HEIGHT="182" 
-                           WC="0.9064">
+                        <String ID="segment_1" CONTENT="MONSIEVR" HPOS="837" VPOS="777" WIDTH="1172"
+                           HEIGHT="182" WC="0.9064">
                            <Shape>
                               <Polygon POINTS="..."/>
-                           </Shape>
-                           [...]
-                        </String>
+                           </Shape> [...] </String>
                      </egXML>
                   </div>
                   <div>
@@ -1916,7 +2005,9 @@ licence: {"target":"https://creativecommons.org/licenses/by/4.0/"}
                            <cell role="ALTO">ALTO schema</cell>
                         </row>
                         <row role="data">
-                           <cell role="TEI"><tag>zone xml:id="[folio number]-[@ID of parent TextBlock]-[@ID of parent TextLine]-[value]-[count of String]"</tag></cell>
+                           <cell role="TEI"><tag>zone xml:id="[folio number]-[@ID of parent
+                                 TextBlock]-[@ID of parent TextLine]-[value]-[count of
+                                 String]"</tag></cell>
                            <cell/>
                            <cell role="ALTO"><tag>String ID="value"</tag></cell>
                         </row>
@@ -1951,9 +2042,12 @@ licence: {"target":"https://creativecommons.org/licenses/by/4.0/"}
                            <cell role="ALTO"><tag>Polygon POINTS="value"</tag></cell>
                         </row>
                         <row role="data">
-                           <cell role="TEI"><tag>zone source="[URI]/[folio number]/[HPOS],[VPOS],[WIDTH],[HEIGHT]/full/0/native.jpg"</tag></cell>
+                           <cell role="TEI"><tag>zone source="[URI]/[folio
+                                 number]/[HPOS],[VPOS],[WIDTH],[HEIGHT]/full/0/native.jpg"</tag></cell>
                            <cell/>
-                           <cell role="ALTO"><tag>String HPOS="value"</tag>, <tag>String VPOS="value"</tag>, <tag>String WIDTH="value"</tag>, <tag>String HEIGHT="value"</tag></cell>
+                           <cell role="ALTO"><tag>String HPOS="value"</tag>, <tag>String
+                                 VPOS="value"</tag>, <tag>String WIDTH="value"</tag>, <tag>String
+                                 HEIGHT="value"</tag></cell>
                         </row>
                      </table>
                   </div>
@@ -1962,16 +2056,20 @@ licence: {"target":"https://creativecommons.org/licenses/by/4.0/"}
                      <table rend="boxed" rows="6" cols="2">
                         <row role="data">
                            <cell role="TEI">TEI model</cell>
-                           <cell role="space">    </cell>
+                           <cell role="space"> </cell>
                            <cell role="ALTO">ALTO schema</cell>
                         </row>
                         <row role="data">
-                           <cell role="TEI"><tag>certainty xml:id="[folio number]-[@ID of parent TextBlock]-[@ID of parent TextLine]-[value]-[count of String]-cert"</tag></cell>
+                           <cell role="TEI"><tag>certainty xml:id="[folio number]-[@ID of parent
+                                 TextBlock]-[@ID of parent TextLine]-[value]-[count of
+                                 String]-cert"</tag></cell>
                            <cell/>
                            <cell role="ALTO"><tag>String ID="value"</tag></cell>
                         </row>
                         <row role="data">
-                           <cell role="TEI"><tag>certainty target="#[folio number]-[@ID of parent TextBlock]-[@ID of parent TextLine]-[value]-[count of String]-text"</tag></cell>
+                           <cell role="TEI"><tag>certainty target="#[folio number]-[@ID of parent
+                                 TextBlock]-[@ID of parent TextLine]-[value]-[count of
+                                 String]-text"</tag></cell>
                            <cell/>
                            <cell role="ALTO"><tag>String ID="value"</tag></cell>
                         </row>
@@ -1985,63 +2083,51 @@ licence: {"target":"https://creativecommons.org/licenses/by/4.0/"}
                   <div>
                      <head>Example of TEI (word)</head>
                      <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                        <zone xml:id="f11-textblock_0-textline_0-segment_2-segCount3" 
-                              type="String" 
-                              ulx="837" 
-                              uly="777" 
-                              lrx="2009" 
-                              lry="959" 
-                              points="..." 
-                              source="https://gallica.bnf.fr/iiif/ark:/12148/btv1b8610802d/f11/837,777,1172,182/full/0/native.jpg">
-                              <certainty xml:id="f11-textblock_0-textline_0-segment_2-segCount3-cert"
-                                 target="#f11-textblock_0-textline_0-segment_2-segCount3-text" 
-                                 locus="value" 
-                                 degree="0.9064"/>
-                              [...]
-                           </zone>
+                        <zone xml:id="f11-textblock_0-textline_0-segment_2-segCount3" type="String"
+                           ulx="837" uly="777" lrx="2009" lry="959" points="..."
+                           source="https://gallica.bnf.fr/iiif/ark:/12148/btv1b8610802d/f11/837,777,1172,182/full/0/native.jpg">
+                           <certainty xml:id="f11-textblock_0-textline_0-segment_2-segCount3-cert"
+                              target="#f11-textblock_0-textline_0-segment_2-segCount3-text"
+                              locus="value" degree="0.9064"/> [...] </zone>
                      </egXML>
                   </div>
                   <div>
                      <head>Example of TEI (inter-word space)</head>
-                     <p>ALTO-XML files with deep granularity specify both segments of words and segments of space between words. The latter, 
-                        which the ALTO schema marks with the element <gi>SP</gi>, are rectangles rather than polygons and therefore do not 
-                        have the descendent <gi>Polygon</gi>. This means that the TEI translation of this information does not have a <gi>path</gi> 
-                        descendent. Instead, the empty <gi>zone</gi> for an inter-word space has an ID (<att>xml:id</att>), the type "Space," 
-                        and the four coordinates <att>ulx</att>, <att>uly</att>, <att>lrx</att>, and <att>lry</att>.</p>
+                     <p>ALTO-XML files with deep granularity specify both segments of words and
+                        segments of space between words. The latter, which the ALTO schema marks
+                        with the element <gi>SP</gi>, are rectangles rather than polygons and
+                        therefore do not have the descendent <gi>Polygon</gi>. This means that the
+                        TEI translation of this information does not have a <gi>path</gi>
+                        descendent. Instead, the empty <gi>zone</gi> for an inter-word space has an
+                        ID (<att>xml:id</att>), the type "Space," and the four coordinates
+                           <att>ulx</att>, <att>uly</att>, <att>lrx</att>, and <att>lry</att>.</p>
                      <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                        <zone xml:id="f11-textblock_0-textline_0-segment_1-segCount2" 
-                           type="Space" 
-                           ulx="..." 
-                           uly="..." 
-                           lrx="..." 
-                           lry="..."/>
+                        <zone xml:id="f11-textblock_0-textline_0-segment_1-segCount2" type="Space"
+                           ulx="..." uly="..." lrx="..." lry="..."/>
                      </egXML>
                   </div>
                </div>
-               
+
                <div>
                   <head>Layer 4: Glyph</head>
-                  <p>Regarding textual content, the element <gi>Glyph</gi> is the deepest level of granularity expressed in the ALTO-XML schema.
-                     <gi>Glyph</gi> is always embedded in a <gi>String</gi> and, like a word segment, is ascribed a degree of certainty about the model's 
-                     prediction. The SegmOnto-Gallic(orpor)a guidelines require that this data be represented in the TEI element <gi>certainty</gi>. 
-                     In the TEI, the element <gi>certainty</gi> requires the attribute <att>locus</att>, which describes what exactly is uncertain. 
-                     The SegmOnto-Gallic(orpor)a guidelines require that the value of <att>locus</att> is always "value" because the degree of certainty 
-                     refers to the glyph's predicted text.
-                  </p>
-                  <p>
-                     Other than the addition of the attribute <gi>GC</gi> and the different meaning of the attribute <gi>CONTENT</gi>, the region described 
-                     in the <gi>String</gi> element closely resembles the previous three layers.
-                  </p>
+                  <p>Regarding textual content, the element <gi>Glyph</gi> is the deepest level of
+                     granularity expressed in the ALTO-XML schema. <gi>Glyph</gi> is always embedded
+                     in a <gi>String</gi> and, like a word segment, is ascribed a degree of
+                     certainty about the model's prediction. The SegmOnto-Gallic(orpor)a guidelines
+                     require that this data be represented in the TEI element <gi>certainty</gi>. In
+                     the TEI, the element <gi>certainty</gi> requires the attribute
+                     <att>locus</att>, which describes what exactly is uncertain. The
+                     SegmOnto-Gallic(orpor)a guidelines require that the value of <att>locus</att>
+                     is always "value" because the degree of certainty refers to the glyph's
+                     predicted text. </p>
+                  <p> Other than the addition of the attribute <gi>GC</gi> and the different meaning
+                     of the attribute <gi>CONTENT</gi>, the region described in the <gi>String</gi>
+                     element closely resembles the previous three layers. </p>
                   <div>
                      <head>Example of ALTO <gi>Glyph</gi></head>
                      <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                        <Glyph ID="char_1"
-                           CONTENT="M" 
-                           HPOS="837" 
-                           VPOS="777"
-                           WIDTH="159" 
-                           HEIGHT="162" 
-                           GC="0.8127">
+                        <Glyph ID="char_1" CONTENT="M" HPOS="837" VPOS="777" WIDTH="159"
+                           HEIGHT="162" GC="0.8127">
                            <Shape>
                               <Polygon POINTS="..."/>
                            </Shape>
@@ -2057,7 +2143,9 @@ licence: {"target":"https://creativecommons.org/licenses/by/4.0/"}
                            <cell role="ALTO">ALTO schema</cell>
                         </row>
                         <row role="data">
-                           <cell role="TEI"><tag>zone xml:id="[folio number]-[@ID of parent TextBlock]-[@ID of parent TextLine]-[@ID of parent String]-[value]-[count of Glyph]"</tag></cell>
+                           <cell role="TEI"><tag>zone xml:id="[folio number]-[@ID of parent
+                                 TextBlock]-[@ID of parent TextLine]-[@ID of parent
+                                 String]-[value]-[count of Glyph]"</tag></cell>
                            <cell/>
                            <cell role="ALTO"><tag>Glyph ID="value"</tag></cell>
                         </row>
@@ -2092,9 +2180,12 @@ licence: {"target":"https://creativecommons.org/licenses/by/4.0/"}
                            <cell role="ALTO"><tag>Polygon POINTS="value"</tag></cell>
                         </row>
                         <row role="data">
-                           <cell role="TEI"><tag>zone source="[URI]/[folio number]/[HPOS],[VPOS],[WIDTH],[HEIGHT]/full/0/native.jpg"</tag></cell>
+                           <cell role="TEI"><tag>zone source="[URI]/[folio
+                                 number]/[HPOS],[VPOS],[WIDTH],[HEIGHT]/full/0/native.jpg"</tag></cell>
                            <cell/>
-                           <cell role="ALTO"><tag>Glyph HPOS="value"</tag>, <tag>String VPOS="value"</tag>, <tag>String WIDTH="value"</tag>, <tag>String HEIGHT="value"</tag></cell>
+                           <cell role="ALTO"><tag>Glyph HPOS="value"</tag>, <tag>String
+                                 VPOS="value"</tag>, <tag>String WIDTH="value"</tag>, <tag>String
+                                 HEIGHT="value"</tag></cell>
                         </row>
                      </table>
                   </div>
@@ -2103,16 +2194,20 @@ licence: {"target":"https://creativecommons.org/licenses/by/4.0/"}
                      <table rend="boxed" rows="6" cols="2">
                         <row role="data">
                            <cell role="TEI">TEI model</cell>
-                           <cell role="space">    </cell>
+                           <cell role="space"> </cell>
                            <cell role="ALTO">ALTO schema</cell>
                         </row>
                         <row role="data">
-                           <cell role="TEI"><tag>certainty xml:id="[folio number]-[@ID of parent TextBlock]-[@ID of parent TextLine]-[@ID of parent String]-[value]-[count of Glyph]-cert"</tag></cell>
+                           <cell role="TEI"><tag>certainty xml:id="[folio number]-[@ID of parent
+                                 TextBlock]-[@ID of parent TextLine]-[@ID of parent
+                                 String]-[value]-[count of Glyph]-cert"</tag></cell>
                            <cell/>
                            <cell role="ALTO"><tag>String ID="value"</tag></cell>
                         </row>
                         <row role="data">
-                           <cell role="TEI"><tag>certainty target="#[folio number]-[@ID of parent TextBlock]-[@ID of parent TextLine]-[@ID of parent String]-[value]-[count of Glyph]-text"</tag></cell>
+                           <cell role="TEI"><tag>certainty target="#[folio number]-[@ID of parent
+                                 TextBlock]-[@ID of parent TextLine]-[@ID of parent
+                                 String]-[value]-[count of Glyph]-text"</tag></cell>
                            <cell/>
                            <cell role="ALTO"><tag>String ID="value"</tag></cell>
                         </row>
@@ -2128,11 +2223,13 @@ licence: {"target":"https://creativecommons.org/licenses/by/4.0/"}
                      <table rend="boxed" rows="6" cols="2">
                         <row role="data">
                            <cell role="TEI">TEI model</cell>
-                           <cell role="space">    </cell>
+                           <cell role="space"> </cell>
                            <cell role="ALTO">ALTO schema</cell>
                         </row>
                         <row role="data">
-                           <cell role="TEI"><tag>c xml:id="[folio number]-[@ID of parent TextBlock]-[@ID of parent TextLine]-[@ID of parent String]-[value]-[count of Glyph]-text"</tag></cell>
+                           <cell role="TEI"><tag>c xml:id="[folio number]-[@ID of parent
+                                 TextBlock]-[@ID of parent TextLine]-[@ID of parent
+                                 String]-[value]-[count of Glyph]-text"</tag></cell>
                            <cell/>
                            <cell role="ALTO"><tag>String ID="value"</tag></cell>
                         </row>
@@ -2146,19 +2243,15 @@ licence: {"target":"https://creativecommons.org/licenses/by/4.0/"}
                   <div>
                      <head>Example of TEI</head>
                      <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                        <zone xml:id="f11-textblock_0-textline_0-segment_2-char_1-glyphCount2" 
-                           type="String" 
-                           ulx="837" 
-                           uly="777" 
-                           lrx="996" 
-                           lry="939" 
-                           points="..." 
+                        <zone xml:id="f11-textblock_0-textline_0-segment_2-char_1-glyphCount2"
+                           type="String" ulx="837" uly="777" lrx="996" lry="939" points="..."
                            source="https://gallica.bnf.fr/iiif/ark:/12148/btv1b8610802d/f11/837,777,154,120/full/0/native.jpg">
-                           <certainty xml:id="f11-textblock_0-textline_0-segment_2-char_1-glyphCount2-cert"
-                              target="#f11-textblock_0-textline_0-segment_2-char_1-glyphCount2-text" 
-                              locus="value" 
-                              degree="0.8127"/>
-                           <c xml:id="f11-textblock_0-textline_0-segment_2-char_1-glyphCount2-text">H</c>
+                           <certainty
+                              xml:id="f11-textblock_0-textline_0-segment_2-char_1-glyphCount2-cert"
+                              target="#f11-textblock_0-textline_0-segment_2-char_1-glyphCount2-text"
+                              locus="value" degree="0.8127"/>
+                           <c xml:id="f11-textblock_0-textline_0-segment_2-char_1-glyphCount2-text"
+                              >H</c>
                         </zone>
                      </egXML>
                   </div>
@@ -2166,9 +2259,11 @@ licence: {"target":"https://creativecommons.org/licenses/by/4.0/"}
             </div>
             <div rend="toc" xml:id="text">
                <head>Text</head>
-               <p>Contrary to the <gi>sourceDoc</gi>, the SegmOnto-Gallic(orpor)a guidelines do not strictly dictate the content of <gi>text</gi>. 
-                  Thanks to SegmOnto's strict vocabulary, however, the Gallic(orpor)a pipeline is able to map certain types of textual content 
-                  to certain elements of the TEI, permitting the creation of a pre-annotated edition of the source document.</p>
+               <p>Contrary to the <gi>sourceDoc</gi>, the SegmOnto-Gallic(orpor)a guidelines do not
+                  strictly dictate the content of <gi>text</gi>. Thanks to SegmOnto's strict
+                  vocabulary, however, the Gallic(orpor)a pipeline is able to map certain types of
+                  textual content to certain elements of the TEI, permitting the creation of a
+                  pre-annotated edition of the source document.</p>
                <div xml:id="Body-Zones">
                   <head>Mapping of Zones of Text</head>
                   <table rend="boxed" rows="6" cols="2">
@@ -2178,45 +2273,51 @@ licence: {"target":"https://creativecommons.org/licenses/by/4.0/"}
                      </row>
                      <row role="data">
                         <cell role="SegmOnto"><val>NumberingZone</val></cell>
-                        <cell role="TEI"><tag>fw corresp="#folio-textblock-blockCount" type="NumberingZone"</tag></cell>
+                        <cell role="TEI"><tag>fw corresp="#folio-textblock-blockCount"
+                              type="NumberingZone"</tag></cell>
                      </row>
                      <row role="data">
                         <cell role="SegmOnto"><val>QuireMarksZone</val></cell>
-                        <cell role="TEI"><tag>fw corresp="#folio-textblock-blockCount" type="QuireMarksZone"</tag></cell>
+                        <cell role="TEI"><tag>fw corresp="#folio-textblock-blockCount"
+                              type="QuireMarksZone"</tag></cell>
                      </row>
                      <row role="data">
                         <cell role="SegmOnto"><val>RunningTitleZone</val></cell>
-                        <cell role="TEI"><tag>fw corresp="#folio-textblock-blockCount" type="RunningTitleZone"</tag></cell>
+                        <cell role="TEI"><tag>fw corresp="#folio-textblock-blockCount"
+                              type="RunningTitleZone"</tag></cell>
                      </row>
                      <row role="data">
                         <cell role="SegmOnto"><val>MarginTextZone</val></cell>
-                        <cell role="TEI"><tag>note corresp="#folio-textblock-blockCount" type="MarginTextZone"</tag></cell>
+                        <cell role="TEI"><tag>note corresp="#folio-textblock-blockCount"
+                              type="MarginTextZone"</tag></cell>
                      </row>
                      <row role="data">
                         <cell role="SegmOnto"><val>MainZone</val></cell>
-                        <cell role="TEI"><tag>ab corresp="#folio-textblock-blockCount" type="MainZone"</tag></cell>
+                        <cell role="TEI"><tag>ab corresp="#folio-textblock-blockCount"
+                              type="MainZone"</tag></cell>
                      </row>
                   </table>
                </div>
                <div>
                   <head>Mapping of Lines of Text</head>
-                  <p>Almost all SegmOnto lines are contained within one of the zones listed previously (<ptr target="#Body-Zones"/>) and their textual 
-                     content trails after the empty TEI element <gi>lb</gi>. The only exceptions to this rule are the DropCapitalLine and HeadingLine, which are 
-                     contained inside a MainZone yet are also distinguished from other lines of text in the MainZone by being contained within the TEI element <gi>hi</gi>.</p>
+                  <p>Almost all SegmOnto lines are contained within one of the zones listed
+                     previously (<ptr target="#Body-Zones"/>) and their textual content trails after
+                     the empty TEI element <gi>lb</gi>. The only exceptions to this rule are the
+                     DropCapitalLine and HeadingLine, which are contained inside a MainZone yet are
+                     also distinguished from other lines of text in the MainZone by being contained
+                     within the TEI element <gi>hi</gi>.</p>
                   <egXML xmlns="http://www.tei-c.org/ns/Examples">
                      <ab corresp="#f11-textblock_0-blockCount1" type="MainZone">
                         <hi rend="HeadingLine">
-                           <lb corresp="#f11-textblock_0-textline_0-lineCount1"/>A MONSIEVR
-                           <lb corresp="#f11-textblock_0-textline_0-lineCount2"/>DE
-                           <lb corresp="#f11-textblock_0-textline_0-lineCount3"/>MONTORON.
-                           <lb corresp="#f11-textblock_0-textline_0-lineCount4"/>ONSIEVR,
-                        </hi>
+                           <lb corresp="#f11-textblock_0-textline_0-lineCount1"/>A MONSIEVR <lb
+                              corresp="#f11-textblock_0-textline_0-lineCount2"/>DE <lb
+                              corresp="#f11-textblock_0-textline_0-lineCount3"/>MONTORON. <lb
+                              corresp="#f11-textblock_0-textline_0-lineCount4"/>ONSIEVR, </hi>
                         <hi rend="DropCapitalLine">
-                           <lb corresp="#f11-textblock_0-textline_0-lineCount5"/>M
-                        </hi>
-                        <lb corresp="#f11-textblock_0-textline_0-lineCount6"/>Ie vous preſente vn tableau d'vne des
-                        <lb corresp="#f11-textblock_0-textline_0-lineCount7"/>plus belles actions d’Auguſte. Ce Monar¬
-                     </ab>
+                           <lb corresp="#f11-textblock_0-textline_0-lineCount5"/>M </hi>
+                        <lb corresp="#f11-textblock_0-textline_0-lineCount6"/>Ie vous preſente vn
+                        tableau d'vne des <lb corresp="#f11-textblock_0-textline_0-lineCount7"/>plus
+                        belles actions d’Auguſte. Ce Monar¬ </ab>
                   </egXML>
                </div>
             </div>
