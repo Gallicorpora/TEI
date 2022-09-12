@@ -3,7 +3,7 @@
    <teiHeader>
       <fileDesc>
          <titleStmt>
-            <title type="main">Gallicorpora Project TEI</title>
+            <title type="main">SegmOnto-Gallic(orpor)a Project</title>
             <title type="sub">Between automatic and manual encoding : Towards a generic TEI model
                for historical prints and manuscripts</title>
             <author xml:id="SG">
@@ -44,318 +44,380 @@
    </teiHeader>
    <text>
       <body>
-         <div rend="toc" xml:id="intro">
+         <div rend="toc" xml:id="introduction">
             <head>Introduction</head>
-            <div xml:id="Project_Presentation">
-               <head>Presentation du projet</head>
-               <p> Cultural heritage institutions today aim to digitise their collections of prints
-                  and manuscripts and are generating more and more digital images To enrich these
-                  images, many institutions work with standardised formats such as IIIF, preserving
-                  as much of the source's information as possible. To take full advantage of textual
-                  documents, an image alone is not enough. Thanks to automatic text recognition
-                  technology, it is now possible to extract images content on a large scale. The TEI
-                  seems to provide the perfect format to capture both an image's formal and textual
-                  data. To ensure compatibility with a range of use cases, TEI XML files must
-                  guarantee IIIF or RDF exports and therefore must be based on strict data
-                  structures that can be automated. But a rigid structure contradicts the basic
-                  principles of philology, which require maximum flexibility to cope with various
-                  situations. The solution proposed by the Gallic(orpor)a project attempted to deal
-                  with such a contradiction, focusing on French historical documents produced
-                  between the 15th and the 18th c. It aims to enrich the digital facsimiles
-                  distributed by the French National Library (BnF) in two different ways: <list>
-                     <item>text extraction, including the segmentation of the image (layout
-                        analysis) with <ref target="https://segmonto.github.io">SegmOnto</ref>
-                        controlled vocubalary and the recognition of the text (Handwritten Text
-                        Recognition);</item>
-                     <item>linguistic annotation, including lemmatisation, POS tagging, named entity
-                        recognition and linguistic normalisation.</item></list> Our TEI document
-                  modelling has two strictly coercive automatically generated data blocks: <list>
-                     <item>the <gi>sourceDoc</gi> with information from the digital facsimile, which
-                        computer vision, HTR and segmentation tools produce thanks to machine
-                        learning;</item>
-                     <item>the <gi>standOff</gi> with linguistic information produced by natural
-                        language processing tools to make it easier to search the corpus.</item>
-                  </list> Two other elements are added that can be customised according to
-                  researchers’ specific needs: <list>
-                     <item>a pre-filled <gi>teiHeader</gi> with basic bibliographic metadata
-                        automatically retrieved from (i) the digital facsimile’s IIIF Image API and
-                        (ii) the BnF’s Search/Retrieve via URL (SRU) API. It can be enriched with
-                        additional data, as long as it respects a strict minimum encoding;</item>
-                     <item> pre-editorialised <gi>body</gi> with a structure based on layout
-                        analysis and the SegmOnto vocabulary. It is the only element totally free
-                        regarding encoding choices.</item>
-                  </list>
-                  <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                     <body>
-                        <div>
-                           <pb corresp="#page5"/>
-                           <note corresp="#page5_zone2" type="MarginTextZone">
-                              <lb corresp="#page5_zone2_line1"/>79/4120 </note>
-                           <pb corresp="#page6"/>
-                           <ab corresp="#page6_zone1" type="MainZone">
-                              <hi rend="HeadingLine">
-                                 <lb corresp="#page6_zone1_line1"/>BRADAMANTE, <lb
-                                    corresp="#page6_zone1_line2"/>TRAGECOMDEDIE. </hi>
-                           </ab>
-                           <pb corresp="#page9"/>
-                           <fw corresp="#page9_zone1" type="RunningTitleZone">
-                              <lb corresp="#page9_zone1_line1"/>AV ROY. </fw>
-                           <ab corresp="#page9_zone2" type="MainZone">
-                              <lb corresp="#page9_zone2_line1"/>uiuront nostre siecle, les admira¬
-                                 <lb corresp="#page9_zone2_line2"/>bles effets de vos heroiques ver¬
-                                 <gap reason="sampling"/>
-                           </ab>
-                        </div>
-                     </body></egXML> By restricting certain elements and allowing others to be
-                  customisable, our TEI model can efficiently pivot toward other export formats,
-                  including RDF and IIIF. Furthermore, the <gi>body</gi> element’s strict and
-                  thorough encoding of all of the document’s graphical information allows the TEI
-                  document to be converted into PAGE XML and ALTO XML files, which can then be used
-                  to train OCR, HTR, and segmentation models. Thus, not only does our TEI model’s
-                  strict encoding avoid limiting philological choices, thanks to the <gi>body</gi>,
-                  it also allows us to pre-editorialise the <gi>body</gi> via the content of the
-                     <gi>body</gi> and, in a near future, the <gi>standOff</gi>.</p>
-               
-               <p>The structure of the text is based on the material description of the source and
-                  the analysis of the layout of the document. We used the Zone and Line label
-                  detected by the segmenter to model the <gi>body</gi> element. In order to provided
-                  label to the project we choose to follow the segmOnto guidelines.</p>
-            </div>
-            <div xml:id="why">
-               <head>Why SegmOnto vocabulary?</head>
-               <p> SegmOnto offers a controlled vocabulary to describe the content of books or
-                  manuscripts pages, in order to homogenise the data required by layout analysers.
-                  This project follows a double objective: <list>
-                     <item>Mutualise data to train stronger models on various layouts.</item>
-                     <item>Design a standardised pipeline for text extraction, from page scans to
-                        structured documents</item>
-                  </list> SegmOnto is thought as a generalist description scheme, covering written
-                  documents produced since the apparition of the <hi rend="italic">codex</hi>, but
-                  it has been designed using mainly western and middle eastern documents. </p>
-            </div>
-            <div xml:id="team">
-               <head>Team</head>
-               <p>SegmOnto was designed by a group of international researchers. The final version
-                  of the guidelines has been carried by S. Gabay, J.-B. Camps, A. Pinche, and K.
-                  Christensen.</p>
-               <p>
-                  <figure>
-                     <graphic url="media/people/sg.jpg"/>
-                     <figDesc>portait Simon Gabay</figDesc>
-                  </figure>
-                  <hi rend="bold">Simon Gabay</hi> is Maître-assistant at the university of Geneva.
-                  He holds a PhD in latin philology, defended at the university of Amsterdam on the
-                  history of theatre in the early medieval documentation. His research now focuses
-                  on romance philology, and especially 17th c. French, a period for which he creates
-                  the necessary tools for computational exploration. His areas of interests are
-                  corpus building, diachronic linguistics, and the birth of the manuscript market in
-                  19th c. France. </p>
-               <p>
-                  <figure>
-                     <graphic style="thumb" url="media/people/jbc.jpg"/>
-                     <figDesc>portait Jean-Baptiste Camps</figDesc>
-                  </figure>
-                  <hi rend="bold">Jean-Baptiste Camps</hi>, a medievalist by training, is Maître de
-                  conférences at the Ecole nationale des chartes | PSL in Paris. He received a PhD
-                  for an edition of the <title level="m">Chanson d'Otinel</title> in 2016 at the
-                  university Paris IV-Sorbonne. As a specialist of computational philology, his
-                  research include the transmission of manuscripts over centuries, stylometry and
-                  digital editing. </p>
-               <p>
-                  <figure>
-                     <graphic url="media/people/ap.jpg"/>
-                     <figDesc>portait Ariane Pinche</figDesc>
-                  </figure>
-                  <hi rend="bold">Ariane Pinche</hi> has a PhD in medieval language and literature.
-                  She is currently a postdoctoral fellow at the École nationale des chartes | PSL
-                  and is particularly interested in digital editing. She won the Fortier Prize for
-                  the best young researcher paper at the Digital Humanities 2019 conference in
-                  Utrecht with her two colleagues J. B. Camps and T. Clérice for the paper <title
-                     level="a"> Stylometry for Noisy Medieval Data: Evaluating Paul Meyer's
-                     Hagiographic Hypothesis</title>. Today, her research interests focus on the
-                  construction of medieval corpora for HTR (Handwritten Text Recognition) training. </p>
-               <p>Additional contributors are: <list>
-                     <item>Daniel Stoekl</item>
-                     <item>Claire Jahan</item>
-                     <item>Peter Stokes</item>
-                  </list> We thank them for their constant help, their useful feedback and above all
-                  their time. </p>
-               <p>
-                  <figure>
-                     <graphic url="media/people/ap.jpg"/>
-                     <figDesc>portait Kelly Christensen</figDesc>
-                  </figure>
-                  <hi rend="bold">Kelly Christensen</hi> has a PhD in historical musicology. As an
-                  intern working on the project Galli(corpor)a in 2022 with Simon Gabay and Ariane
-                  Pinche, she put in place the Gallic(orpor)a pipeline described in this ODD, which
-                  relies on tools developed by additional contributors. She also helped develop the
-                  mapping that connects the format in which predicted text is exported, ALTO, and
-                  the TEI. Her tool, alto2tei, realises this mapping in Python and generated the
-                  TEI-XML files on which this ODD is based.</p>
-               <p>Additional contributors are: <list>
-                     <item>Daniel Stoekl</item>
-                     <item>Claire Jahan</item>
-                     <item>Peter Stokes</item>
-                  </list> We thank them for their constant help, their useful feedback and above all
-                  their time. </p>
-            </div>
-            <div rend="toc" xml:id="howto">
-               <head>How to cite</head>
-               <p>Simon Gabay, Jean-Baptiste Camps, Ariane Pinche, <hi rend="italic">SegmOnto, A
-                     Controlled Vocabulary to Describe the Layout of Pages</hi>, version 0.9,
-                  Paris/Genève, 2021, <ref target="https://github.com/SegmOnto/examples"
-                     >https://github.com/SegmOnto</ref>.</p>
-            </div>
-         </div>
-         <div rend="toc" xml:id="project">
-            <head>Project</head>
-            <div xml:id="idea">
-               <head>The idea</head>
-               <p>The intuition behind SegmOnto is the following: most of the documents containing
-                  texts have a stable layout over time:</p>
-               <figure>
-                  <graphic url="media/intro/btv1b84259980_f29_orig.jpg"/>
-                  <figDesc>BNF, Fr. 412, f.10r.</figDesc>
-               </figure>
-               <figure>
-                  <graphic url="media/intro/btv1b86070385_f140_orig.jpg"/>
-                  <figDesc>La Bruyère, Les Caractères, 1688, p. 128.</figDesc>
-               </figure>
-               <p>At a low level, it is possible not only to find similarities, but to use the same
-                  name in order to describe homogeneously large quantities of data. In blue we see
-                  the body in red the page number, in orange the running title, in green
-                  intermediary titles, in pink drop capitals, in grey additional notes.</p>
-               <figure>
-                  <graphic url="media/intro/btv1b84259980_f29_ann.jpg"/>
-                  <figDesc>BNF, Fr. 412, f.10r.</figDesc>
-               </figure>
-               <figure>
-                  <graphic url="media/intro/btv1b86070385_f140_ann.jpg"/>
-                  <figDesc>La Bruyère, Les Caractères, 1688, p. 128.</figDesc>
-               </figure>
-               <p>SegmOnto follows (with exceptions) two critera in its description of the page: <list>
-                     <item>It follows a generalist approach rather than a specific one. It aims at
-                        representing any document, and does not focus on any kind of source.</item>
-                     <item>It follows a descriptive approach, but remains open to a more semantic
-                        annotation via a system of subtypes.</item>
-                  </list>
-               </p>
-               <p>It uses a two-tier description, following the two classification tasks required
-                  for any layout analysis: <list>
-                     <item><hi rend="italic">Zones</hi>, for the different types of regions on the
-                        page (running title, main text...)</item>
-                     <item><hi rend="italic">Lines</hi> for the different types of lines contained
-                        in the zones (interlinear lines, staves, rubrics...)</item>
-                  </list>
-               </p>
-               <p>In order to cope with the complexity of documents, two safety devices are offered: <list>
-                     <item>The main types of zones and lines are not open to any modification, but a
-                           <hi rend="italic">Custom</hi> zone, which functions as a private zone,
-                        offers the possibility to encode additional features that would have been
-                        forgotten.</item>
-                     <item>A system of subtypes (using the following syntax: <hi>Type:Subtype</hi>)
-                        has been added and offers only suggested values: it is possible to opt for
-                        personal subtypes, functioning at the level of a specific document
-                        only.</item>
-                  </list>
-               </p>
-            </div>
-            <div xml:id="vocabulary">
-               <head>Vocabulary</head>
-               <p>SegmOnto is not the first attempt to offer a description of a page. Because of the
-                  nature of the task, two different academic traditions have offered vocabularies
-                  that serve as a base: <list>
-                     <item>Computer vision, especially via the PAGE XML scheme, proposes a limited
-                        system adapted to the needs of computer scientists.</item>
-                     <item>Codicology, whose purpose precisely is the description of the old
-                        documents, offers a much more precise vocabulary to answer the needs of
-                        philologists.</item>
-                  </list> On the one hand, codicological vocabularies do not take into account the
-                  requirements of computer-based solutions (such as a system of private zones or the
-                  articulation of types and subtypes) and usually does not address contemporary
-                  cases. On the other hand, the solution offered by computer scientists is too poor
-                  and is incapable to offer a satisfactory description of a page taken from an
-                  historical document. For all these reasons, SegmOnto offers a middle way, in
-                  between these two. </p>
-               <div xml:id="PAGEvoc">
-                  <head>PAGE</head>
-                  <p>PAGE XML (cf. <ref target="#Languages"><hi rend="italic">infra</hi></ref>)
-                     offers a simple, short and generalist scheme to describe the page, with only
-                     fourteen categories: <list>
-                        <item><val>TextRegionType</val>. Pure text is represented as a text region.
-                           This includes drop capitals, but practically ornate text may be
-                           considered as a graphic.</item>
-                        <item><val>ImageRegionType</val>. An image is considered to be more
-                           intricate and complex than a graphic. These can be photos or
-                           drawings.</item>
-                        <item><val>LineDrawingRegionType</val>. A line drawing is a single colour
-                           illustration without solid areas.</item>
-                        <item><val>GraphicRegionType</val>. Regions containing simple graphics, such
-                           as a company logo, should be marked as graphic regions.</item>
-                        <item><val>TableRegionType</val>. Tabular data in any form is represented
-                           with a table region. Rows and columns may or may not have separator
-                           lines; these lines are not separator regions.</item>
-                        <item><val>ChartRegionType</val>. Regions containing charts or graphs of any
-                           type, should be marked as chart regions.</item>
-                        <item><val>SeparatorRegionType</val>. Separators are lines that lie between
-                           columns and paragraphs and can be used to logically separate different
-                           articles from each other.</item>
-                        <item><val>MathsRegionType</val>. Regions containing equations and
-                           mathematical symbols should be marked as maths regions.</item>
-                        <item><val>ChemRegionType</val>. Regions containing chemical
-                           formulas.</item>
-                        <item><val>MusicRegionType</val>. Regions containing musical
-                           notations.</item>
-                        <item><val>AdvertRegionType</val>. Regions containing advertisements.</item>
-                        <item><val>NoiseRegionType</val>. Noise regions are regions where no real
-                           data lies, only false data created by artifacts on the document or
-                           scanner noise.</item>
-                        <item><val>UnknownRegionType</val>. To be used if the region type cannot be
-                           ascertained.</item>
-                        <item><val>CustomRegionType</val>. Regions containing content that is not
-                           covered by the default types (text, graphic, image, line drawing, chart,
-                           table, separator, maths, map, music, chem, advert, noise,
-                           unknown).</item>
+            <p>This ODD is the result of the work of two linked projects : Gallic(orpor)a and
+               SegmOnto.</p>
+            <div rend="toc" xml:id="Gallicorpora">
+               <head>Gallic(orpor)a presentation</head>
+               <p><ref target="https://gallicorpora.github.io">Gallic(orpor)a</ref>, funded by the
+                  BNF's dataLab, is born in 2021. Its aims is to provide a pipeline to transform
+                  digited collection into TEI files. All the scripts and data produce during the
+                  project are availabe on <ref target="https://github.com/Gallicorpora"
+                  >github</ref>.</p>
+               <div rend="toc" xml:id="Gallicorpora_project">
+                  <head>Gallic(orpor)a project</head>
+                  <p> Cultural heritage institutions today aim to digitise their collections of
+                     prints and manuscripts and are generating more and more digital images To
+                     enrich these images, many institutions work with standardised formats such as
+                     IIIF, preserving as much of the source's information as possible. To take full
+                     advantage of textual documents, an image alone is not enough. Thanks to
+                     automatic text recognition technology, it is now possible to extract images
+                     content on a large scale. The TEI seems to provide the perfect format to
+                     capture both an image's formal and textual data. To ensure compatibility with a
+                     range of use cases, TEI XML files must guarantee IIIF or RDF exports and
+                     therefore must be based on strict data structures that can be automated. But a
+                     rigid structure contradicts the basic principles of philology, which require
+                     maximum flexibility to cope with various situations.</p>
+               </div>
+               <div rend="toc" xml:id="Team_Gallicorpora">
+                  <head>Gallic(orpor)a Team</head>
+                  <p>This project is born from a collaboration between INRIA, ENC and the University
+                     of Geneva to combine different fields of expertise: handwritten text
+                     recognition, Natural Language Processing and philology. <list>
+                        <item>Benoît Sagot, Inria, Senior Researcher in Natural Language Processing
+                           and Computational Linguistics</item>
+                        <item>Laurent Romary, Inria, Senior Researcher in Natural Language
+                           Processing and Computational Linguistics</item>
+                        <item>Rachel Bawden, Inria, Researcher in Natural Language Processing and
+                           Computational Linguistics</item>
+                        <item>Pedro Javier Ortiz Suárez, Inria, Researcher in Natural Language
+                           Processing and Computational Linguistics</item>
+                        <item>Simon Gabay, University of Geneva, Maître-assistant in digital
+                           phililogy</item>
+                        <item>Ariane Pinche, Ecole nationale des chartes, post-doctorat researcher,
+                           projetc CremmaLab (HTR)</item>
+                        <item>Jean-Baptiste Camps,Ecole nationale des chartes, Maître de
+                           conférences, computational philology</item>
+                        <item>Kelly Christensen, INRIA, engineer, pipeline development</item>
                      </list>
                   </p>
                </div>
-               <div xml:id="CodicologiaVoc">
-                  <head><hi rend="italic">Codicologia</hi></head>
-                  <p> Other vocabularies, designed by philologist specialised in codicology, offer
-                     an interesting alternative to those designed by computer scientists. Under the
-                     supervision of the IRHT in Paris, several glossaries have been gathered in an
-                     online application called <ref target="#Codicologia"><hi rend="italic"
-                           >Codicologia</hi></ref>. It offers an extensive vocabulary in French,
-                     most of the time with English, German, Italian, Spanish and Arabic
-                     translations, with precise definitions adapted to the need of academics
-                     specialised in the humanities. Thanks to Georg Vogeler, a digital version is
-                     also available as a <ref target="#CodicologiaSKOS">SKOS model</ref>, perfectly
-                     suited for digital purposes. </p>
+
+               <div rend="toc" xml:id="Gallicorpora_solution">
+                  <head>Gallic(orpor)a Solution</head>
+                  <p>The solution proposed by the Gallic(orpor)a project focus on French historical
+                     documents produced between the 15th and the 18th c. It aims to enrich the
+                     digital facsimiles distributed by the French National Library (BnF) in two
+                     different ways: <list>
+                        <item>text extraction, including the segmentation of the image (layout
+                           analysis) with <ref target="https://segmonto.github.io">SegmOnto</ref>
+                           controlled vocubalary and the recognition of the text (Handwritten Text
+                           Recognition);</item>
+                        <item>linguistic annotation, including lemmatisation, POS tagging, named
+                           entity recognition and linguistic normalisation.</item>
+                     </list> Our TEI document modelling has two strictly coercive automatically
+                     generated data blocks: <list>
+                        <item>the <gi>sourceDoc</gi> with information from the digital facsimile,
+                           which computer vision, HTR and segmentation tools produce thanks to
+                           machine learning;</item>
+                        <item>the <gi>standOff</gi> with linguistic information produced by natural
+                           language processing tools to make it easier to search the corpus.</item>
+                     </list> Two other elements are added that can be customised according to
+                     researchers’ specific needs: <list>
+                        <item>a pre-filled <gi>teiHeader</gi> with basic bibliographic metadata
+                           automatically retrieved from (i) the digital facsimile’s IIIF Image API
+                           and (ii) the BnF’s Search/Retrieve via URL (SRU) API. It can be enriched
+                           with additional data, as long as it respects a strict minimum
+                           encoding;</item>
+                        <item> pre-editorialised <gi>body</gi> with a structure based on layout
+                           analysis and the SegmOnto vocabulary. It is the only element totally free
+                           regarding encoding choices.</item>
+                     </list>
+                     <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                        <body>
+                           <div>
+                              <pb corresp="#page5"/>
+                              <note corresp="#page5_zone2" type="MarginTextZone">
+                                 <lb corresp="#page5_zone2_line1"/>79/4120 </note>
+                              <pb corresp="#page6"/>
+                              <ab corresp="#page6_zone1" type="MainZone">
+                                 <hi rend="HeadingLine">
+                                    <lb corresp="#page6_zone1_line1"/>BRADAMANTE, <lb
+                                       corresp="#page6_zone1_line2"/>TRAGECOMDEDIE. </hi>
+                              </ab>
+                              <pb corresp="#page9"/>
+                              <fw corresp="#page9_zone1" type="RunningTitleZone">
+                                 <lb corresp="#page9_zone1_line1"/>AV ROY. </fw>
+                              <ab corresp="#page9_zone2" type="MainZone">
+                                 <lb corresp="#page9_zone2_line1"/>uiuront nostre siecle, les
+                                 admira¬ <lb corresp="#page9_zone2_line2"/>bles effets de vos
+                                 heroiques ver¬ <gap reason="sampling"/>
+                              </ab>
+                           </div>
+                        </body></egXML> By restricting certain elements and allowing others to be
+                     customisable, our TEI model can efficiently pivot toward other export formats,
+                     including RDF and IIIF. Furthermore, the <gi>body</gi> element’s strict and
+                     thorough encoding of all of the document’s graphical information allows the TEI
+                     document to be converted into PAGE XML and ALTO XML files, which can then be
+                     used to train OCR, HTR, and segmentation models. Thus, not only does our TEI
+                     model’s strict encoding avoid limiting philological choices, thanks to the
+                        <gi>body</gi>, it also allows us to pre-editorialise the <gi>body</gi> via
+                     the content of the <gi>body</gi> and, in a near future, the
+                     <gi>standOff</gi>.</p>
+
+                  <p>The structure of the text is based on the material description of the source
+                     and the analysis of the layout of the document. We used the Zone and Line label
+                     detected by the segmenter to model the <gi>body</gi> element. In order to
+                     provided label to the project we choose to work with the segmOnto project.</p>
+
                </div>
-               <div xml:id="MiddleWay">
-                  <head>Towards a middle way</head>
-                  <p> Because PAGE offers too general a description, it has been been decided not to
-                     expand it, but rather to reduce to the maximum the <ref target="#Codicologia"
-                           ><hi rend="italic">Codicologia</hi></ref> glossary. The reduction process
-                     has followed a simple criterion: unlike other vocabularies (like the TEI), <hi
-                        rend="italic">SegmOnto</hi> focuses on the form rather than the
-                     content/meaning. For instance, it uses <hi rend="italic">GraphicZone</hi>,
-                     without making the difference between an illustration (which carries a semantic
-                     load) and an ornamentation (which is purely decorative). </p>
-                  <p>Because of this reduction process, elements and definitions may differ: <list>
-                        <item><hi rend="italic">GraphicZone</hi> does not exist in <ref
-                              target="#Codicologia"><hi rend="italic">Codicologia</hi></ref>: it
-                           aggregates <hi rend="italic">Illustration</hi> and <hi rend="italic"
-                              >Ornamentation</hi> of <ref target="#Codicologia"><hi rend="italic"
-                                 >Codicologia</hi></ref>. On top of these two, it aggregates a third
-                           type: figures (for schemas found in scientific works, for
-                           instance).</item>
-                        <item><hi rend="italic">QuireMarksZone</hi> includes the <hi rend="italic"
-                              >Signature</hi> (quire numbers) and the <hi rend="italic"
-                              >Catchword</hi>, which are two different elements in <ref
-                              target="#Codicologia"><hi rend="italic">Codicologia</hi></ref>.</item>
+               <div xml:id="howto">
+                  <head>How to cite</head>
+                  <p>Sagot, B., Romary, L., Badwen, R., Ortiz Suárez, P., Camps, J., Gabay, S.,
+                     &amp; Pinche, A.<hi rend="italic">Gallic(orpor)a: extraction, annotation et
+                        diffusion de l'information textuelle et visuelle en diachronie longue
+                        [Computer software]</hi>, <ref
+                        target="https://github.com/Gallicorpora/Gallicorpora.github.io"
+                        >Gallicorpora.github.io</ref></p>
+               </div>
+            </div>
+            <div rend="toc" xml:id="segmonto">
+               <head>SegmOnto Presentation</head>
+               <p/>
+               <div xml:id="why">
+                  <head>Why SegmOnto vocabulary?</head>
+                  <p> SegmOnto project offers a controlled vocabulary to describe the content of
+                     books or manuscripts pages, in order to homogenise the data required by layout
+                     analysers. This project follows a double objective: <list>
+                        <item>Mutualise data to train stronger models on various layouts.</item>
+                        <item>Design a standardised pipeline for text extraction, from page scans to
+                           structured documents</item>
+                     </list> SegmOnto is thought as a generalist description scheme, covering
+                     written documents produced since the apparition of the <hi rend="italic"
+                        >codex</hi>, but it has been designed using mainly western and middle
+                     eastern documents. </p>
+               </div>
+               <div xml:id="team">
+                  <head>Team</head>
+                  <p>SegmOnto was designed by a group of international researchers. The final
+                     version of the guidelines has been carried by S. Gabay, J.-B. Camps, A. Pinche,
+                     and K. Christensen.</p>
+                  <p>
+                     <figure>
+                        <graphic url="media/people/sg.jpg"/>
+                        <figDesc>portait Simon Gabay</figDesc>
+                     </figure>
+                     <hi rend="bold">Simon Gabay</hi> is Maître-assistant at the university of
+                     Geneva. He holds a PhD in latin philology, defended at the university of
+                     Amsterdam on the history of theatre in the early medieval documentation. His
+                     research now focuses on romance philology, and especially 17th c. French, a
+                     period for which he creates the necessary tools for computational exploration.
+                     His areas of interests are corpus building, diachronic linguistics, and the
+                     birth of the manuscript market in 19th c. France. </p>
+                  <p>
+                     <figure>
+                        <graphic style="thumb" url="media/people/jbc.jpg"/>
+                        <figDesc>portait Jean-Baptiste Camps</figDesc>
+                     </figure>
+                     <hi rend="bold">Jean-Baptiste Camps</hi>, a medievalist by training, is Maître
+                     de conférences at the Ecole nationale des chartes | PSL in Paris. He received a
+                     PhD for an edition of the <title level="m">Chanson d'Otinel</title> in 2016 at
+                     the university Paris IV-Sorbonne. As a specialist of computational philology,
+                     his research include the transmission of manuscripts over centuries, stylometry
+                     and digital editing. </p>
+                  <p>
+                     <figure>
+                        <graphic url="media/people/ap.jpg"/>
+                        <figDesc>portait Ariane Pinche</figDesc>
+                     </figure>
+                     <hi rend="bold">Ariane Pinche</hi> has a PhD in medieval language and
+                     literature. She is currently a postdoctoral fellow at the École nationale des
+                     chartes | PSL and is particularly interested in digital editing. She won the
+                     Fortier Prize for the best young researcher paper at the Digital Humanities
+                     2019 conference in Utrecht with her two colleagues J. B. Camps and T. Clérice
+                     for the paper <title level="a"> Stylometry for Noisy Medieval Data: Evaluating
+                        Paul Meyer's Hagiographic Hypothesis</title>. Today, her research interests
+                     focus on the construction of medieval corpora for HTR (Handwritten Text
+                     Recognition) training. </p>
+                  <p>Additional contributors are: <list>
+                        <item>Daniel Stoekl</item>
+                        <item>Claire Jahan</item>
+                        <item>Peter Stokes</item>
+                     </list> We thank them for their constant help, their useful feedback and above
+                     all their time. </p>
+                  <p>
+                     <figure>
+                        <graphic url="media/people/ap.jpg"/>
+                        <figDesc>portait Kelly Christensen</figDesc>
+                     </figure>
+                     <hi rend="bold">Kelly Christensen</hi> has a PhD in historical musicology. As
+                     an intern working on the project Galli(corpor)a in 2022 with Simon Gabay and
+                     Ariane Pinche, she put in place the Gallic(orpor)a pipeline described in this
+                     ODD, which relies on tools developed by additional contributors. She also
+                     helped develop the mapping that connects the format in which predicted text is
+                     exported, ALTO, and the TEI. Her tool, alto2tei, realises this mapping in
+                     Python and generated the TEI-XML files on which this ODD is based.</p>
+                  <p>Additional contributors are: <list>
+                        <item>Daniel Stoekl</item>
+                        <item>Claire Jahan</item>
+                        <item>Peter Stokes</item>
+                     </list> We thank them for their constant help, their useful feedback and above
+                     all their time. </p>
+               </div>
+               <div xml:id="howtocitesegmonto">
+                  <head>How to cite</head>
+                  <p>Simon Gabay, Jean-Baptiste Camps, Ariane Pinche, <hi rend="italic">SegmOnto, A
+                        Controlled Vocabulary to Describe the Layout of Pages</hi>, version 0.9,
+                     Paris/Genève, 2021, <ref target="https://github.com/SegmOnto/examples"
+                        >https://github.com/SegmOnto</ref>.</p>
+               </div>
+            </div>
+            <div rend="toc" xml:id="project">
+               <head>Project</head>
+               <div xml:id="idea">
+                  <head>The idea</head>
+                  <p>The intuition behind SegmOnto is the following: most of the documents
+                     containing texts have a stable layout over time:</p>
+                  <figure>
+                     <graphic url="media/intro/btv1b84259980_f29_orig.jpg"/>
+                     <figDesc>BNF, Fr. 412, f.10r.</figDesc>
+                  </figure>
+                  <figure>
+                     <graphic url="media/intro/btv1b86070385_f140_orig.jpg"/>
+                     <figDesc>La Bruyère, Les Caractères, 1688, p. 128.</figDesc>
+                  </figure>
+                  <p>At a low level, it is possible not only to find similarities, but to use the
+                     same name in order to describe homogeneously large quantities of data. In blue
+                     we see the body in red the page number, in orange the running title, in green
+                     intermediary titles, in pink drop capitals, in grey additional notes.</p>
+                  <figure>
+                     <graphic url="media/intro/btv1b84259980_f29_ann.jpg"/>
+                     <figDesc>BNF, Fr. 412, f.10r.</figDesc>
+                  </figure>
+                  <figure>
+                     <graphic url="media/intro/btv1b86070385_f140_ann.jpg"/>
+                     <figDesc>La Bruyère, Les Caractères, 1688, p. 128.</figDesc>
+                  </figure>
+                  <p>SegmOnto follows (with exceptions) two critera in its description of the page: <list>
+                        <item>It follows a generalist approach rather than a specific one. It aims
+                           at representing any document, and does not focus on any kind of
+                           source.</item>
+                        <item>It follows a descriptive approach, but remains open to a more semantic
+                           annotation via a system of subtypes.</item>
                      </list>
                   </p>
+                  <p>It uses a two-tier description, following the two classification tasks required
+                     for any layout analysis: <list>
+                        <item><hi rend="italic">Zones</hi>, for the different types of regions on
+                           the page (running title, main text...)</item>
+                        <item><hi rend="italic">Lines</hi> for the different types of lines
+                           contained in the zones (interlinear lines, staves, rubrics...)</item>
+                     </list>
+                  </p>
+                  <p>In order to cope with the complexity of documents, two safety devices are
+                     offered: <list>
+                        <item>The main types of zones and lines are not open to any modification,
+                           but a <hi rend="italic">Custom</hi> zone, which functions as a private
+                           zone, offers the possibility to encode additional features that would
+                           have been forgotten.</item>
+                        <item>A system of subtypes (using the following syntax:
+                              <hi>Type:Subtype</hi>) has been added and offers only suggested
+                           values: it is possible to opt for personal subtypes, functioning at the
+                           level of a specific document only.</item>
+                     </list>
+                  </p>
+               </div>
+               <div xml:id="vocabulary">
+                  <head>Vocabulary</head>
+                  <p>SegmOnto is not the first attempt to offer a description of a page. Because of
+                     the nature of the task, two different academic traditions have offered
+                     vocabularies that serve as a base: <list>
+                        <item>Computer vision, especially via the PAGE XML scheme, proposes a
+                           limited system adapted to the needs of computer scientists.</item>
+                        <item>Codicology, whose purpose precisely is the description of the old
+                           documents, offers a much more precise vocabulary to answer the needs of
+                           philologists.</item>
+                     </list> On the one hand, codicological vocabularies do not take into account
+                     the requirements of computer-based solutions (such as a system of private zones
+                     or the articulation of types and subtypes) and usually does not address
+                     contemporary cases. On the other hand, the solution offered by computer
+                     scientists is too poor and is incapable to offer a satisfactory description of
+                     a page taken from an historical document. For all these reasons, SegmOnto
+                     offers a middle way, in between these two. </p>
+                  <div xml:id="PAGEvoc">
+                     <head>PAGE</head>
+                     <p>PAGE XML (cf. <ref target="#Languages"><hi rend="italic">infra</hi></ref>)
+                        offers a simple, short and generalist scheme to describe the page, with only
+                        fourteen categories: <list>
+                           <item><val>TextRegionType</val>. Pure text is represented as a text
+                              region. This includes drop capitals, but practically ornate text may
+                              be considered as a graphic.</item>
+                           <item><val>ImageRegionType</val>. An image is considered to be more
+                              intricate and complex than a graphic. These can be photos or
+                              drawings.</item>
+                           <item><val>LineDrawingRegionType</val>. A line drawing is a single colour
+                              illustration without solid areas.</item>
+                           <item><val>GraphicRegionType</val>. Regions containing simple graphics,
+                              such as a company logo, should be marked as graphic regions.</item>
+                           <item><val>TableRegionType</val>. Tabular data in any form is represented
+                              with a table region. Rows and columns may or may not have separator
+                              lines; these lines are not separator regions.</item>
+                           <item><val>ChartRegionType</val>. Regions containing charts or graphs of
+                              any type, should be marked as chart regions.</item>
+                           <item><val>SeparatorRegionType</val>. Separators are lines that lie
+                              between columns and paragraphs and can be used to logically separate
+                              different articles from each other.</item>
+                           <item><val>MathsRegionType</val>. Regions containing equations and
+                              mathematical symbols should be marked as maths regions.</item>
+                           <item><val>ChemRegionType</val>. Regions containing chemical
+                              formulas.</item>
+                           <item><val>MusicRegionType</val>. Regions containing musical
+                              notations.</item>
+                           <item><val>AdvertRegionType</val>. Regions containing
+                              advertisements.</item>
+                           <item><val>NoiseRegionType</val>. Noise regions are regions where no real
+                              data lies, only false data created by artifacts on the document or
+                              scanner noise.</item>
+                           <item><val>UnknownRegionType</val>. To be used if the region type cannot
+                              be ascertained.</item>
+                           <item><val>CustomRegionType</val>. Regions containing content that is not
+                              covered by the default types (text, graphic, image, line drawing,
+                              chart, table, separator, maths, map, music, chem, advert, noise,
+                              unknown).</item>
+                        </list>
+                     </p>
+                  </div>
+                  <div xml:id="CodicologiaVoc">
+                     <head><hi rend="italic">Codicologia</hi></head>
+                     <p> Other vocabularies, designed by philologist specialised in codicology,
+                        offer an interesting alternative to those designed by computer scientists.
+                        Under the supervision of the IRHT in Paris, several glossaries have been
+                        gathered in an online application called <ref target="#Codicologia"><hi
+                              rend="italic">Codicologia</hi></ref>. It offers an extensive
+                        vocabulary in French, most of the time with English, German, Italian,
+                        Spanish and Arabic translations, with precise definitions adapted to the
+                        need of academics specialised in the humanities. Thanks to Georg Vogeler, a
+                        digital version is also available as a <ref target="#CodicologiaSKOS">SKOS
+                           model</ref>, perfectly suited for digital purposes. </p>
+                  </div>
+                  <div xml:id="MiddleWay">
+                     <head>Towards a middle way</head>
+                     <p> Because PAGE offers too general a description, it has been been decided not
+                        to expand it, but rather to reduce to the maximum the <ref
+                           target="#Codicologia"><hi rend="italic">Codicologia</hi></ref> glossary.
+                        The reduction process has followed a simple criterion: unlike other
+                        vocabularies (like the TEI), <hi rend="italic">SegmOnto</hi> focuses on the
+                        form rather than the content/meaning. For instance, it uses <hi
+                           rend="italic">GraphicZone</hi>, without making the difference between an
+                        illustration (which carries a semantic load) and an ornamentation (which is
+                        purely decorative). </p>
+                     <p>Because of this reduction process, elements and definitions may differ: <list>
+                           <item><hi rend="italic">GraphicZone</hi> does not exist in <ref
+                                 target="#Codicologia"><hi rend="italic">Codicologia</hi></ref>: it
+                              aggregates <hi rend="italic">Illustration</hi> and <hi rend="italic"
+                                 >Ornamentation</hi> of <ref target="#Codicologia"><hi rend="italic"
+                                    >Codicologia</hi></ref>. On top of these two, it aggregates a
+                              third type: figures (for schemas found in scientific works, for
+                              instance).</item>
+                           <item><hi rend="italic">QuireMarksZone</hi> includes the <hi
+                                 rend="italic">Signature</hi> (quire numbers) and the <hi
+                                 rend="italic">Catchword</hi>, which are two different elements in
+                                 <ref target="#Codicologia"><hi rend="italic"
+                              >Codicologia</hi></ref>.</item>
+                        </list>
+                     </p>
+                  </div>
                </div>
             </div>
          </div>
@@ -624,6 +686,9 @@ MusicZone:MusicLine
 Custom:Entry#2
             ]]></eg>
             </p>
+
+            <p>Information and illustation about zones and lines are available at the following
+               address on the <ref target="https://segmonto.github.io">SegmOnto website</ref></p>
             <div rend="toc" xml:id="Zones">
                <head>Zones</head>
                <div xml:id="DamageZone">
@@ -640,11 +705,108 @@ Custom:Entry#2
                         litt. 10/1, f°1r.</figDesc>
                   </figure>
                </div>
+            <div xml:id="GraphicZone">
+               <head><val>GraphicZone</val></head>
+               <p><val>GraphicZone</val> characterises a zone containing any type of graphic
+                  element, from purely ornamental to consubstantial to the text (e.g., full page
+                  paintings, line-fillers, marginal drawings, figures, etc.).</p>
             </div>
-            <div rend="toc" xml:id="Lines">
-               <head>Lines</head>
-               <p/>
+            <div xml:id="DigitizationArtefactZone">
+               <head><val>DigitizationArtefactZone</val></head>
+               <p><val>DigitizationArtefactZone</val> ontains any type of item external to the
+                  document itself, but due to the process of digitisation, such as rulers or color
+                  tables added to help analyse the image.</p>
             </div>
+            <div xml:id="DropCapitalZone">
+               <head><val>DropCapitalZone</val></head>
+               <p><val>DropCapitalZone</val> contains any type of initial letter, occupying a space
+                  corresponding to several lines of the main text or bearing significant
+                  ornementation, be they historiated, ornated, flourished or painted initials (and
+                  excluding the following text line).</p>
+            </div>
+            <div xml:id="MainZone">
+               <head><val>MainZone</val></head>
+               <p><val>MainZone</val> the main area (text column) designed to contain text, either
+                  as a single or several columns (as designed in the conception of the layout:
+                  including eventually text, music notations, illumination, etc.).</p>
+            </div>
+            <div xml:id="MarginTextZone">
+               <head><val>MarginTextZone</val></head>
+               <p><val>MarginTextZone</val> characterises any text zone contained in the margins
+                  (upper, lower, inner or outer), including the space between two columns, whatever
+                  their semantic status (gloss, additions, …).</p>
+            </div>
+            <div xml:id="MusicZone">
+               <head><val>MusicZone</val></head>
+               <p><val>MusicZone</val> characterises an area containing musical notations, such as
+                  neumes, staves, etc., with the possible inclusions of text.</p>
+            </div>
+            <div xml:id="NumberingZone">
+               <head><val>NumberingZone</val></head>
+               <p><val>NumberingZone</val> characterises a zone containing the page number.</p>
+            </div>
+            <div xml:id="QuireMarksZone">
+               <head><val>QuireMarksZone</val></head>
+               <p><val>QuireMarksZone</val> characterises a zone containing a quire signature (i.e.,
+                  a ii), catchword, or any kind of element relative to the material organisation of
+                  the source, with the exclusion of page numbers.</p>
+            </div>
+            <div xml:id="RunningTitleZone">
+               <head><val>RunningTitleZone</val></head>
+               <p><val>RunningTitleZone</val>characterises a zone containing a running title.</p>
+            </div>
+            <div xml:id="SealZone">
+               <head><val>SealZone</val></head>
+               <p><val>SealZone</val> characterises a zone containing a seal.</p>
+            </div>
+            <div xml:id="StampZone">
+               <head><val>StampZone</val></head>
+               <p><val>StampZone</val> characterises a zone containing a stamp, be it a library
+                  stamp or a mark from a postal service.</p>
+            </div>
+            <div xml:id="TableZone">
+               <head><val>TableZone</val></head>
+               <p><val>TableZone</val> characterises a zone containing a table of any kind.</p>
+            </div>
+            <div xml:id="TitlePageZone">
+               <head><val>TitlePageZone</val></head>
+               <p><val>TitlePageZone</val> characterises a zone containing a title distinct from the
+                  main text. It is mainly used for prints.</p>
+            </div>
+         </div>
+         <div rend="toc" xml:id="Lines">
+            <head>Lines</head>
+            <div xml:id="CustomLine">
+               <head><val>CustomLine</val></head>
+               <p><val>CustomLine</val> characterises any kind of line not fitting in the other
+                  categories, according to any convenient typology the user chooses.</p>
+            </div>
+            <div xml:id="DefaultLine">
+               <head><val>DefaultLine</val></head>
+               <p><val>DefaultLine</val> characterises any kind of standard text line, whether they
+                  are included in the MainZone text, in the MarginZone, in MusicZone, or in any type
+                  of zone.</p>
+            </div>
+            <div xml:id="DropCapitalLine">
+               <head><val>DropCapitalLine</val></head>
+               <p><val>DropCapitalLine</val> characterises a line on which rests a DropCapital.</p>
+            </div>
+            <div xml:id="HeadingLine">
+               <head><val>HeadingLine</val></head>
+               <p><val>HeadingLine</val> characterises a line that is not a standard text line, but
+                  as been added between two of them, for instance to include a forgotten word.</p>
+            </div>
+            <div xml:id="InterlinearLine">
+               <head><val>InterlinearLine</val></head>
+               <p><val>InterlinearLine</val> characterises a line containing a heading, for instance
+                  indicating the beginning of a new text. It is typically the case for rubrics in
+                  medieval manuscripts, or part/chapter titles in printed books.</p>
+            </div>
+            <div xml:id="MusicLine">
+               <head><val>MusicLine</val></head>
+               <p><val>MusicLine</val> caracterises the central line of a musical stave.</p>
+            </div>
+         </div>
          </div>
          <div rend="toc" xml:id="TEIModelling">
             <head>TEI Modelling</head>
@@ -679,15 +841,14 @@ Custom:Entry#2
                   collection. When generated by the Galli(copor)a pipeline, therefore, the
                      <gi>teiHeader</gi> draws on four data sources to supply information about these
                   three documents: <list>
-                     <item>Digital Lexographic Resource <list>
-                           <item>A transcription of and lexographic resource about a source
-                              document. It is created by the the Gallic(orpor)a pipeline and
-                              conforms to the SegmOnto-Gallic(orpor)a guidelines. </item>
+                     <item>Digital Resource <list>
+                           <item>A transcription from a source document created by the the
+                              Gallic(orpor)a pipeline and conforms to the SegmOnto-Gallic(orpor)a
+                              guidelines. </item>
                            <item>Metadata Source: <list>
                                  <item>Yet Another Markup Language (YAML) configuration file <list>
                                        <item>Customisable configuration file in which the pipeline's
-                                          users specify details about the lexographic
-                                          resource.</item>
+                                          users specify details about the resource.</item>
                                        <item>Data structured in YAML.</item>
                                     </list>
                                  </item>
@@ -696,8 +857,8 @@ Custom:Entry#2
                         </list>
                      </item>
                      <item>Digital Exemplars of the Source Document <list>
-                           <item>Digitised images from which the lexographic resource's
-                              transcription was made. These images are distributed via Gallica. </item>
+                           <item>Digitised images from which the digital resource's transcription
+                              was made. These images are distributed via Gallica. </item>
                            <item>Metadata Source: <list>
                                  <item>International Image Interoperability Framework (IIIF) Image
                                     API <list>
@@ -833,9 +994,9 @@ Custom:Entry#2
                            </item>
                            <item><gi>respStmt</gi>: contains details about each individual who
                               applied the SegmOnto-Gallic(orpor)a guidelines to the digital
-                              lexographic resource. Details for the following elements can be
-                              modified in the YAML configuration file that the Gallic(orpor)a
-                              pipeline uses to generate the <gi>respStmt</gi>: <list>
+                              resource. Details for the following elements can be modified in the
+                              YAML configuration file that the Gallic(orpor)a pipeline uses to
+                              generate the <gi>respStmt</gi>: <list>
                                  <item><gi>resp</gi>: brief prosaic description of how the digital
                                     edition was created, which might resemble the phrase
                                     "Transformation from ALTO4 to TEI by."</item>
@@ -955,8 +1116,7 @@ Custom:Entry#2
                <div xml:id="extent">
                   <head>Extent</head>
                   <p>The element <gi>extent</gi> represents the number of images files which the
-                     Gallic(corpor)a pipeline processed in order to create the digital lexographic
-                     resource.</p>
+                     Gallic(corpor)a pipeline processed in order to create the digital resource.</p>
                   <egXML xmlns="http://www.tei-c.org/ns/Examples">
                      <extent>
                         <measure unit="images" n="20"/>
@@ -971,15 +1131,15 @@ Custom:Entry#2
                      <p>The <gi>publicationStmt</gi> is generated automtically from information
                         registered in the Gallic(orpor)a pipeline's YAML configuration file. <list>
                            <item><gi>publisher</gi>: organization responsible for publishing and
-                              distributing the digital lexographic resource.</item>
+                              distributing the digital resource.</item>
                            <item><gi>authority</gi>: organization financially responsible for making
                               the resource available.</item>
                            <item><gi>availability</gi>: information on the conditions under which
                               the given resource can be used, including the status of its
                               availability (<att>status</att>) and the type of licence
                               (<att>n</att>). <list>
-                                 <item><att>target</att> of <gi>licence</gi>: URL to the
-                                    lexicographic resource's licence.</item>
+                                 <item><att>target</att> of <gi>licence</gi>: URL to the resource's
+                                    licence.</item>
                               </list>
                            </item>
                            <item><att>when</att> of <gi>date</gi>: the day the Gallic(orpor)a
@@ -2439,832 +2599,861 @@ Custom:Entry#2
             </listBibl>
          </div>
          <div rend="toc" xml:id="specification">
-            <head>Specification</head>
+            <head>Specifications</head>
             <schemaSpec ident="oddbyexample" start="TEI ">
-               <moduleRef key="tei"/>
-               <!--Checking module textcrit-->
-               <classRef key="att.textCritical"/>
-               <classRef key="model.rdgLike"/>
-               <classRef key="model.rdgPart"/>
-               <classSpec ident="att.textCritical" type="atts" mode="change">
-                  <attList>
-                     <attDef ident="type" mode="delete"/>
-                     <attDef ident="cause" mode="delete"/>
-                     <attDef ident="varSeq" mode="delete"/>
-                     <attDef ident="require" mode="delete"/>
-                  </attList>
-               </classSpec>
-               <!--Checking module msdescription-->
-               <classRef key="model.physDescPart"/>
-               <moduleRef key="msdescription"
-                  include="msDesc msIdentifier repository altIdentifier physDesc objectDesc"/>
-               <elementSpec ident="msDesc" mode="change">
-                  <attList>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                     <attDef ident="type" mode="delete"/>
-                     <attDef ident="subtype" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="msIdentifier" mode="change">
-                  <attList>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="repository" mode="change">
-                  <attList>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                     <attDef ident="key" mode="delete"/>
-                     <attDef ident="ref" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="altIdentifier" mode="change">
-                  <attList>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                     <attDef ident="type" mode="delete"/>
-                     <attDef ident="subtype" mode="delete"/>
-                     <attDef ident="when" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="physDesc" mode="change">
-                  <attList>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="objectDesc" mode="change">
-                  <attList>
-                     <attDef ident="form" mode="delete"/>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <!--Checking module namesdates-->
-               <classRef key="model.persNamePart"/>
-               <moduleRef key="namesdates"
-                  include="persName surname forename nameLink country settlement"/>
-               <elementSpec ident="persName" mode="change">
-                  <attList>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                     <attDef ident="when" mode="delete"/>
-                     <attDef ident="key" mode="delete"/>
-                     <attDef ident="ref" mode="delete"/>
-                     <attDef ident="type" mode="delete"/>
-                     <attDef ident="subtype" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="surname" mode="change">
-                  <attList>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                     <attDef ident="key" mode="delete"/>
-                     <attDef ident="ref" mode="delete"/>
-                     <attDef ident="type" mode="delete"/>
-                     <attDef ident="subtype" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="forename" mode="change">
-                  <attList>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                     <attDef ident="key" mode="delete"/>
-                     <attDef ident="ref" mode="delete"/>
-                     <attDef ident="type" mode="delete"/>
-                     <attDef ident="subtype" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="nameLink" mode="change">
-                  <attList>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                     <attDef ident="type" mode="delete"/>
-                     <attDef ident="subtype" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="country" mode="change">
-                  <attList>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                     <attDef ident="ref" mode="delete"/>
-                     <attDef ident="type" mode="delete"/>
-                     <attDef ident="subtype" mode="delete"/>
-                     <attDef ident="when" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="settlement" mode="change">
-                  <attList>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                     <attDef ident="key" mode="delete"/>
-                     <attDef ident="ref" mode="delete"/>
-                     <attDef ident="type" mode="delete"/>
-                     <attDef ident="subtype" mode="delete"/>
-                     <attDef ident="when" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <!--Checking module dictionaries-->
-               <classRef key="att.lexicographic"/>
-               <classRef key="model.entryLike"/>
-               <classRef key="model.formPart"/>
-               <classRef key="model.gramPart"/>
-               <classRef key="model.lexicalRefinement"/>
-               <classRef key="model.morphLike"/>
-               <classRef key="model.ptrLike.form"/>
-               <classSpec ident="att.lexicographic" type="atts" mode="change">
-                  <attList>
-                     <attDef ident="expand" mode="delete"/>
-                     <attDef ident="split" mode="delete"/>
-                     <attDef ident="value" mode="delete"/>
-                     <attDef ident="location" mode="delete"/>
-                     <attDef ident="mergedIn" mode="delete"/>
-                     <attDef ident="opt" mode="delete"/>
-                  </attList>
-               </classSpec>
-               <!--Checking module tagdocs-->
-               <classRef key="att.combinable"/>
-               <classRef key="att.identified"/>
-               <classRef key="model.contentPart"/>
-               <classSpec ident="att.combinable" type="atts" mode="change">
-                  <attList>
-                     <attDef ident="mode" mode="delete"/>
-                  </attList>
-               </classSpec>
-               <classSpec ident="att.identified" type="atts" mode="change">
-                  <attList>
-                     <attDef ident="ident" mode="delete"/>
-                     <attDef ident="predeclare" mode="delete"/>
-                     <attDef ident="module" mode="delete"/>
-                  </attList>
-               </classSpec>
-               <classSpec ident="att.ascribed.directed" type="atts" mode="change">
-                  <attList>
-                     <attDef ident="toWhom" mode="delete"/>
-                  </attList>
-               </classSpec>
-               <classSpec ident="att.dimensions" type="atts" mode="change">
-                  <attList>
-                     <attDef ident="unit" mode="delete"/>
-                     <attDef ident="quantity" mode="delete"/>
-                     <attDef ident="extent" mode="delete"/>
-                     <attDef ident="precision" mode="delete"/>
-                     <attDef ident="scope" mode="delete"/>
-                  </attList>
-               </classSpec>
-               <classSpec ident="att.damaged" type="atts" mode="change">
-                  <attList>
-                     <attDef ident="agent" mode="delete"/>
-                     <attDef ident="degree" mode="delete"/>
-                     <attDef ident="group" mode="delete"/>
-                  </attList>
-               </classSpec>
-               <classSpec ident="att.datable.w3c" type="atts" mode="change">
-                  <attList>
-                     <attDef ident="notBefore" mode="delete"/>
-                     <attDef ident="notAfter" mode="delete"/>
-                     <attDef ident="from" mode="delete"/>
-                     <attDef ident="to" mode="delete"/>
-                  </attList>
-               </classSpec>
-               <classSpec ident="att.datable" type="atts" mode="change">
-                  <attList>
-                     <attDef ident="calendar" mode="delete"/>
-                     <attDef ident="period" mode="delete"/>
-                  </attList>
-               </classSpec>
-               <classSpec ident="att.divLike" type="atts" mode="change">
-                  <attList>
-                     <attDef ident="org" mode="delete"/>
-                     <attDef ident="sample" mode="delete"/>
-                  </attList>
-               </classSpec>
-               <classSpec ident="att.media" type="atts" mode="change">
-                  <attList>
-                     <attDef ident="width" mode="delete"/>
-                     <attDef ident="height" mode="delete"/>
-                     <attDef ident="scale" mode="delete"/>
-                  </attList>
-               </classSpec>
-               <classSpec ident="att.measurement" type="atts" mode="change">
-                  <attList>
-                     <attDef ident="unitRef" mode="delete"/>
-                     <attDef ident="quantity" mode="delete"/>
-                     <attDef ident="commodity" mode="delete"/>
-                  </attList>
-               </classSpec>
-               <classSpec ident="att.naming" type="atts" mode="change">
-                  <attList>
-                     <attDef ident="role" mode="delete"/>
-                     <attDef ident="nymRef" mode="delete"/>
-                  </attList>
-               </classSpec>
-               <classSpec ident="att.pointing" type="atts" mode="change">
-                  <attList>
-                     <attDef ident="targetLang" mode="delete"/>
-                     <attDef ident="evaluate" mode="delete"/>
-                  </attList>
-               </classSpec>
-               <classSpec ident="att.pointing.group" type="atts" mode="change">
-                  <attList>
-                     <attDef ident="domains" mode="delete"/>
-                     <attDef ident="targFunc" mode="delete"/>
-                  </attList>
-               </classSpec>
-               <classSpec ident="att.scoping" type="atts" mode="change">
-                  <attList>
-                     <attDef ident="match" mode="delete"/>
-                  </attList>
-               </classSpec>
-               <classSpec ident="att.segLike" type="atts" mode="change">
-                  <attList>
-                     <attDef ident="function" mode="delete"/>
-                  </attList>
-               </classSpec>
-               <classSpec ident="att.timed" type="atts" mode="change">
-                  <attList>
-                     <attDef ident="start" mode="delete"/>
-                     <attDef ident="end" mode="delete"/>
-                  </attList>
-               </classSpec>
-               <classSpec ident="att.transcriptional" type="atts" mode="change">
-                  <attList>
-                     <attDef ident="status" mode="delete"/>
-                     <attDef ident="cause" mode="delete"/>
-                     <attDef ident="seq" mode="delete"/>
-                  </attList>
-               </classSpec>
-               <classSpec ident="att.personal" type="atts" mode="change">
-                  <attList>
-                     <attDef ident="full" mode="delete"/>
-                     <attDef ident="sort" mode="delete"/>
-                  </attList>
-               </classSpec>
-               <!--Checking module core-->
-               <moduleRef key="core"
-                  include="p hi measure date ptr note graphic pb lb author respStmt resp title publisher pubPlace bibl"/>
-               <elementSpec ident="p" mode="change">
-                  <attList>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="hi" mode="change">
-                  <attList>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="measure" mode="change">
-                  <attList>
-                     <attDef ident="type" mode="delete"/>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                     <attDef ident="type" mode="delete"/>
-                     <attDef ident="subtype" mode="delete"/>
-                     <attDef ident="unit" mode="change">
-                        <valList mode="add" type="closed">
-                           <valItem ident="images"/>
-                        </valList>
-                     </attDef>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="date" mode="change">
-                  <attList>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                     <attDef ident="key" mode="delete"/>
-                     <attDef ident="ref" mode="delete"/>
-                     <attDef ident="type" mode="delete"/>
-                     <attDef ident="subtype" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="ptr" mode="change">
-                  <attList>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                     <attDef ident="type" mode="change">
-                        <valList mode="add" type="closed">
-                           <valItem ident="isni"/>
-                           <valItem ident="orcid"/>
-                        </valList>
-                     </attDef>
-                     <attDef ident="subtype" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="note" mode="change">
-                  <attList>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                     <attDef ident="target" mode="delete"/>
-                     <attDef ident="type" mode="change">
-                        <valList mode="add" type="closed">
-                           <valItem ident="marginTextZone"/>
-                        </valList>
-                     </attDef>
-                     <attDef ident="subtype" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="graphic" mode="change">
-                  <attList>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                     <attDef ident="type" mode="delete"/>
-                     <attDef ident="subtype" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="pb" mode="change">
-                  <attList>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                     <attDef ident="type" mode="delete"/>
-                     <attDef ident="subtype" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="lb" mode="change">
-                  <attList>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                     <attDef ident="type" mode="delete"/>
-                     <attDef ident="subtype" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="author" mode="change">
-                  <attList>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                     <attDef ident="key" mode="delete"/>
-                     <attDef ident="when" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="respStmt" mode="change">
-                  <attList>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                     <attDef ident="key" mode="delete"/>
-                     <attDef ident="ref" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="resp" mode="change">
-                  <attList>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                     <attDef ident="key" mode="delete"/>
-                     <attDef ident="ref" mode="delete"/>
-                     <attDef ident="when" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="title" mode="change">
-                  <attList>
-                     <attDef ident="level" mode="delete"/>
-                     <attDef ident="type" mode="delete"/>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                     <attDef ident="type" mode="delete"/>
-                     <attDef ident="subtype" mode="delete"/>
-                     <attDef ident="key" mode="delete"/>
-                     <attDef ident="ref" mode="delete"/>
-                     <attDef ident="when" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="publisher" mode="change">
-                  <attList>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                     <attDef ident="key" mode="delete"/>
-                     <attDef ident="ref" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="pubPlace" mode="change">
-                  <attList>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                     <attDef ident="ref" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="bibl" mode="change">
-                  <attList>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                     <attDef ident="type" mode="delete"/>
-                     <attDef ident="subtype" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <!--Checking module figures-->
-               <!--Checking module header-->
-               <moduleRef key="header"
-                  include="teiHeader fileDesc titleStmt extent publicationStmt authority idno availability licence sourceDesc profileDesc langUsage language"/>
-               <elementSpec ident="teiHeader" mode="change">
-                  <attList>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="fileDesc" mode="change">
-                  <attList>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="titleStmt" mode="change">
-                  <attList>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="extent" mode="change">
-                  <attList>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="publicationStmt" mode="change">
-                  <attList>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="authority" mode="change">
-                  <attList>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                     <attDef ident="key" mode="delete"/>
-                     <attDef ident="ref" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="idno" mode="change">
-                  <attList>
-                     <attDef ident="type" mode="change">
-                        <valList mode="add" type="closed">
-                           <valItem ident="ark"/>
-                        </valList>
-                     </attDef>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                     <attDef ident="when" mode="delete"/>
-                     <attDef ident="type" mode="change">
-                        <valList mode="add" type="closed">
-                           <valItem ident="ark"/>
-                        </valList>
-                     </attDef>
-                     <attDef ident="subtype" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="availability" mode="change">
-                  <attList>
-                     <attDef ident="status" mode="change">
-                        <valList mode="add" type="closed">
-                           <valItem ident="restricted"/>
-                        </valList>
-                     </attDef>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="licence" mode="change">
-                  <attList>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                     <attDef ident="when" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="sourceDesc" mode="change">
-                  <attList>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="profileDesc" mode="change">
-                  <attList>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="langUsage" mode="change">
-                  <attList>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="language" mode="change">
-                  <attList>
-                     <attDef ident="usage" mode="delete"/>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <!--Checking module gaiji-->
-               <!--Checking module verse-->
-               <!--Checking module transcr-->
-               <classRef key="att.coordinated"/>
-               <moduleRef key="transcr" include="sourceDoc surface zone path fw line"/>
-               <elementSpec ident="sourceDoc" mode="change">
-                  <attList>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="surface" mode="change">
-                  <attList>
-                     <attDef ident="attachment" mode="delete"/>
-                     <attDef ident="flipping" mode="delete"/>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                     <attDef ident="points" mode="delete"/>
-                     <attDef ident="type" mode="delete"/>
-                     <attDef ident="subtype" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <!--  -->
-               <elementSpec ident="zone" mode="change">
-                  <attList>
-                     <attDef ident="rotate" mode="delete"/>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="type" mode="change" usage="req">
-                        <valList mode="add" type="semi">
-                           <valItem ident="defaultLine"/>
-                           <valItem ident="dropCapitalLine"/>
-                           <valItem ident="dropCapitalZone"/>
-                           <valItem ident="glyph"/>
-                           <valItem ident="graphicZone"/>
-                           <valItem ident="headingLine"/>
-                           <valItem ident="mainZone"/>
-                           <valItem ident="marginTextZone"/>
-                           <valItem ident="numbering"/>
-                           <valItem ident="numberingZone"/>
-                           <valItem ident="quireMarksZone"/>
-                           <valItem ident="runningTitle"/>
-                           <valItem ident="runningTitleZone"/>
-                           <valItem ident="signatures"/>
-                           <valItem ident="space"/>
-                           <valItem ident="stampZone"/>
-                           <valItem ident="string"/>
-                           <valItem ident="textBlock"/>
-                           <valItem ident="textLine"/>
-                           <valItem ident="titlePageZone"/>
-                        </valList>
-                     </attDef>
-                     <attDef ident="source" mode="change" usage="req"/>
-                     <attDef ident="ulx" mode="change" usage="req"/>
-                     <attDef ident="uly" mode="change" usage="req"/>
-                     <attDef ident="lrx" mode="change" usage="req"/>
-                     <attDef ident="lry" mode="change" usage="req"/>
-                     <attDef ident="type" mode="change" usage="req"/>
-                     <attDef ident="subtype" mode="change" usage="req"/>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="path" mode="change">
-                  <attList>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                     <attDef ident="ulx" mode="delete"/>
-                     <attDef ident="uly" mode="delete"/>
-                     <attDef ident="lrx" mode="delete"/>
-                     <attDef ident="lry" mode="delete"/>
-                     <attDef ident="type" mode="delete"/>
-                     <attDef ident="subtype" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="fw" mode="change">
-                  <attList>
-                     <attDef ident="type" mode="change">
-                        <valList mode="add" type="closed">
-                           <valItem ident="numberingZone"/>
-                           <valItem ident="quireMarksZone"/>
-                           <valItem ident="runningTitleZone"/>
-                        </valList>
-                     </attDef>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                     <attDef ident="type" mode="change">
-                        <valList mode="add" type="closed">
-                           <valItem ident="numberingZone"/>
-                           <valItem ident="quireMarksZone"/>
-                           <valItem ident="runningTitleZone"/>
-                        </valList>
-                     </attDef>
-                     <attDef ident="subtype" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="line" mode="change">
-                  <attList>
-                     <attDef ident="type" mode="delete"/>
-                     <attDef ident="subtype" mode="delete"/>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                     <attDef ident="ulx" mode="delete"/>
-                     <attDef ident="uly" mode="delete"/>
-                     <attDef ident="lrx" mode="delete"/>
-                     <attDef ident="lry" mode="delete"/>
-                     <attDef ident="points" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <classSpec ident="att.coordinated" type="atts" mode="change">
-                  <attList>
-                     <attDef ident="start" mode="delete"/>
-                  </attList>
-               </classSpec>
-               <!--Checking module linking-->
-               <classRef key="att.global.linking"/>
-               <moduleRef key="linking" include="ab"/>
-               <elementSpec ident="ab" mode="change">
-                  <attList>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                     <attDef ident="type" mode="change">
-                        <valList mode="add" type="closed">
-                           <valItem ident="mainZone"/>
-                        </valList>
-                     </attDef>
-                     <attDef ident="subtype" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <classSpec ident="att.global.linking" type="atts" mode="change">
-                  <attList>
-                     <attDef ident="synch" mode="delete"/>
-                     <attDef ident="sameAs" mode="delete"/>
-                     <attDef ident="copyOf" mode="delete"/>
-                     <attDef ident="next" mode="delete"/>
-                     <attDef ident="prev" mode="delete"/>
-                     <attDef ident="exclude" mode="delete"/>
-                     <attDef ident="select" mode="delete"/>
-                  </attList>
-               </classSpec>
-               <!--Checking module analysis-->
-               <classRef key="att.linguistic"/>
-               <elementSpec ident="c" mode="change">
-                  <attList>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                     <attDef ident="type" mode="delete"/>
-                     <attDef ident="subtype" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <classSpec ident="att.linguistic" type="atts" mode="change">
-                  <attList>
-                     <attDef ident="lemma" mode="delete"/>
-                     <attDef ident="lemmaRef" mode="delete"/>
-                     <attDef ident="pos" mode="delete"/>
-                     <attDef ident="msd" mode="delete"/>
-                     <attDef ident="join" mode="delete"/>
-                  </attList>
-               </classSpec>
-               <!--Checking module textstructure-->
-               <moduleRef key="textstructure" include="TEI text body div"/>
-               <elementSpec ident="TEI" mode="change">
-                  <attList>
-                     <attDef ident="version" mode="delete"/>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                     <attDef ident="type" mode="delete"/>
-                     <attDef ident="subtype" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="text" mode="change">
-                  <attList>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                     <attDef ident="type" mode="delete"/>
-                     <attDef ident="subtype" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="body" mode="change">
-                  <attList>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <elementSpec ident="div" mode="change">
-                  <attList>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                     <attDef ident="type" mode="delete"/>
-                     <attDef ident="subtype" mode="delete"/>
-                  </attList>
-               </elementSpec>
-               <!--Checking module certainty-->
-               <moduleRef key="certainty" include="certainty"/>
-               <elementSpec ident="certainty" mode="change">
-                  <attList>
-                     <attDef ident="type" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="locus" mode="change">
-                        <valList mode="add" type="closed">
-                           <valItem ident="value"/>
-                        </valList>
-                     </attDef>
-                     <attDef ident="assertedValue" mode="delete"/>
-                     <attDef ident="given" mode="delete"/>
-                     <attDef ident="corresp" mode="delete"/>
-                     <attDef ident="cert" mode="delete"/>
-                     <attDef ident="resp" mode="delete"/>
-                     <attDef ident="source" mode="delete"/>
-                     <attDef ident="type" mode="delete"/>
-                     <attDef ident="subtype" mode="delete"/>
-                  </attList>
-               </elementSpec>
-            </schemaSpec>
+            <moduleRef key="tei"/>
+            <!--Checking module textcrit-->
+            <classRef key="att.textCritical"/>
+            <classRef key="model.rdgLike"/>
+            <classRef key="model.rdgPart"/>
+            <classSpec ident="att.textCritical" type="atts" mode="change">
+               <attList>
+                  <attDef ident="type" mode="delete"/>
+                  <attDef ident="cause" mode="delete"/>
+                  <attDef ident="varSeq" mode="delete"/>
+                  <attDef ident="require" mode="delete"/>
+               </attList>
+            </classSpec>
+            <!--Checking module msdescription-->
+            <classRef key="model.physDescPart"/>
+            <moduleRef key="msdescription"
+                       include="msDesc msIdentifier repository altIdentifier physDesc objectDesc"/>
+            <elementSpec ident="msDesc" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+                  <attDef ident="type" mode="delete"/>
+                  <attDef ident="subtype" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="msIdentifier" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="repository" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+                  <attDef ident="key" mode="delete"/>
+                  <attDef ident="ref" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="altIdentifier" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+                  <attDef ident="type" mode="delete"/>
+                  <attDef ident="subtype" mode="delete"/>
+                  <attDef ident="when" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="physDesc" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="objectDesc" mode="change">
+               <attList>
+                  <attDef ident="form" mode="delete"/>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <!--Checking module namesdates-->
+            <classRef key="model.persNamePart"/>
+            <moduleRef key="namesdates"
+                       include="persName surname forename nameLink country settlement"/>
+            <elementSpec ident="persName" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+                  <attDef ident="when" mode="delete"/>
+                  <attDef ident="key" mode="delete"/>
+                  <attDef ident="ref" mode="delete"/>
+                  <attDef ident="type" mode="delete"/>
+                  <attDef ident="subtype" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="surname" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+                  <attDef ident="key" mode="delete"/>
+                  <attDef ident="ref" mode="delete"/>
+                  <attDef ident="type" mode="delete"/>
+                  <attDef ident="subtype" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="forename" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+                  <attDef ident="key" mode="delete"/>
+                  <attDef ident="ref" mode="delete"/>
+                  <attDef ident="type" mode="delete"/>
+                  <attDef ident="subtype" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="nameLink" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+                  <attDef ident="type" mode="delete"/>
+                  <attDef ident="subtype" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="country" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+                  <attDef ident="ref" mode="delete"/>
+                  <attDef ident="type" mode="delete"/>
+                  <attDef ident="subtype" mode="delete"/>
+                  <attDef ident="when" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="settlement" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+                  <attDef ident="key" mode="delete"/>
+                  <attDef ident="ref" mode="delete"/>
+                  <attDef ident="type" mode="delete"/>
+                  <attDef ident="subtype" mode="delete"/>
+                  <attDef ident="when" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <!--Checking module dictionaries-->
+            <classRef key="att.lexicographic"/>
+            <classRef key="model.entryLike"/>
+            <classRef key="model.formPart"/>
+            <classRef key="model.gramPart"/>
+            <classRef key="model.lexicalRefinement"/>
+            <classRef key="model.morphLike"/>
+            <classRef key="model.ptrLike.form"/>
+            <classSpec ident="att.lexicographic" type="atts" mode="change">
+               <attList>
+                  <attDef ident="expand" mode="delete"/>
+                  <attDef ident="split" mode="delete"/>
+                  <attDef ident="value" mode="delete"/>
+                  <attDef ident="location" mode="delete"/>
+                  <attDef ident="mergedIn" mode="delete"/>
+                  <attDef ident="opt" mode="delete"/>
+               </attList>
+            </classSpec>
+            <!--Checking module tagdocs-->
+            <classRef key="att.combinable"/>
+            <classRef key="att.identified"/>
+            <classRef key="model.contentPart"/>
+            <classSpec ident="att.combinable" type="atts" mode="change">
+               <attList>
+                  <attDef ident="mode" mode="delete"/>
+               </attList>
+            </classSpec>
+            <classSpec ident="att.identified" type="atts" mode="change">
+               <attList>
+                  <attDef ident="ident" mode="delete"/>
+                  <attDef ident="predeclare" mode="delete"/>
+                  <attDef ident="module" mode="delete"/>
+               </attList>
+            </classSpec>
+            <classSpec ident="att.ascribed.directed" type="atts" mode="change">
+               <attList>
+                  <attDef ident="toWhom" mode="delete"/>
+               </attList>
+            </classSpec>
+            <classSpec ident="att.dimensions" type="atts" mode="change">
+               <attList>
+                  <attDef ident="unit" mode="delete"/>
+                  <attDef ident="quantity" mode="delete"/>
+                  <attDef ident="extent" mode="delete"/>
+                  <attDef ident="precision" mode="delete"/>
+                  <attDef ident="scope" mode="delete"/>
+               </attList>
+            </classSpec>
+            <classSpec ident="att.damaged" type="atts" mode="change">
+               <attList>
+                  <attDef ident="agent" mode="delete"/>
+                  <attDef ident="degree" mode="delete"/>
+                  <attDef ident="group" mode="delete"/>
+               </attList>
+            </classSpec>
+            <classSpec ident="att.datable.w3c" type="atts" mode="change">
+               <attList>
+                  <attDef ident="notBefore" mode="delete"/>
+                  <attDef ident="notAfter" mode="delete"/>
+                  <attDef ident="from" mode="delete"/>
+                  <attDef ident="to" mode="delete"/>
+               </attList>
+            </classSpec>
+            <classSpec ident="att.datable" type="atts" mode="change">
+               <attList>
+                  <attDef ident="calendar" mode="delete"/>
+                  <attDef ident="period" mode="delete"/>
+               </attList>
+            </classSpec>
+            <classSpec ident="att.divLike" type="atts" mode="change">
+               <attList>
+                  <attDef ident="org" mode="delete"/>
+                  <attDef ident="sample" mode="delete"/>
+               </attList>
+            </classSpec>
+            <classSpec ident="att.media" type="atts" mode="change">
+               <attList>
+                  <attDef ident="width" mode="delete"/>
+                  <attDef ident="height" mode="delete"/>
+                  <attDef ident="scale" mode="delete"/>
+               </attList>
+            </classSpec>
+            <classSpec ident="att.measurement" type="atts" mode="change">
+               <attList>
+                  <attDef ident="unitRef" mode="delete"/>
+                  <attDef ident="quantity" mode="delete"/>
+                  <attDef ident="commodity" mode="delete"/>
+               </attList>
+            </classSpec>
+            <classSpec ident="att.naming" type="atts" mode="change">
+               <attList>
+                  <attDef ident="role" mode="delete"/>
+                  <attDef ident="nymRef" mode="delete"/>
+               </attList>
+            </classSpec>
+            <classSpec ident="att.pointing" type="atts" mode="change">
+               <attList>
+                  <attDef ident="targetLang" mode="delete"/>
+                  <attDef ident="evaluate" mode="delete"/>
+               </attList>
+            </classSpec>
+            <classSpec ident="att.pointing.group" type="atts" mode="change">
+               <attList>
+                  <attDef ident="domains" mode="delete"/>
+                  <attDef ident="targFunc" mode="delete"/>
+               </attList>
+            </classSpec>
+            <classSpec ident="att.segLike" type="atts" mode="change">
+               <attList>
+                  <attDef ident="function" mode="delete"/>
+               </attList>
+            </classSpec>
+            <classSpec ident="att.timed" type="atts" mode="change">
+               <attList>
+                  <attDef ident="start" mode="delete"/>
+                  <attDef ident="end" mode="delete"/>
+               </attList>
+            </classSpec>
+            <classSpec ident="att.transcriptional" type="atts" mode="change">
+               <attList>
+                  <attDef ident="status" mode="delete"/>
+                  <attDef ident="cause" mode="delete"/>
+                  <attDef ident="seq" mode="delete"/>
+               </attList>
+            </classSpec>
+            <classSpec ident="att.personal" type="atts" mode="change">
+               <attList>
+                  <attDef ident="full" mode="delete"/>
+                  <attDef ident="sort" mode="delete"/>
+               </attList>
+            </classSpec>
+            <!--Checking module core-->
+            <moduleRef key="core"
+                       include="p hi name measure date ptr label note graphic pb lb author respStmt resp title publisher pubPlace bibl"/>
+            <elementSpec ident="p" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="hi" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="name" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+                  <attDef ident="key" mode="delete"/>
+                  <attDef ident="ref" mode="delete"/>
+                  <attDef ident="when" mode="delete"/>
+                  <attDef ident="type" mode="delete"/>
+                  <attDef ident="subtype" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="measure" mode="change">
+               <attList>
+                  <attDef ident="type" mode="delete"/>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+                  <attDef ident="type" mode="delete"/>
+                  <attDef ident="subtype" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="date" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+                  <attDef ident="key" mode="delete"/>
+                  <attDef ident="ref" mode="delete"/>
+                  <attDef ident="type" mode="delete"/>
+                  <attDef ident="subtype" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="ptr" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+                  <attDef ident="type" mode="change">
+                     <valList mode="add" type="closed">
+                        <valItem ident="isni"/>
+                        <valItem ident="orcid"/>
+                     </valList>
+                  </attDef>
+                  <attDef ident="subtype" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="label" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+                  <attDef ident="type" mode="delete"/>
+                  <attDef ident="subtype" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="note" mode="change">
+               <attList>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+                  <attDef ident="target" mode="delete"/>
+                  <attDef ident="type" mode="change">
+                     <valList mode="add" type="closed">
+                        <valItem ident="MarginTextZone"/>
+                     </valList>
+                  </attDef>
+                  <attDef ident="subtype" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="graphic" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+                  <attDef ident="type" mode="delete"/>
+                  <attDef ident="subtype" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="pb" mode="change">
+               <attList>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+                  <attDef ident="type" mode="delete"/>
+                  <attDef ident="subtype" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="lb" mode="change">
+               <attList>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+                  <attDef ident="type" mode="delete"/>
+                  <attDef ident="subtype" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="author" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+                  <attDef ident="key" mode="delete"/>
+                  <attDef ident="when" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="respStmt" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+                  <attDef ident="key" mode="delete"/>
+                  <attDef ident="ref" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="resp" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+                  <attDef ident="key" mode="delete"/>
+                  <attDef ident="ref" mode="delete"/>
+                  <attDef ident="when" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="title" mode="change">
+               <attList>
+                  <attDef ident="level" mode="delete"/>
+                  <attDef ident="type" mode="delete"/>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+                  <attDef ident="type" mode="delete"/>
+                  <attDef ident="subtype" mode="delete"/>
+                  <attDef ident="key" mode="delete"/>
+                  <attDef ident="ref" mode="delete"/>
+                  <attDef ident="when" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="publisher" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+                  <attDef ident="key" mode="delete"/>
+                  <attDef ident="ref" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="pubPlace" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+                  <attDef ident="ref" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="bibl" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+                  <attDef ident="type" mode="delete"/>
+                  <attDef ident="subtype" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <!--Checking module figures-->
+            <!--Checking module header-->
+            <moduleRef key="header"
+                       include="teiHeader fileDesc titleStmt extent publicationStmt authority idno availability licence sourceDesc encodingDesc classDecl taxonomy category catDesc appInfo application profileDesc langUsage language"/>
+            <elementSpec ident="teiHeader" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="fileDesc" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="titleStmt" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="extent" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="publicationStmt" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="authority" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+                  <attDef ident="key" mode="delete"/>
+                  <attDef ident="ref" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="idno" mode="change">
+               <attList>
+                  <attDef ident="type" mode="change">
+                     <valList mode="add" type="closed">
+                        <valItem ident="ark"/>
+                     </valList>
+                  </attDef>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+                  <attDef ident="when" mode="delete"/>
+                  <attDef ident="type" mode="change">
+                     <valList mode="add" type="closed">
+                        <valItem ident="ark"/>
+                     </valList>
+                  </attDef>
+                  <attDef ident="subtype" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="availability" mode="change">
+               <attList>
+                  <attDef ident="status" mode="change">
+                     <valList mode="add" type="closed">
+                        <valItem ident="restricted"/>
+                     </valList>
+                  </attDef>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="licence" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+                  <attDef ident="when" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="sourceDesc" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="encodingDesc" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="classDecl" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="taxonomy" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="category" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="catDesc" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+                  <attDef ident="key" mode="delete"/>
+                  <attDef ident="ref" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="appInfo" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="application" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+                  <attDef ident="type" mode="delete"/>
+                  <attDef ident="subtype" mode="delete"/>
+                  <attDef ident="when" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="profileDesc" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="langUsage" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="language" mode="change">
+               <attList>
+                  <attDef ident="usage" mode="delete"/>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <!--Checking module gaiji-->
+            <!--Checking module verse-->
+            <!--Checking module transcr-->
+            <classRef key="att.coordinated"/>
+            <moduleRef key="transcr" include="sourceDoc surface zone path fw line"/>
+            <elementSpec ident="sourceDoc" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="surface" mode="change">
+               <attList>
+                  <attDef ident="attachment" mode="delete"/>
+                  <attDef ident="flipping" mode="delete"/>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+                  <attDef ident="points" mode="delete"/>
+                  <attDef ident="type" mode="delete"/>
+                  <attDef ident="subtype" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="zone" mode="change">
+               <attList>
+                  <attDef ident="rotate" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="type" mode="change">
+                     <valList mode="add" type="closed">
+                        <valItem ident="DamageZone"/>
+                        <valItem ident="DefaultLine"/>
+                        <valItem ident="DropCapitalLine"/>
+                        <valItem ident="DropCapitalZone"/>
+                        <valItem ident="GraphicZone"/>
+                        <valItem ident="HeadingLine"/>
+                        <valItem ident="InterlinearLine"/>
+                        <valItem ident="MainZone"/>
+                        <valItem ident="MarginTextZone"/>
+                        <valItem ident="NumberingZone"/>
+                        <valItem ident="QuireMarksZone"/>
+                        <valItem ident="RunningTitleZone"/>
+                        <valItem ident="StampZone"/>
+                        <valItem ident="TableZone"/>
+                        <valItem ident="TitlePageZone"/>
+                     </valList>
+                  </attDef>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="path" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+                  <attDef ident="ulx" mode="delete"/>
+                  <attDef ident="uly" mode="delete"/>
+                  <attDef ident="lrx" mode="delete"/>
+                  <attDef ident="lry" mode="delete"/>
+                  <attDef ident="type" mode="delete"/>
+                  <attDef ident="subtype" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="fw" mode="change">
+               <attList>
+                  <attDef ident="type" mode="change">
+                     <valList mode="add" type="closed">
+                        <valItem ident="NumberingZone"/>
+                        <valItem ident="QuireMarksZone"/>
+                        <valItem ident="RunningTitleZone"/>
+                     </valList>
+                  </attDef>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+                  <attDef ident="type" mode="change">
+                     <valList mode="add" type="closed">
+                        <valItem ident="NumberingZone"/>
+                        <valItem ident="QuireMarksZone"/>
+                        <valItem ident="RunningTitleZone"/>
+                     </valList>
+                  </attDef>
+                  <attDef ident="subtype" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="line" mode="change">
+               <attList>
+                  <attDef ident="type" mode="delete"/>
+                  <attDef ident="subtype" mode="delete"/>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+                  <attDef ident="ulx" mode="delete"/>
+                  <attDef ident="uly" mode="delete"/>
+                  <attDef ident="lrx" mode="delete"/>
+                  <attDef ident="lry" mode="delete"/>
+                  <attDef ident="points" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <classSpec ident="att.coordinated" type="atts" mode="change">
+               <attList>
+                  <attDef ident="start" mode="delete"/>
+               </attList>
+            </classSpec>
+            <!--Checking module linking-->
+            <classRef key="att.global.linking"/>
+            <moduleRef key="linking" include="ab"/>
+            <elementSpec ident="ab" mode="change">
+               <attList>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+                  <attDef ident="type" mode="change">
+                     <valList mode="add" type="closed">
+                        <valItem ident="MainZone"/>
+                     </valList>
+                  </attDef>
+                  <attDef ident="subtype" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <classSpec ident="att.global.linking" type="atts" mode="change">
+               <attList>
+                  <attDef ident="synch" mode="delete"/>
+                  <attDef ident="sameAs" mode="delete"/>
+                  <attDef ident="copyOf" mode="delete"/>
+                  <attDef ident="next" mode="delete"/>
+                  <attDef ident="prev" mode="delete"/>
+                  <attDef ident="exclude" mode="delete"/>
+                  <attDef ident="select" mode="delete"/>
+               </attList>
+            </classSpec>
+            <!--Checking module analysis-->
+            <classRef key="att.linguistic"/>
+            <classSpec ident="att.linguistic" type="atts" mode="change">
+               <attList>
+                  <attDef ident="lemma" mode="delete"/>
+                  <attDef ident="lemmaRef" mode="delete"/>
+                  <attDef ident="pos" mode="delete"/>
+                  <attDef ident="msd" mode="delete"/>
+                  <attDef ident="join" mode="delete"/>
+               </attList>
+            </classSpec>
+            <!--Checking module textstructure-->
+            <moduleRef key="textstructure" include="TEI text body div"/>
+            <elementSpec ident="TEI" mode="change">
+               <attList>
+                  <attDef ident="version" mode="delete"/>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+                  <attDef ident="type" mode="delete"/>
+                  <attDef ident="subtype" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="text" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+                  <attDef ident="type" mode="delete"/>
+                  <attDef ident="subtype" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="body" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+               </attList>
+            </elementSpec>
+            <elementSpec ident="div" mode="change">
+               <attList>
+                  <attDef ident="corresp" mode="delete"/>
+                  <attDef ident="cert" mode="delete"/>
+                  <attDef ident="resp" mode="delete"/>
+                  <attDef ident="source" mode="delete"/>
+                  <attDef ident="type" mode="delete"/>
+                  <attDef ident="subtype" mode="delete"/>
+               </attList>
+            </elementSpec>
+         </schemaSpec>
          </div>
       </body>
    </text>
