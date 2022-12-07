@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="ark_12148_bpt6k79040t">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Les prouesses et faicts du trespreux noble et vaillant Huon de Bordeaux, pair de France, et duc de Guyenne...</title>
+        <author>Information not available.</author>
+        <respStmt>
+          <resp>Transformation from ALTO4 to TEI by</resp>
+          <persName>
+            <forename>Kelly</forename>
+            <surname>Christensen</surname>
+            <ptr type="orcid" target="000000027236874X"/>
+          </persName>
+          <persName>
+            <forename>Simon</forename>
+            <surname>Gabay</surname>
+            <ptr type="orcid" target="0000000190944475"/>
+          </persName>
+          <persName>
+            <forename>Ariane</forename>
+            <surname>Pinche</surname>
+            <ptr type="orcid" target="0000000278435050"/>
+          </persName>
+        </respStmt>
+      </titleStmt>
+      <extent>
+        <measure unit="images" n="0"/>
+      </extent>
+      <publicationStmt>
+        <publisher>Gallic(orpor)a</publisher>
+        <authority>BnF DATALab</authority>
+        <availability status="restricted" n="cc-by">
+          <licence target="https://creativecommons.org/licenses/by/4.0/"/>
+        </availability>
+        <date when="2022-12-07"/>
+      </publicationStmt>
+      <sourceDesc>
+        <bibl>
+          <ptr target="http://catalogue.bnf.fr/ark:/12148/cb372846317"/>
+          <author>Information not available.</author>
+          <title>Les prouesses et faicts du trespreux noble et vaillant Huon de Bordeaux, pair de France, et duc de Guyenne...</title>
+          <pubPlace key="FR">Lyon</pubPlace>
+          <publisher>B. Rigaud</publisher>
+          <date when="1587" cert="high" resp="BNF">1587</date>
+        </bibl>
+        <msDesc>
+          <msIdentifier>
+            <country key="FR"/>
+            <settlement>Paris</settlement>
+            <repository>Bibliothèque nationale de France</repository>
+            <idno>NUMM-79040</idno>
+            <altIdentifier>
+              <idno type="ark">bpt6k79040t</idno>
+            </altIdentifier>
+          </msIdentifier>
+          <physDesc>
+            <objectDesc>
+              <p>Texte imprimé</p>
+            </objectDesc>
+          </physDesc>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+      <langUsage>
+        <language ident="frm">français moyen</language>
+      </langUsage>
+    </profileDesc>
+    <encodingDesc>
+      <appInfo>
+        <application ident="Kraken" version="4.1">
+          <label>Kraken</label>
+          <ptr target="https://github.com/mittagessen/kraken"/>
+        </application>
+      </appInfo>
+      <classDecl>
+        <taxonomy xml:id="SegmOnto">
+          <bibl>
+            <title>SegmOnto</title>
+            <ptr target="https://github.com/segmonto"/>
+          </bibl>
+          <category xml:id="SegmOntoZones"/>
+          <category xml:id="SegmOntoLines"/>
+        </taxonomy>
+      </classDecl>
+    </encodingDesc>
+  </teiHeader>
+  <sourceDoc/>
+  <text>
+    <body>
+      <div/>
+    </body>
+  </text>
+</TEI>
